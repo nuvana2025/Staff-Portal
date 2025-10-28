@@ -188,17 +188,39 @@
     }
 
     /* Accordions */
+    /* NEW: Groups for timeline organization */
+    .protocol-group {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 0;
+    }
+    .protocol-group .group-title {
+        background: #4b0082; /* Deep Purple */
+        color: #fff;
+        padding: 8px 12px;
+        font-weight: 700;
+        font-size: 1em;
+        margin: 0;
+        text-align: center;
+    }
     .accordion-header {
       color: #333; padding: 10px; /* Reduced padding */
-      border: none; border-radius: 6px;
-      cursor: pointer; margin: 4px 0; /* Reduced margin */
+      border: none; border-radius: 0; /* Remove rounding for group integrity */
+      cursor: pointer; margin: 0; /* Remove margin for group integrity */
+      border-bottom: 1px solid #f0f0f0;
       width: 100%; font-weight: 700;
       display: flex; justify-content: space-between; align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      box-shadow: none;
       text-align: left;
       background: #E6E6FA; /* Light Lavender */
       font-size: 0.9em; /* Smaller font */
     }
+    .accordion-header:last-of-type { border-bottom: none; }
+    .accordion-header.active { background: #d0c0f7; }
+
     .accordion-header::after { content: "▼"; font-size: 10px; } /* Smaller arrow */
     .accordion-header.active::after { content: "▲"; }
     .accordion-content {
@@ -206,14 +228,18 @@
       transition: max-height .28s ease, padding .28s ease;
       -webkit-transition: max-height .28s ease, padding .28s ease;
       padding: 0 10px; /* Reduced padding */
-      border-radius: 6px;
-      margin-bottom: 4px; /* Reduced margin */
+      border-radius: 0;
+      margin: 0; /* Remove margin */
       border: 1px solid transparent;
       text-align: left;
       background: #F8F8FF; /* Ghost White */
       font-size: 0.85em; /* Smaller content font */
     }
-    .accordion-content.open { max-height: 2000px; padding: 10px; } /* Reduced padding */
+    .accordion-content.open { 
+        max-height: 2000px; 
+        padding: 10px; 
+        border-bottom: 1px solid #ddd; /* Separator line for content */
+    }
     
     /* Protocol Tables */
     .protocol-table {
@@ -224,29 +250,29 @@
     }
     .protocol-table th, .protocol-table td {
         border: 1px solid #ddd;
-        padding: 4px 8px; /* Reduced table padding */
+        padding: 3px 8px; /* FURTHER REDUCED table padding */
         text-align: left;
-        line-height: 1.3; /* Reduced line height */
+        line-height: 1.2; /* REDUCED line height */
     }
     .protocol-table th { width: 35%; } /* Adjusted width for content */
     
     /* Protocol Lists */
     .protocol-list {
-        list-style: decimal inside;
+        list-style: disc inside; /* Changed to disc for general safety lists */
         padding-left: 0;
         margin-left: 10px; /* Reduced margin */
-        line-height: 1.3; /* Reduced line height */
+        line-height: 1.2; /* REDUCED line height */
         margin-top: 5px;
         margin-bottom: 5px;
     }
     .protocol-list li {
-        margin-bottom: 3px; /* Reduced margin */
+        margin-bottom: 2px; /* Reduced margin */
     }
     .note-box {
         background: #FFF8E1; /* Light Gold */
         border-left: 4px solid #B8860B;
-        padding: 8px 12px; /* Reduced padding */
-        margin-top: 10px; /* Reduced margin */
+        padding: 8px 10px; /* Reduced padding */
+        margin-top: 8px; /* Reduced margin */
         border-radius: 4px;
         font-size: 0.8em; /* Smaller font */
         line-height: 1.3;
@@ -327,28 +353,46 @@
         <h2 id="detail-name"></h2>
         <p id="detail-tagline" class="detail-tagline-style" style="color: #8a2be2; font-weight: 600; font-style: normal;">Drip Protocol Guide</p>
         
-        <div class="protocol-section-title">Ingredients & Doses</div>
-        <div id="detail-ingredients-table"></div>
+        <!-- GROUPING 1: PREPARATION -->
+        <div class="protocol-group">
+            <h3 class="group-title">1. Preparation Phase (Pre-IV Access)</h3>
+            
+            <button class="accordion-header" onclick="toggleAccordion('detail-safety-check', this)">Pre-Infusion Safety Check</button>
+            <div class="accordion-content" id="detail-safety-check"><div id="detail-safety-check-content"></div></div>
 
-        <div class="protocol-section-title">Preparation & Mixing</div>
-        <div id="detail-mixing"></div>
+            <button class="accordion-header" onclick="toggleAccordion('detail-ingredients', this)">Ingredients & Doses</button>
+            <div class="accordion-content" id="detail-ingredients"><div id="detail-ingredients-table"></div></div>
 
-        <div class="protocol-section-title">Safety & Post-Care</div>
-        <div class="group-rose">
+            <button class="accordion-header" onclick="toggleAccordion('detail-mixing', this)">Preparation & Mixing</button>
+            <div class="accordion-content" id="detail-mixing"><div id="detail-mixing-content"></div></div>
+        </div>
+
+        <!-- GROUPING 2: ADMINISTRATION -->
+        <div class="protocol-group">
+            <h3 class="group-title">2. Administration Phase (IV Access & Monitoring)</h3>
+
             <button class="accordion-header" onclick="toggleAccordion('detail-contraindications', this)">Contraindications</button>
             <div class="accordion-content" id="detail-contraindications"><div id="detail-contraindications-content"></div></div>
             
             <button class="accordion-header" onclick="toggleAccordion('detail-precautions', this)">Precautions</button>
             <div class="accordion-content" id="detail-precautions"><div id="detail-precautions-content"></div></div>
+            
+            <button class="accordion-header" onclick="toggleAccordion('detail-situation-caution', this)">Situation Caution</button>
+            <div class="accordion-content" id="detail-situation-caution"><div id="detail-situation-caution-content"></div></div>
+        </div>
 
-            <button class="accordion-header" onclick="toggleAccordion('detail-emergencies', this)">Emergency Stop & Safety</button>
+        <!-- GROUPING 3: POST-INFUSION -->
+        <div class="protocol-group">
+            <h3 class="group-title">3. Post-Infusion Phase (Safety & Discharge)</h3>
+
+            <button class="accordion-header" onclick="toggleAccordion('detail-emergencies', this)">Safety & Emergency Protocol</button>
             <div class="accordion-content" id="detail-emergencies"><div id="detail-emergencies-content"></div></div>
 
             <button class="accordion-header" onclick="toggleAccordion('detail-postcare', this)">Post Infusion Care</button>
             <div class="accordion-content" id="detail-postcare"><div id="detail-postcare-content"></div></div>
         </div>
         
-        <div class="protocol-section-title">Common Add-On Components</div>
+        <div class="protocol-section-title" style="margin-top: 25px;">Common Add-On Components</div>
         <div id="addon-ivs-grid"></div>
     </div>
     <footer class="nv-footer-v2">
@@ -371,17 +415,19 @@ const allDrips = {
         icon: '⚡',
         protocol: {
             ingredients: [
-                { name: 'B12 Methylcobalamin', dose: '0.5 mL (500 µg/mL)', timing: 'Main IV' },
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '0.5 mL', timing: 'Main IV' },
                 { name: 'B Complex', dose: '1 mL', timing: 'Main IV' },
-                { name: 'Magnesium Sulphate 50%', dose: '0.5 mL (0.25 g/mL)', timing: 'Main IV - mid phase' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '1.5 mL (750 mg)', timing: 'Main IV - early mid phase' },
-                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Slow push after main drip completion' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '0.5 mL', timing: 'Main IV - mid phase' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '1.5 mL', timing: 'Main IV - early mid phase' },
+                { name: 'Glutathione: 200mg/mL', dose: '2 mL', timing: 'Slow push after main drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
-            contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
-            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling. Always use sterile, preservative-free preparations.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/strenuous exercise for 12 hours. Record completion time, total volume infused, and client response.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (0.5 mL), B Complex (1 mL), Magnesium Sulphate (0.5 mL), Ascorbic Acid (1.5 mL).\nAdd to the saline bag.\nGlutathione (2 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
+            situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Remove cannula and apply pressure dressing.\nRecheck vitals and assess well-being.\nObserve patient for 15 minutes post-infusion before discharge.\nEncourage hydration (250–500 mL water).\nAdvise avoiding alcohol/strenuous exercise for 12 hours.\nRecord completion time, total volume infused, and client response.'
         }
     },
     'Jet Fuel Premium': {
@@ -391,17 +437,19 @@ const allDrips = {
         icon: '⚡⚡⚡',
         protocol: {
             ingredients: [
-                { name: 'B12 Methylcobalamin', dose: '1 mL (1000 µg/mL)', timing: 'Main IV' },
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '1 mL', timing: 'Main IV' },
                 { name: 'B Complex', dose: '2 mL', timing: 'Main IV' },
-                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Main IV - mid phase' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '3 mL (1500 mg)', timing: 'Main IV - early mid phase' },
-                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Slow push after main drip completion' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '1 mL', timing: 'Main IV - mid phase' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '3 mL', timing: 'Main IV - early mid phase' },
+                { name: 'Glutathione: 200mg/mL', dose: '4 mL', timing: 'Slow push after main drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (1 mL), B Complex (2 mL), Magnesium Sulphate (1 mL), Ascorbic Acid (3 mL).\nAdd to the saline bag.\nGlutathione (4 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
-            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling. Always use sterile, preservative-free preparations.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/strenuous exercise for 12 hours. Record completion time, total volume infused, and client response.'
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
+            situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Remove cannula and apply pressure dressing.\nRecheck vitals and assess well-being.\nObserve patient for 15 minutes post-infusion before discharge.\nEncourage hydration (250–500 mL water).\nAdvise avoiding alcohol/strenuous exercise for 12 hours.\nRecord completion time, total volume infused, and client response.'
         }
     },
     'Recharge': {
@@ -411,15 +459,17 @@ const allDrips = {
         icon: '🔋',
         protocol: {
             ingredients: [
-                { name: 'B12 Methylcobalamin', dose: '1 mL (1000 µg/mL)', timing: 'Add after B Complex' },
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '1 mL', timing: 'Add after B Complex before Infusion starts' },
                 { name: 'Vitamin B Complex', dose: '1 mL', timing: 'Add before infusion Starts' },
-                { name: 'Magnesium Sulphate 50%', dose: '0.5 mL (0.25 g/mL)', timing: 'Last before connecting line' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '0.5 mL', timing: 'Last before connecting line' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate. Mix gently by inverting.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nLabel the NS bag with patient name, additives, date, and initials.\nClean additive port with 70% alcohol swab.\nAdd in sequence:\nVitamin B₁₂ (1 mL)\nVitamin B Complex (1 mL)\nMagnesium Sulphate (0.5 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Known hypersensitivity to B-vitamins or magnesium. Severe renal impairment (risk of magnesium accumulation). Heart block or myasthenia gravis. Hypotension or shock states. Acute hepatic failure (relative).',
-            precautions: 'Use caution in patients on digitalis, calcium-channel blockers, or CNS depressants. Adjust magnesium dose in renal insufficiency. Do not exceed prescribed additive limits.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/stimulants for 24h. Record completion time, total volume infused, and client response.'
+            precautions: 'Use caution in patients on digitalis, calcium-channel blockers, or CNS depressants. Adjust magnesium dose in renal insufficiency. Do not exceed prescribed additive limits. Avoid mixing with incompatible solutions (dextrose or phosphates) unless verified.',
+            situationCaution: 'Elderly or low-body-mass clients – consider slower rate (extend infusion by 15–30 min).\nPatients with baseline low BP – monitor closely; magnesium may lower BP further.\nClients new to IV therapy – start at minimum rate for first 10 min.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 10 mL saline.\nRecheck vitals and document tolerance.\nAdvise patient to:\nStay hydrated.\nAvoid alcohol or stimulants for 24 hours.\nReport any persistent lightheadedness or tingling.'
         }
     },
     'Recharge Premium': {
@@ -429,15 +479,17 @@ const allDrips = {
         icon: '🔋🔋🔋',
         protocol: {
             ingredients: [
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Add after B Complex' },
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'Add after B Complex before Infusion starts' },
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Add before infusion Starts' },
-                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Last before connecting line' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '1 mL', timing: 'Last before connecting line' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate. Mix gently by inverting.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nDraw each additive using aseptic technique with a new sterile syringe and needle per vial.\nAdd in sequence:\nVitamin B₁₂ (2 mL)\nVitamin B Complex (2 mL)\nMagnesium Sulphate (1 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Known hypersensitivity to any component. Severe renal insufficiency or failure. Hypotension (SBP <90 mmHg). Heart block or bradyarrhythmia (caution with magnesium). Myasthenia gravis. Acute dehydration or electrolyte imbalance.',
-            precautions: 'Administer magnesium slowly to prevent vasodilation or hypotension. Avoid concurrent calcium or muscle relaxant infusions. Use caution in clients on antihypertensives or CNS depressants.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/stimulants for 24h. Record completion time, total volume infused, and client response.'
+            precautions: 'Administer magnesium slowly to prevent vasodilation or hypotension. Avoid concurrent calcium or muscle relaxant infusions. Use caution in clients on antihypertensives or CNS depressants. Adjust rate for elderly clients or those with low body mass.',
+            situationCaution: 'Mild flushing and warmth are common and not typically harmful.\nIf dizziness or nausea occurs — pause infusion, provide fluids orally, and reassess vitals.\nResume only once client is stable.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 10 mL saline.\nRemove cannula and apply pressure dressing.\nRecheck vitals and document tolerance.\nAdvise patient to:\nStay hydrated.\nAvoid alcohol or stimulants for 24 hours.\nEducate on expected mild effects (warmth, increased urination, mild relaxation).'
         }
     },
     'Libido': {
@@ -448,19 +500,21 @@ const allDrips = {
         protocol: {
             ingredients: [
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Mix-in at start' },
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Mix-in at start' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Add after vitamins' },
-                { name: 'L-Arginine 100mg/ml', dose: '2 mL (200 mg)', timing: 'Add after 15 min of start' },
-                { name: 'L-Carnitine 100mg/ml', dose: '2 mL (200 mg)', timing: 'Add concurrently with L-Arginine' },
-                { name: 'Taurine 50mg/ml', dose: '2 mL (100 mg)', timing: 'Add at 20 min mark' },
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add at 30 min mark — infuse slowly' },
-                { name: 'Zinc Sulphate 10mg/ml', dose: '2 mL (20 mg)', timing: 'Add last' }
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'Mix-in at start' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '2 mL', timing: 'Add after vitamins, infuse gradually (entire duration)' },
+                { name: 'L-Arginine 100mg/mL', dose: '2 mL', timing: 'Add after 15 minutes of start' },
+                { name: 'L-Carnitine 100mg/mL', dose: '2 mL', timing: 'Add concurrently with L-Arginine' },
+                { name: 'Taurine 50mg/mL', dose: '2 mL', timing: 'Add at 20 min mark' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'Add at 30 min mark — infuse slowly over ≥25 min' },
+                { name: 'Zinc Sulphate 10mg/mL', dose: '2 mL', timing: 'Add last' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Ascorbic Acid, L-Arginine, L-Carnitine, Taurine, Magnesium Sulphate, Zinc Sulphate. Mix gently by inverting. Note specific timing for Arginine and Carnitine.',
-            contraindications: 'Severe renal or hepatic impairment. Hypotension or cardiovascular instability. Pregnancy (unless doctor approved). Known hypersensitivity to any ingredient. Uncontrolled diabetes (Vitamin C caution).',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nB Complex (2 mL)\nB12 Methylcobalamin (2 mL)\nAscorbic Acid (2 mL)\nL-Arginine (2 mL)\nL-Carnitine (2 mL)\nTaurine (2 mL)\nMagnesium Sulphate (2 mL) (Add slowly and swirl bag to mix)\nZinc Sulphate (2 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            contraindications: 'Severe renal or hepatic impairment. Hypotension or cardiovascular instability. Pregnancy (unless doctor approved). Known hypersensitivity to any ingredient. Uncontrolled diabetes (vitamin C can affect glucose readings).',
             precautions: 'Avoid rapid administration (risk of hypotension or flushing). Use with caution in patients on nitrates, antihypertensives, or PDE5 inhibitors (Arginine interaction). Ensure adequate hydration before infusion.',
-            safety: 'Stop immediately if: BP <90/60 mmHg or HR >120 bpm. Sudden dizziness, shortness of breath, or chest tightness. Rash, swelling, or anaphylactic symptoms. Severe vein irritation or pain at infusion site.',
-            postCare: 'Flush line with 5–10ml NS. Observe for 15 min. Encourage hydration. Advise avoiding alcohol or high-caffeine for 12 hours post-infusion.'
+            situationCaution: 'Clients with erectile dysfunction medications (e.g., Viagra) should avoid same-day use.\nMagnesium and Arginine can enhance vasodilation, which may lower BP.\nZinc and Carnitine may cause mild nausea on empty stomach — ensure pre-infusion snack.',
+            safety: 'Keep crash cart and AED accessible.\nMaintain access to oxygen, AED, epinephrine (1:1000), hydrocortisone, antihistamine, and normal saline.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nDocument and file incident report.\nEmergency Stop Criteria:\nBP <90/60 mmHg or HR >120 bpm.\nSudden dizziness, shortness of breath, or chest tightness.\nRash, swelling, or anaphylactic symptoms.\nSevere vein irritation or pain at infusion site.',
+            postCare: 'Flush line with 5–10 mL NS.\nRemove cannula and apply pressure dressing.\nRecheck vitals and assess well-being.\nEncourage hydration (250–500 mL water).\nAdvise avoiding alcohol or high-caffeine for 12 hours post-infusion.'
         }
     },
     'Glutamine': {
@@ -470,13 +524,15 @@ const allDrips = {
         icon: '🏋️',
         protocol: {
             ingredients: [
-                { name: 'Glutamine 30mg/ml', dose: '2 mL (60 mg)', timing: 'Main Drip' }
+                { name: 'Glutamine 30mg/mL', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutamine 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag or 100 mL for add-on.\nAdditive: Glutamine - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
             contraindications: 'Severe hepatic or renal dysfunction. Metabolic disorders affecting nitrogen balance. Known hypersensitivity to Glutamine. Acute acidosis or uremia.',
-            precautions: 'Use cautiously in patients with liver cirrhosis, renal impairment, or sepsis. Avoid co-administration with incompatible solutions. Ensure freshly mixed solution is used.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
-            postCare: 'Flush line. Observe 10-15 min. Advise eating a balanced meal within 1–2 hours. Avoid strenuous activity for 1 hour post-infusion.'
+            precautions: 'Use cautiously in patients with liver cirrhosis, renal impairment, or sepsis. Avoid co-administration with incompatible amino acid or vitamin solutions without pharmacist verification. Ensure freshly mixed solution is used — do not store for later use.',
+            situationCaution: 'Do not use if the solution appears cloudy, discoloured, or has particulates.\nAvoid using in dehydrated or hypotensive patients without prior rehydration.\nMonitor diabetic patients for mild glucose fluctuations.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line. Observe 10-15 min.\nAdvise client to eat a balanced meal within the next 1–2 hours.\nReport any delayed reactions (rash, swelling, dizziness).\nAvoid strenuous activity for 1 hour post-infusion.'
         }
     },
     'Anxiety Relief': {
@@ -486,15 +542,17 @@ const allDrips = {
         icon: '😌',
         protocol: {
             ingredients: [
-                { name: 'Taurine 50mg/ml', dose: '4 mL (200 mg)', timing: 'Main Drip' },
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Main Drip' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Main drip (Slow release)' }
+                { name: 'Taurine 50mg/mL', dose: '4 mL', timing: 'Main Drip' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'Main Drip' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Main drip (Slow release)' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Taurine, Ascorbic Acid. Mix gently by inverting.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nAdd slowly and swirl bag to mix; magnesium is slightly irritant to veins.\nAdd Taurine - 4 mL\nAdd Ascorbic Acid 500mg/mL - 4 mL last to avoid degradation.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Severe renal impairment. Uncontrolled hypotension or bradycardia. Heart block (2nd or 3rd degree). G6PD deficiency (due to ascorbic acid). Known magnesium or sulphate hypersensitivity. Decompensated cardiac failure.',
-            precautions: 'Magnesium may cause transient hypotension or warmth. Ascorbic acid can increase oxalate load—caution in renal stones. Taurine may potentiate sedative effects of CNS depressants.',
-            safety: 'Stop infusion immediately if: Patient experiences anaphylysis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. BP < 90/60 mmHg or HR >120 bpm.',
-            postCare: 'Flush line with 10ml saline. Recheck vitals. Advise patient to stay hydrated and avoid alcohol/stimulants for 24h.'
+            precautions: 'Magnesium may cause transient hypotension or warmth. Ascorbic acid can increase oxalate load—caution in renal stones. Taurine supports neurotransmitter balance but may potentiate sedative effects of CNS depressants. Avoid administering:\nConcurrently with IV calcium (risk of precipitation).\nTo dehydrated or fasting patients without pre-hydration.\nPost heavy exercise or alcohol intake (may potentiate hypotension).',
+            situationCaution: 'Avoid administering:\nConcurrently with IV calcium (risk of precipitation).\nTo dehydrated or fasting patients without pre-hydration.\nPost heavy exercise or alcohol intake (may potentiate hypotension).',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nImmediately stop infusion if:\nPatient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension.\nIV site shows redness, swelling, or extravasation.\nBP < 90/60 mmHg or HR >120 bpm.\nPatient becomes unresponsive or dizzy beyond mild effects.',
+            postCare: 'Flush line with 10 mL saline.\nRecheck vitals and document tolerance.\nAdvise patient to:\nStay hydrated.\nAvoid alcohol or stimulants for 24 hours.\nReport any persistent lightheadedness or tingling.'
         }
     },
     'Anxiety Relief Premium': {
@@ -505,15 +563,17 @@ const allDrips = {
         protocol: {
             ingredients: [
                 { name: 'Myers Cocktail', dose: '3 mL', timing: 'Add first' },
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add in second and infuse slowly' },
-                { name: 'Taurine 50mg/ml', dose: '4 mL (200 mg)', timing: 'Midway add Taurine' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Add last' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'Add in second and infuse slowly' },
+                { name: 'Taurine 50mg/mL', dose: '4 mL', timing: 'Midway add Taurine' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '2 mL', timing: 'Add last' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Myers Cocktail, Magnesium Sulphate (add slowly and swirl), Taurine, Ascorbic Acid. Mix gently by inverting.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd Myers Cocktail - 3 mL\nThen add Magnesium Sulphate 50% (0.5 g/mL) – 2 mL.\nAdd slowly and swirl bag to mix; magnesium is slightly irritant to veins.\nAdd Taurine - 4 mL\nAdd Ascorbic Acid 500mg/mL - 2 mL last.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Severe renal impairment or failure. Uncontrolled hypertension. Heart block or severe cardiac disease. Current infection or fever. Hypocalcaemia or hypermagnesemia. Pregnancy or lactation without doctor’s approval. Known hypersensitivity to any component.',
-            precautions: 'Administer under medical supervision only. Avoid rapid infusion due to magnesium content. Use slower initial rate for anxious/first-time clients.',
-            safety: 'Immediately stop the infusion and alert the doctor if: BP drops >20 mmHg from baseline. SpO₂ < 92%. Chest pain, severe flushing, or difficulty breathing. New rash or hives appear. Patient reports feeling faint, unwell, or short of breath.',
-            postCare: 'Remove cannula, apply pressure. Observe client for 10–20 minutes. Document any immediate changes (e.g., calmer mood, energy).'
+            precautions: 'Administer under medical supervision only. Avoid rapid infusion due to magnesium content. For anxious or first-time clients, use slower initial rate and dim lighting. Ensure patient comfort — reclined seating, calm environment, optional aromatherapy. Use extra caution in clients on:\nCalcium-channel blockers\nAntidepressants or benzodiazepines\nThyroid or blood pressure medication',
+            situationCaution: 'Use extra caution in clients on:\nCalcium-channel blockers\nAntidepressants or benzodiazepines\nThyroid or blood pressure medication\nIf patient reports light-headedness or chest warmth, pause and reassess vitals before continuing.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nPrepare emergency meds (adrenaline 1:1000, hydrocortisone, or antihistamine as per standing order).\nDocument and file incident report.\nEmergency Stop Criteria:\nImmediately stop the infusion and alert the doctor if:\nBP drops >20 mmHg from baseline.\nSpO₂ < 92%.\nChest pain, severe flushing, or difficulty breathing.\nNew rash or hives appear.\nPatient reports feeling faint, unwell, or short of breath.',
+            postCare: 'Remove cannula, apply pressure.\nObserve client for 10–20 minutes before leaving the lounge.\nDocument any immediate changes (e.g., calmer mood, energy).'
         }
     },
     'Radiance': {
@@ -523,14 +583,16 @@ const allDrips = {
         icon: '✨',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/ml', dose: '5 mL (2500 mg)', timing: 'Main IV' },
-                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'After main drip completion' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '5 mL', timing: 'Main IV' },
+                { name: 'Glutathione: 200mg/mL', dose: '5 mL', timing: 'After main drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Ascorbic Acid 5 mL. Mix gently by inverting. Glutathione 5 mL is administered separately as a slow push after the main bag is complete.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Ascorbic Acid 500 mg/mL – 5 mL (2,500 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nGlutathione (5 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag several times. Do not introduce air.",
             contraindications: 'Known hypersensitivity to Vitamin C or Glutathione. Renal impairment (risk of oxalate nephropathy). Uncontrolled asthma. Pregnancy or lactation (unless prescribed).',
-            precautions: 'Confirm no allergy to ascorbic acid or glutathione. Use caution in renal impairment, G6PD deficiency, or pregnancy (doctor approval required). Avoid rapid infusion to prevent vein irritation. Protect from light during preparation and infusion.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Observe patient for 15 min. Maintain hydration (250 ml water minimum). Record vitals, infusion time, and any reactions.'
+            precautions: 'Confirm no allergy to ascorbic acid or glutathione. Use caution in renal impairment, G6PD deficiency, or pregnancy (doctor approval required). Avoid rapid infusion to prevent vein irritation. Protect from light during preparation and infusion. Ensure adequate hydration pre- and post-infusion. Monitor 10–15 minutes post-infusion for delayed reactions.',
+            situationCaution: 'G6PD deficiency (risk with high-dose Vitamin C).\nOngoing chemotherapy or recent radiotherapy (consult doctor).\nSevere dehydration or electrolyte imbalance.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush IV line with 10 mL normal saline.\nRemove cannula aseptically and apply gentle pressure.\nReassess vitals; ensure patient is stable.\nObserve patient for 10–15 minutes post-infusion.\nEncourage hydration (at least 250 mL water minimum).\nDocument total infused volume, vitals, and any reactions.'
         }
     },
     'Radiance Plus': {
@@ -540,14 +602,16 @@ const allDrips = {
         icon: '✨✨',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'Main Drip' },
-                { name: 'Glutathione 200mg/ml', dose: '12 mL (2400 mg)', timing: 'After main drip completion' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'Main Drip' },
+                { name: 'Glutathione: 200mg/mL', dose: '12 mL', timing: 'After main drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Ascorbic Acid 10 mL. Mix gently by inverting. Glutathione 12 mL is administered separately as a slow push after the main bag is complete.',
-            contraindications: 'Known allergy to Ascorbic Acid or Glutathione. G6PD deficiency. Uncontrolled hypertension or heart failure (for 1000 ml infusions). Renal insufficiency or dialysis patients. Pregnancy or lactation (without doctor’s approval).',
-            precautions: 'Avoid in patients taking chemotherapy (unless physician-approved). Use caution in asthmatic patients (Ascorbic Acid may trigger bronchospasm). Store vials in cool, dark environment; protect Glutathione from light. Always perform sensitivity test if uncertain of prior exposure.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Flush IV line with NS. Remove cannula. Observe 10–15 min post-infusion. Record total volume infused, vitals, and client response.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Ascorbic Acid 500 mg/mL – 10 mL (5,000 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nGlutathione (12 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag several times. Do not introduce air.",
+            contraindications: 'Known allergy to Ascorbic Acid or Glutathione. G6PD deficiency. Uncontrolled hypertension or heart failure (for 1000 mL infusions). Renal insufficiency or dialysis patients. Pregnancy or lactation (without doctor’s approval). Active infection, fever, or dehydration.',
+            precautions: 'Avoid in patients taking chemotherapy (unless physician-approved).\nUse caution in asthmatic patients (Ascorbic Acid may trigger bronchospasm).\nStore vials in cool, dark environment; protect Glutathione from light.\nAlways perform sensitivity test if uncertain of prior exposure.',
+            situationCaution: 'Rapid infusion can cause hypotension or vein irritation.\nMixing Glutathione with Ascorbic Acid in same bag may degrade both compounds — always administer separately.\nOxidation risk: Prepare immediately before use; discard if discoloured.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush IV line with NS.\nRemove cannula. Observe 10–15 minutes post-infusion. Record total volume infused, vitals, and client response.'
         }
     },
     'Radiance Premium': {
@@ -557,17 +621,19 @@ const allDrips = {
         icon: '✨✨✨',
         protocol: {
             ingredients: [
-                { name: 'B-Complex', dose: '2 mL', timing: 'Main Drip' },
-                { name: 'Biotin (5 mg)', dose: '2 mL (10 mg)', timing: 'Main Drip' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Main Drip' },
-                { name: 'Alpha-Lipoic Acid 25mg/ml', dose: '2 mL (50 mg)', timing: 'Main Drip after 10 min' },
-                { name: 'NAD + 125MG/ML', dose: '1 mL (125 mg)', timing: 'Main Drip after 15 min' },
-                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Slow push after main drip completion' }
+                { name: 'B Complex', dose: '2 mL', timing: 'Main Drip' },
+                { name: 'Biotin (5 mg)', dose: '2 mL', timing: 'Main Drip' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Main Drip' },
+                { name: 'Alpha-Lipoic Acid 25mg/mL', dose: '2 mL', timing: 'Main Drip after 10 min' },
+                { name: 'NAD+ 125MG/mL', dose: '1 mL', timing: 'Main Drip after 15 min' },
+                { name: 'Glutathione: 200mg/mL', dose: '4 mL', timing: 'Slow push after main drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B-Complex, Biotin, Ascorbic Acid, ALA, NAD+. Mix gently by inverting. Glutathione is administered separately as a slow push.',
-            contraindications: 'Pregnancy or breastfeeding (unless cleared by physician). Severe renal or hepatic impairment. Uncontrolled hypertension. G6PD deficiency (Vitamin C caution). Hypersensitivity to any component. Recent chemotherapy or radiation therapy.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "In a sterile environment:\nDraw up the following components using aseptic technique:\nMain Drip (Radiance Base) – 200 mL or 1000 mL 0.9 % NaCl\nAdd:\nAscorbic Acid + B-Complex + Biotin -Infuse with these first three additives (Ascorbic Acid, B-Complex, Biotin) to allow a slower absorption of NAD+.\nAlpha-Lipoic Acid 25mg/mL - 2 mL\nNAD+ 125mg/mL - 1 mL\nMix gently by inverting the bag 3-4 times slowly (do not shake).",
+            contraindications: 'Pregnancy or breastfeeding (unless cleared by physician). Severe renal or hepatic impairment. Uncontrolled hypertension. G6PD deficiency (Vitamin C caution). Hypersensitivity to any component. Recent chemotherapy or radiation therapy. Active infection or fever.',
             precautions: 'Use caution in patients with electrolyte imbalance, low blood pressure, or dehydration. For NAD+, start infusion slowly to minimize chest tightness or nausea. Avoid direct sunlight post-infusion if skin sensitivity occurs.',
-            safety: 'Emergency Stop Criteria: Anaphylaxis symptoms (rash, wheezing, swelling, hypotension). Chest pain or severe shortness of breath. Fainting or unresponsiveness. Severe vein inflammation or extravasation.',
+            situationCaution: 'Rapid infusion can cause:\nHeat or burning along vein\nPalpitations or chest tightness\nNausea or anxiety\nAlways pause or slow the infusion instead of discontinuing unless severe symptoms persist.',
+            safety: 'Safety & Emergency Protocol:\nKeep crash cart and AED accessible.\nMaintain access to oxygen, AED, epinephrine (1:1000), hydrocortisone, antihistamine, and normal saline.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nDocument and file incident report.\nEmergency Stop Criteria:\nAnaphylaxis symptoms (rash, wheezing, swelling, hypotension).\nChest pain or severe shortness of breath.\nFainting or unresponsiveness.\nSevere vein inflammation or extravasation.',
             postCare: 'Flush line. Observe 15 min. Increase water intake for 24 hours. Avoid alcohol and caffeine immediately post-infusion. Expect mild fatigue or warmth for 1–2 hours. Record total volume, batch numbers, and duration in treatment log.'
         }
     },
@@ -578,12 +644,14 @@ const allDrips = {
         icon: '🧴✨',
         protocol: {
             ingredients: [
-                { name: 'Biotin 5mg/ml', dose: '2 mL (10 mg)', timing: 'Main Drip' }
+                { name: 'Biotin 5mg/mL', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Biotin 2 mL. Swab injection port, invert gently to mix; do not shake.',
-            contraindications: 'Known hypersensitivity to Biotin. Severe renal impairment (relative contraindication). Concurrent use of biotin-interfering lab tests (advise patient to avoid blood tests for at least 72 hours post-infusion).',
-            precautions: 'Use caution in pregnant or breastfeeding patients (generally considered safe but confirm medical approval). Monitor diabetic patients closely. Avoid mixing with other agents unless compatibility confirmed.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/1000 mL bag or 100 mL bag for add-on.\nAdditive: Biotin 30mg/mL - 2 mL (Total 60mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            contraindications: 'Known hypersensitivity to Biotin. Severe renal impairment (relative contraindication for large-volume fluids). Concurrent use of biotin-interfering lab tests (can affect thyroid and troponin assays — advise patient to avoid blood tests for at least 72 hours post-infusion).',
+            precautions: 'Use caution in pregnant or breastfeeding patients (generally considered safe but confirm medical approval).\nMonitor diabetic patients closely as biotin can influence glucose metabolism.\nAvoid mixing with other agents unless compatibility confirmed.\nAlways use within 24 hours of mixing if refrigerated and within 8 hours if kept at room temperature.',
+            situationCaution: 'Rapid infusion may cause mild nausea, warmth, or flushing.\nInfiltration or extravasation can cause localized irritation.\nAvoid in patients with known vitamin hypersensitivity syndromes.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nFacial swelling and rash.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Flush line. Observe 10-15 min. Record batch numbers, volume, and client tolerance. Advise reporting persistent lightheadedness or fatigue.'
         }
     },
@@ -594,12 +662,14 @@ const allDrips = {
         icon: '🍊',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Main Drip' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 2 mL. Mix gently by inverting.',
-            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure. Hypersensitivity to components.',
-            precautions: 'Elderly/cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; Vitamin C is acidic. Use caution in clients with unstable BP/heart disease.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 2 mL (total 1000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
+            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure (relative, especially with 1,000 mL option). Hypersensitivity to components.',
+            precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
+            situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
         }
     },
@@ -610,17 +680,19 @@ const allDrips = {
         icon: '🧘',
         protocol: {
             ingredients: [
-                { name: 'Magesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Add first' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '1 mL', timing: 'Add first' },
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Mixed into Main Drip' },
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Mixed into Main Drip' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Mixed into main drip' },
-                { name: 'Glutathione 200mg/ml', dose: '3 mL (600 mg)', timing: 'Immediately after separately as slow push' }
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'Mixed into Main Drip' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Mixed into main drip, added immediately before connecting IV line' },
+                { name: 'Glutathione: 200mg/mL', dose: '3 mL', timing: 'Immediately after separately as slow push' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Vitamin B Complex, B12, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
-            contraindications: 'Severe renal impairment (eGFR <60). Known hypersensitivity to any component. Active oxalate kidney stones. G6PD deficiency (risk of haemolysis). Uncontrolled hypertension or heart failure.',
-            precautions: 'Caution in pregnancy and breastfeeding (doctor’s approval required). Monitor magnesium dose in patients on calcium channel blockers. Avoid rapid Vitamin C infusion in G6PD deficiency.',
-            safety: 'BP drop >20 mmHg from baseline. Oxygen saturation <94%. Chest pain, tightness, or difficulty breathing. Rash, hives, or swelling of face/throat. Patient discomfort or dizziness. Stop infusion, maintain IV access, initiate emergency protocol.',
-            postCare: 'Flush IV line with 10 mL normal saline. Observe patient for 10–15 minutes. Encourage hydration. Educate on possible mild fatigue or increased urination.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% - 1 mL\nVitamin B Complex - 2 mL\nB12 Methylcobalamin - 2 mL\nAscorbic Acid - 4 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            contraindications: 'Severe renal impairment (eGFR <60). Known hypersensitivity to any component. Active oxalate kidney stones. G6PD deficiency (risk of haemolysis with high-dose vitamin C). Uncontrolled hypertension or heart failure (use 1000 mL bag with caution).',
+            precautions: 'Caution in pregnancy and breastfeeding (doctor’s approval required).\nMonitor magnesium dose in patients on calcium channel blockers.\nAvoid rapid vitamin C infusion in glucose-6-phosphate dehydrogenase (G6PD) deficiency.',
+            situationCaution: 'Post-surgical patients (confirm with surgeon).\nConcurrent immunosuppressant therapy.\nActive infection or fever (defer until stable).\nIf vein irritation or patient discomfort occurs.',
+            safety: 'Keep crash cart and AED accessible.\nMaintain access to oxygen, AED, epinephrine (1:1000), hydrocortisone, antihistamine, and normal saline.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nDocument and file incident report.\nEmergency Stop Criteria:\nBP drop >20 mmHg from baseline\nOxygen saturation <94%\nChest pain, tightness, or difficulty breathing\nRash, hives, or swelling of face/throat\nPatient discomfort or dizziness\nStop infusion, maintain IV access, initiate emergency protocol.',
+            postCare: 'Flush IV line with 10 mL normal saline.\nObserve patient for 10–15 minutes post-infusion.\nEncourage hydration (at least 500 mL water).\nEducate on possible mild fatigue or increased urination.\nDocument lot numbers, expiry dates, and total infused volume.'
         }
     },
     'Anti Inflammatory Premium': {
@@ -630,16 +702,18 @@ const allDrips = {
         icon: '🧘🧘',
         protocol: {
             ingredients: [
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add first' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'After Magnesium, wait 2-3 min before adding ALA' },
-                { name: 'Alpha Lipoic Acid 25MG/ML', dose: '4 mL (100 mg)', timing: 'Add last after Ascorbic Acid' },
-                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'Immediately after separately as slow push' }
+                { name: 'Magnesium Sulphate 50% - 0.5mg/mL', dose: '2 mL', timing: 'Add first' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'After Magnesium, wait 2-3 min before adding ALA' },
+                { name: 'Alpha Lipoic Acid 25MG/mL', dose: '4 mL', timing: 'Add last after Ascorbic Acid' },
+                { name: 'Glutathione: 200mg/mL', dose: '5 mL', timing: 'Immediately after separately as slow push' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Ascorbic Acid (wait 2-3 min), Alpha Lipoic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% - 2 mL\nAscorbic Acid / Vitamin C - 10 mL - wait 2-3 minutes before adding ALA\nAlpha Lipoic Acid - 4 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Known hypersensitivity to any ingredient. Severe renal or hepatic impairment. G6PD deficiency (high-dose Vitamin C risk). Hypotension or cardiac arrhythmias. Pregnancy or breastfeeding (doctor clearance required).',
-            precautions: 'Avoid concurrent antioxidant oral dosing 24h pre/post infusion. Use caution in diabetic clients. Avoid rapid infusion to prevent magnesium-related hypotension. Do not co-infuse ALA with metals or chelating agents.',
-            safety: 'Emergency Stop Criteria: Drop in systolic BP >30 mmHg. Chest pain or shortness of breath. Anaphylaxis (rash, airway swelling). Loss of consciousness. Infusion site extravasation.',
-            postCare: 'Flush line. Observe 15 min. Maintain hydration. Advise client to avoid alcohol and caffeine for 12 hours post-infusion. Encourage antioxidant-rich meal within 2 hours.'
+            precautions: 'Avoid concurrent antioxidant oral dosing 24 hours pre/post infusion (to prevent overload).\nUse caution in diabetic clients (Vitamin C may interfere with glucose monitoring).\nAvoid rapid infusion to prevent magnesium-related hypotension.\nDo not co-infuse ALA with metals or chelating agents.',
+            situationCaution: 'If client reports chest tightness, burning at site, or severe headache → pause infusion immediately.\nIf BP drops >20mmHg from baseline → reduce rate or stop temporarily.\nIf ALA causes nausea, slow infusion rate by 50%.',
+            safety: 'Keep crash cart and AED accessible.\nMaintain access to oxygen, AED, epinephrine (1:1000), hydrocortisone, antihistamine, and normal saline.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nDocument and file incident report.\nEmergency Stop Criteria:\nDrop in systolic BP >30 mmHg\nChest pain or shortness of breath\nAnaphylaxis (rash, airway swelling)\nLoss of consciousness\nInfusion site extravasation',
+            postCare: 'Flush IV line with NS.\nRemove cannula, apply pressure dressing.\nMaintain adequate hydration (at least 250 mL water).\nAdvise client to avoid alcohol and caffeine for 12 hours post-infusion.\nEncourage antioxidant-rich meal within 2 hours.\nRecord total volume infused, rate, and any reactions.'
         }
     },
     'Immune Booster': {
@@ -649,12 +723,14 @@ const allDrips = {
         icon: '🛡️',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/ml', dose: '5 mL (2500 mg)', timing: 'Main Drip' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '5 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 5 mL. Mix gently by inverting. Discard if discoloured.',
-            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure. Hypersensitivity to components.',
-            precautions: 'Elderly/cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; Vitamin C is acidic. Use caution in clients with unstable BP/heart disease.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL.\nAdditive: Ascorbic Acid 500mg/mL - 5 mL (total 2500 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
+            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure (relative, especially with 1,000 mL option). Hypersensitivity to components.',
+            precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
+            situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
         }
     },
@@ -665,12 +741,14 @@ const allDrips = {
         icon: '🛡️🛡️',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'Main Drip' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 10 mL. Mix gently by inverting. Discard if discoloured.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 10 mL (total 5000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
             contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Pregnancy or breastfeeding – unless doctor-approved. Active infection or fever > 38°C. Allergy to Vitamin C formulation components.',
-            precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; vitamin C is acidic. Monitor diabetic clients for post-infusion glucose fluctuations. Avoid rapid infusion (>500 ml/hr).',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
+            situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
         }
     },
@@ -681,13 +759,15 @@ const allDrips = {
         icon: '🌿',
         protocol: {
             ingredients: [
-                { name: 'Trace Elements (Zinc, Selenium, etc.)', dose: '2 mL', timing: 'Main Drip' }
+                { name: 'Trace Elements', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Trace Elements 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL Bag or 100 mL for add-on.\nAdditive: Trace Elements - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
             contraindications: 'Known hypersensitivity to trace metal components. Severe renal or hepatic dysfunction. Wilson’s disease (copper accumulation disorder). Hemochromatosis (iron overload). Ongoing chelation therapy.',
-            precautions: 'Use only as per doctor’s standing orders. Do not exceed recommended frequency (commonly 1 infusion per 2–4 weeks). Caution in clients with low serum electrolytes. Avoid mixing with other IV additives unless compatibility confirmed.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Flush line. Observe 10-15 min. Maintain hydration. Advise avoiding alcohol or strenuous exercise for 12 hours.'
+            precautions: 'Use only as per doctor’s standing orders. Do not exceed recommended frequency (commonly 1 infusion per 2–4 weeks unless clinically indicated).\nCaution in clients with low serum electrolytes — may require bloodwork before repeat infusions.\nAvoid mixing with other IV additives unless compatibility confirmed.',
+            situationCaution: 'Metallic taste or mild warmth is common — slow infusion rate if uncomfortable.\nIf vein irritation occurs, dilute further (e.g., 2 mL Trace Elements in 250 mL NaCl).',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line. Observe 10-15 min. Maintain hydration (ensure 500 mL water post-infusion).\nAdvise avoiding alcohol or strenuous exercise for 12 hours.'
         }
     },
     'Anti Ageing': {
@@ -697,13 +777,15 @@ const allDrips = {
         icon: '⏳',
         protocol: {
             ingredients: [
-                { name: 'NAD+ 125mg/ml', dose: '4 mL (500 mg)', timing: 'Main Drip' }
+                { name: 'NAD+ 125mg/mL', dose: '4 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: NAD+ 4 mL. Mix gently by inverting the bag 3-4 times slowly (do not shake). **1000ml saline should be administered for first time clients.**',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution: 200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline). **1000 mL saline should be administered for first time clients.**\nAdditives (in order of mixing):\nNAD+ 125mg/mL - 4 mL\nMix gently by inverting the bag 3-4 times slowly (do not shake).",
             contraindications: 'Pregnancy or breastfeeding (unless specifically cleared by physician). Severe hypotension or hypertension. Cardiac arrhythmias or heart failure. Liver or renal impairment. Active malignancy (use clinical discretion). Allergy to NAD⁺ components.',
-            precautions: 'First-time NAD⁺ users: always begin with slower infusion rate and 250–300 mg test dose. Avoid combining with alcohol or stimulants before/after infusion. Ensure adequate electrolyte and fluid intake pre- and post-infusion.',
-            safety: 'Emergency Stop Criteria: Sudden drop in BP > 20 mmHg systolic. Chest pain, severe dyspnoea, or syncope. Urticaria, throat swelling, or anaphylaxis signs. Persistent nausea, vomiting, or severe cramping despite pause.',
-            postCare: 'Flush line. Observe patient for 15 minutes. Provide post-care sheet on possible transient side effects: fatigue, mild nausea, headache (usually self-limiting).'
+            precautions: 'First-time NAD⁺ users: always begin with slower infusion rate and 250–300 mg test dose.\nAvoid combining with alcohol or stimulants before/after infusion.\nEnsure adequate electrolyte and fluid intake pre- and post-infusion.',
+            situationCaution: 'Rapid infusion can cause:\nHeat or burning along vein\nPalpitations or chest tightness\nNausea or anxiety\nAlways pause or slow the infusion instead of discontinuing unless severe symptoms persist.',
+            safety: 'Safety & Emergency Protocol:\nKeep crash cart and AED accessible.\nMaintain access to oxygen, AED, epinephrine (1:1000), hydrocortisone, antihistamine, and normal saline.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nDocument and file incident report.\nEmergency Stop Criteria:\nSudden drop in BP > 20 mmHg systolic\nChest pain, severe dyspnoea, or syncope\nUrticaria, throat swelling, or anaphylaxis signs\nPersistent nausea, vomiting, or severe cramping despite pause',
+            postCare: 'Flush line.\nRemove cannula and apply pressure dressing.\nEncourage hydration (500 mL water minimum).\nObserve patient for 15 minutes post-infusion before discharge.\nProvide post-care sheet on possible transient side effects: fatigue, mild nausea, headache (usually self-limiting).'
         }
     },
     'ALA Antioxidant': {
@@ -713,13 +795,15 @@ const allDrips = {
         icon: '🌟',
         protocol: {
             ingredients: [
-                { name: 'Alpha Lipoic Acid 25mg/ml', dose: '3 mL (75 mg)', timing: 'Main Drip' }
+                { name: 'Alpha Lipoic Acid 25mg/mL', dose: '3 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Alpha Lipoic Acid 3 mL. Swab injection port, invert gently to mix; do not shake.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag /1000 mL.\nAdditive: Alpha Lipoic Acid 25mg/mL - 3 mL (Total 75mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
             contraindications: 'Known allergy to Alpha Lipoic Acid. Severe liver or kidney disease. Thiamine deficiency (must be corrected first). Pregnancy or breastfeeding. Uncontrolled diabetes or hypoglycaemia.',
-            precautions: 'Use with caution in diabetics — may lower blood sugar. Avoid co-administration with metal-containing infusions (e.g., iron, magnesium, copper). Use light protection (ALA degrades with light exposure).',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Flush line. Observe 10-15 min. Advise avoiding alcohol or intense exercise (enhances oxidative stress). Drink 500–1000 mL water over the next few hours. Rest if feeling lightheaded.'
+            precautions: 'Use with caution in diabetics — may lower blood sugar.\nAvoid co-administration with metal-containing infusions (e.g., iron, magnesium, copper).\nUse light protection (ALA degrades with light exposure).',
+            situationCaution: 'First-time patients: start at half dose (1.5 mL = 37.5 mg ALA) to assess tolerance.\nNeuropathy or diabetic patients: monitor for numbness/tingling post-infusion.\nConcurrent high-antioxidant drips: ensure at least 1-hour spacing between ALA and other chelators.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line. Observe 10-15 min.\nAdvise avoiding alcohol or intense exercise (enhances oxidative stress).\nDrink 500–1000 mL water over the next few hours.\nRest if feeling lightheaded.'
         }
     },
     'Menopause Relief': {
@@ -729,18 +813,20 @@ const allDrips = {
         icon: '🌡️',
         protocol: {
             ingredients: [
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add First' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'Add First' },
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Add after Magnesium Settles' },
                 { name: 'B12', dose: '2 mL', timing: 'Immediately after B Complex' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Mid way through infusion' },
-                { name: 'Biotin (5 mg)', dose: '2 mL (10 mg)', timing: 'Add mid way post Vitamin C / Ascorbic Acid' },
-                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'Administer last as a slow push' }
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Mid way through infusion' },
+                { name: 'Biotin (5 mg)', dose: '2 mL', timing: 'Add mid way post Vitamin C / Ascorbic Acid' },
+                { name: 'Glutathione: 200mg/mL', dose: '5 mL', timing: 'Administer last as a slow push' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, B Complex, B12, Ascorbic Acid, Biotin. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nVitamin B Complex - 2 mL\nB12 - 2 mL\nAscorbic Acid - 4 mL\nBiotin - 2 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Hypersensitivity to any ingredients. Severe renal or hepatic impairment. Uncontrolled hypertension. Heart block or bradycardia (due to magnesium). Pregnancy or breastfeeding. G6PD deficiency (caution with high-dose vitamin C).',
-            precautions: 'Avoid concurrent IV calcium or phosphate solutions. Magnesium may potentiate sedation if patient on CNS depressants. Vitamin B complex may cause temporary urine discoloration (yellow/orange). Always use fresh mixed solution.',
-            safety: 'Immediately stop infusion if: Patient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. BP drop >20 mmHg systolic. Patient becomes unresponsive or dizzy beyond mild effects.',
-            postCare: 'Flush line. Observe 15 min. Record final infusion time, vitals, and tolerance. Advise patient to avoid alcohol or intense exercise for 12 hours.'
+            precautions: 'Avoid concurrent IV calcium or phosphate solutions.\nMagnesium may potentiate sedation if patient on CNS depressants.\nVitamin B complex may cause temporary urine discoloration (yellow/orange).\nAlways use fresh mixed solution – discard unused portion after session.',
+            situationCaution: 'If patient reports severe hot flashes or dizziness, pause infusion and reassess.\nAvoid glutathione push if patient reports chest tightness or breathing discomfort.\nDo not exceed 1 g magnesium unless prescribed and monitored by a doctor.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nImmediately stop infusion if:\nPatient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension.\nIV site shows redness, swelling, or extravasation.\nBP drop >20 mmHg systolic\nPatient becomes unresponsive or dizzy beyond mild effects.',
+            postCare: 'Flush line with 10 mL saline.\nRemove cannula and apply pressure dressing.\nRecheck vitals and document tolerance.\nAdvise patient to avoid alcohol or intense exercise for 12 hours.'
         }
     },
     'Weight Loss': {
@@ -752,11 +838,13 @@ const allDrips = {
             ingredients: [
                 { name: 'MIC (Methionine 25mg, 0.3g Methlcobalamine; 50mg Inositol, 50mg Choline)', dose: '4 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: MIC 4 mL. Mix gently by inverting the bag slowly (do not shake).',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd MIC - 4 mL\nMix gently by inverting the bag slowly (do not shake).",
             contraindications: 'Severe liver or kidney disease. Pregnancy or breastfeeding (unless medically cleared). Active infection or fever. Known hypersensitivity to any MIC component. Uncontrolled hypertension or cardiac arrhythmia.',
-            precautions: 'Use caution in clients with electrolyte imbalances or hypotension. Start infusion slowly and titrate rate only after tolerance confirmed. Avoid concurrent use of hepatotoxic medications.',
-            safety: 'Emergency Stop Criteria: Sudden onset of chest tightness, flushing, or palpitations. Drop in BP >20 mmHg or HR change >30 bpm from baseline. Respiratory distress or audible wheezing. Local swelling, burning, or infiltration at IV site.',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise consumption of balanced meal. Record infusion as per program (typically weekly or biweekly).'
+            precautions: 'Use caution in clients with electrolyte imbalances or hypotension.\nStart infusion slowly and titrate rate only after tolerance confirmed.\nAvoid concurrent use of hepatotoxic medications without medical review.\nEnsure proper post-infusion hydration to support hepatic metabolism.',
+            situationCaution: 'Clients on weight loss medication or thyroid therapy — verify compatibility.\nAvoid combining with high-dose niacin or other lipotropic formulations in same session.\nFor clients with history of vasovagal episodes, keep reclined and monitor BP closely.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nPrepare emergency meds (adrenaline 1:1000, hydrocortisone, or antihistamine as per standing order).\nDocument and file incident report.\nEmergency Stop Criteria:\nSudden onset of chest tightness, flushing, or palpitations.\nDrop in BP >20 mmHg or HR change >30 bpm from baseline.\nRespiratory distress or audible wheezing.\nLocal swelling, burning, or infiltration at IV site.\nAny sign of anaphylaxis — stop immediately and initiate emergency protocol.',
+            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Maintain hydration.\nAdvise consumption of balanced meal.\nRecord infusion as per program (typically weekly or biweekly).'
         }
     },
     'Weight Loss Premium': {
@@ -767,13 +855,15 @@ const allDrips = {
         protocol: {
             ingredients: [
                 { name: 'MIC (Methionine 25mg, 0.3g Methlcobalamine; 50mg Inositol, 50mg Choline)', dose: '4 mL', timing: 'Add first' },
-                { name: 'G.A.C. ( Glutamine 25mg/ml; Arginine 100mg/ml; Carnitine 200mg/ml)', dose: '6 mL', timing: 'Add next post blending MIC GRADUALLY' }
+                { name: 'G.A.C. (Glutamine (L)25mg/mL; Arginine (L) 100mg/mL; Carnitine (L) 200mg/mL)', dose: '6 mL', timing: 'Add next post blending MIC GRADUALLY' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): MIC 4 mL, GAC 6 mL (gradually). Final flush. Mix gently by inverting the bag slowly (do not shake).',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd MIC - 4 mL\nThen add GAC - 6 mL\nFinal flush.\nMix gently by inverting the bag slowly (do not shake).\nThis sequencing ensures:\nSmooth vasodilation and muscle endurance.\nOptimal fat metabolism support.",
             contraindications: 'Known hypersensitivity to amino acids or cobalamin derivatives. Pregnancy or breastfeeding unless cleared by doctor. Renal or hepatic impairment. Uncontrolled hypertension or cardiovascular instability. Hyperthyroidism. Epilepsy or seizure history.',
-            precautions: 'Use caution in patients on thyroid meds, anti-diabetics, or blood thinners. Avoid concurrent high-caffeine intake pre- or post-infusion. Avoid if patient has received another amino acid infusion within 48 hours.',
-            safety: 'Emergency Stop Criteria: Chest pain or shortness of breath occurs. BP drops >20 mmHg from baseline. Facial swelling or rash appears. IV site swelling or burning sensation develops.',
-            postCare: 'Observe for 15 min. Maintain hydration. Advise rest for 10–15 minutes before standing. Document full details in patient chart.'
+            precautions: 'Use caution in patients on thyroid meds, anti-diabetics, or blood thinners.\nAvoid concurrent high-caffeine intake pre- or post-infusion.\nAvoid if patient has received another amino acid infusion within 48 hours.',
+            situationCaution: 'If patient complains of palpitations, heat, or nausea, slow the drip immediately.\nFor mild discomfort: pause 2–5 minutes, reassess vitals, resume slower.\nIf infiltration suspected: stop infusion, remove catheter, apply cold compress.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nPrepare emergency meds (adrenaline 1:1000, hydrocortisone, or antihistamine as per standing order).\nDocument and file incident report.\nEmergency Stop Criteria:\nStop immediately if:\nChest pain or shortness of breath occurs\nBP drops >20 mmHg from baseline\nFacial swelling or rash appears\nIV site swelling or burning sensation develops',
+            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Maintain hydration.\nAdvise rest for 10–15 minutes before standing.\nDocument full details in patient chart (lot numbers, total volume, tolerance)'
         }
     },
     'Fertility': {
@@ -783,13 +873,15 @@ const allDrips = {
         icon: '👶',
         protocol: {
             ingredients: [
-                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Main Drip' }
+                { name: 'Glutathione: 200mg/mL', dose: '4 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Glutathione 4 mL. Mix gently by inverting the bag several times. Inject slowly into the saline bag’s additive port.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Glutathione: 200mg/mL - 4 mL (800 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nMix gently by inverting the bag several times. Do not introduce air into the bag.",
             contraindications: 'Pregnancy or breastfeeding (unless prescribed by fertility specialist). G6PD deficiency. Active cancer. Severe renal or hepatic dysfunction. Hypersensitivity to any component.',
-            precautions: 'Use sterile technique at all times. Monitor renal patients closely (avoid fluid overload). Avoid concurrent antioxidant megadosing orally on same day.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Flush line. Observe 15 min. Advise rest and balanced meal after infusion. Recommend series of 4–6 weekly infusions for optimal fertility support.'
+            precautions: 'Use sterile technique at all times.\nMonitor renal patients closely (avoid fluid overload).\nAvoid concurrent antioxidant megadosing orally on same day.',
+            situationCaution: 'Avoid concurrent antioxidant megadosing (e.g., oral NAC, high-dose Vitamin C) on same day unless directed by physician.\nNot recommended within 48 hours of egg retrieval or embryo transfer (may alter oxidative balance).',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Advise rest and balanced meal after infusion.\nRecommend series of 4–6 weekly infusions for optimal fertility support.'
         }
     },
     'Detox': {
@@ -799,13 +891,15 @@ const allDrips = {
         icon: '🧹',
         protocol: {
             ingredients: [
-                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Main Drip' }
+                { name: 'Glutathione 200mg/mL', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutathione 2 mL. Swab injection port, invert gently to mix; do not shake.',
-            contraindications: 'Glutathione hypersensitivity. G6PD deficiency. Severe asthma. Uncontrolled hypertension. Pregnancy or breastfeeding (consult doctor). Renal or hepatic impairment.',
-            precautions: 'Do not combine in same bag with high-dose Vitamin C (>10 g). Avoid mixing other injectables unless authorised. Store Glutathione vials protected from light, use immediately after opening.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Observe for 15 min. Flush line. Advise hydration and light meal. Report any persistent fatigue/dizziness.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag.\nAdditive: Glutathione 200 mg/mL – 2 mL (total 400 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 2 mL Glutathione into the IV bag.\nInvert gently several times to mix; do not shake.\nLabel bag clearly: “Detox IV – Glutathione 400 mg / 200 mL NS”, date, time, initials.",
+            contraindications: 'Absolute:\nGlutathione hypersensitivity\nG6PD deficiency\nSevere asthma\nUncontrolled hypertension\nRelative:\nPregnancy or breastfeeding (consult doctor)\nRenal or hepatic impairment\nActive infection or fever\nDehydration or electrolyte imbalance',
+            precautions: 'Do not combine in same bag with high-dose Vitamin C (>10 g).\nAvoid mixing other injectables unless authorised by supervising doctor.\nStore Glutathione vials protected from light, use immediately after opening.\nUse large vein access to prevent irritation.\nDispose of sharps safely after use.',
+            situationCaution: 'First-time client: Begin with 200 mL bag, observe tolerance.\nReported fatigue or low BP: Pre-hydrate with 250 mL saline before infusion.\nConcurrent liver medication: Confirm with prescribing doctor to prevent hepatic load.\nMultiple antioxidant therapies: Space 48 hours apart for optimal metabolism.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Flush line.\nAdvise hydration and light meal.\nReport any persistent fatigue/dizziness.'
         }
     },
     'Detox Premium': {
@@ -815,13 +909,15 @@ const allDrips = {
         icon: '🧹🧹',
         protocol: {
             ingredients: [
-                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Main Drip' }
+                { name: 'Glutathione 200mg/mL', dose: '4 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutathione 4 mL. Swab injection port, invert gently to mix; do not shake.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL.\nAdditive: Glutathione 200 mg/mL – 4 mL (total 800 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag.\nInvert gently several times to mix; do not shake.\nLabel bag clearly: “Detox IV – Glutathione 800 mg / 200 mL NS or 1000 mL NS”, date, time, initials.",
             contraindications: 'Known hypersensitivity to any ingredient. Active cancer or ongoing chemotherapy. G6PD deficiency. Severe renal or hepatic dysfunction. Pregnancy or breastfeeding.',
-            precautions: 'Avoid rapid glutathione administration (risk of hypotension). Use caution in patients with asthma or multiple allergies. Confirm no concurrent IV iron or oxidant therapies.',
-            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Observe for 15 min. Flush line. Advise hydration and light meal. Provide post-care note: skin clarity, mild odor in urine, or light fatigue may occur as detox pathways activate.'
+            precautions: 'Avoid rapid glutathione administration (risk of hypotension).\nUse caution in patients with asthma or multiple allergies.\nConfirm no concurrent IV iron or oxidant therapies.',
+            situationCaution: 'If patient reports metallic taste, dizziness, or chest tightness, slow infusion and reassess.\nIf IV site pain or redness develops, stop and re-site the cannula.',
+            safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Flush line.\nAdvise hydration and light meal.\nProvide post-care note: skin clarity, mild odor in urine, or light fatigue may occur as detox pathways activate.'
         }
     },
     'Sport Restore': {
@@ -831,16 +927,18 @@ const allDrips = {
         icon: '🏅',
         protocol: {
             ingredients: [
-                { name: 'Vitamin B12, Cobalmin 25mg/ml', dose: '2 mL (50 mg)', timing: 'Main Drip' },
+                { name: 'Vitamin B12, Cobalmin 25mg/mL', dose: '2 mL', timing: 'Main Drip' },
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Main Drip' },
-                { name: 'Magesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Mid Point of Main Drip' },
-                { name: 'Glutathione 200mg/ml', dose: '3 mL (600 mg)', timing: 'After Main Drip completion' }
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'Mid Point of Main Drip' },
+                { name: 'Glutathione: 200mg/mL', dose: '3 mL', timing: 'After Main Drip completion' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Magnesium Sulphate. Mix gently by inverting. Glutathione is administered separately after main drip completion.',
-            contraindications: 'Severe renal impairment (eGFR < 30 ml/min). Known hypersensitivity to any ingredients. Uncontrolled hypertension or heart failure. Pregnancy (unless cleared by doctor). Active infection or sepsis.',
-            precautions: 'Use caution in patients with: Mild renal dysfunction. Electrolyte imbalance. G6PD deficiency (when glutathione is used). Always verify with supervising doctor before use in chronic illness.',
-            safety: 'Any sign of anaphylaxis, syncope, hypotension, chest discomfort, or acute respiratory distress. Stop infusion, maintain IV access with NS KVO, initiate emergency protocol.',
-            postCare: 'Flush line with 5–10 ml NS. Remove cannula. Reassess vitals. Encourage oral hydration. Advise avoid strenuous activity for 1 hour post-infusion.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Use aseptic technique in a clean area.\nDraw up each additive individually using sterile syringes and needles.\nAdd the following to the saline bag in order:\nVitamin B Complex – 2 mL\nVitamin B12 – 2 mL\nMagnesium Sulphate – 2 mL\nGlutathione – add last (if pushed at the end)\nGently invert the bag 3–5 times (do not shake).\nLabel the bag clearly: “Sports Restore IV”, date, time, initials.",
+            contraindications: 'Severe renal impairment (eGFR < 30 mL/min). Known hypersensitivity to any ingredients. Uncontrolled hypertension or heart failure. Pregnancy (unless cleared by supervising doctor). Acute infection or sepsis.',
+            precautions: 'Use caution in patients with:\nMild renal dysfunction.\nElectrolyte imbalance.\nG6PD deficiency (when glutathione is used).\nAlways verify with supervising doctor before use in chronic illness.\nAvoid concurrent oral magnesium or potassium supplements pre-infusion.\nDelay infusion if patient has had alcohol or caffeine within 2 hours.\nRefrain from administering after intense heat exposure or sauna use.',
+            situationCaution: 'Avoid concurrent oral magnesium or potassium supplements pre-infusion.\nDelay infusion if patient has had alcohol or caffeine within 2 hours.\nRefrain from administering after intense heat exposure or sauna use.',
+            safety: 'Emergency cart and AED must be within immediate reach.\nFor anaphylaxis:\nStop infusion immediately.\nAdminister Adrenaline 0.3–0.5 mL IM (1:1000).\nCall emergency services.\nAdminister Hydrocortisone 100 mg IV and Oxygen 6–8 L/min.\nDocument incident and file incident report form.\nEmergency Stop Criteria:\nAny sign of anaphylaxis, syncope, hypotension, chest discomfort, or acute respiratory distress.\nStop infusion, maintain IV access with normal saline KVO (keep vein open).\nInitiate emergency management and report incident per protocol.',
+            postCare: 'Flush line with 5–10 mL normal saline.\nRemove cannula aseptically and apply gentle pressure.\nReassess vitals and document stability.\nEncourage oral hydration (250–500 mL water).\nAdvise avoid strenuous activity for 1 hour post-infusion.'
         }
     },
     'Sports Edge': {
@@ -850,16 +948,18 @@ const allDrips = {
         icon: '🏅🏅',
         protocol: {
             ingredients: [
-                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'First Additive' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'After Magnesium' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '1 mL', timing: 'First Additive' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'After Magnesium' },
                 { name: 'G.A.C (Glutamine, Arginine, Carnitine )', dose: '4 mL', timing: 'After Ascorbic Acid' },
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Last Additive' }
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'Last Additive' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Ascorbic Acid, G.A.C, B12. Mix gently by inverting. Magnesium must be added slowly and mixed well.',
-            contraindications: 'Renal failure or severe kidney impairment. Uncontrolled hypertension. Known hypersensitivity to any component. Hypermagnesemia. Hemochromatosis (avoid repeated high-dose vitamin C). Active infection or fever.',
-            precautions: 'Adjust infusion rate for elderly or low BMI patients. Monitor patients on cardiac medications or diuretics. Use caution in G6PD deficiency (vitamin C sensitivity). Always use freshly mixed solution.',
-            safety: 'Stop infusion immediately if: Patient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. Patient becomes unresponsive or dizzy beyond mild effects.',
-            postCare: 'Flush line. Observe 15 min. Maintain hydration. Advise avoiding strenuous exercise for 30–60 minutes post-infusion. Educate on expected outcomes.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nAscorbic Acid 500mg/mL - 4 mL\nG.A.C (Glutamine, Arginine, Carnitine) - 4 mL\nB12 Methylcobalamin - 2 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake). Magnesium must be added slowly and mixed well.",
+            contraindications: 'Renal failure or severe kidney impairment. Uncontrolled hypertension. Known hypersensitivity to any component. Hypermagnesemia. Hemochromatosis (avoid repeated high-dose vitamin C). Active infection or fever. Pregnancy (unless prescribed by a doctor).',
+            precautions: 'Adjust infusion rate for elderly or low BMI patients.\nMonitor patients on cardiac medications or diuretics.\nUse caution in G6PD deficiency (vitamin C sensitivity).\nAlways use freshly mixed solution—do not store overnight.',
+            situationCaution: 'Muscle cramps or hypotension: slow infusion, elevate legs, hydrate orally.\nTingling or flushing: reassure; normal with magnesium or vitamin C.\nChest discomfort or lightheadedness: pause infusion, check vitals, escalate if persistent.',
+            safety: 'Keep crash cart, oxygen, and AED accessible.\nEmergency meds:\nAdrenaline 1:1000 (0.3–0.5 mL IM)\nHydrocortisone 100 mg IV\nAntihistamine (Chlorpheniramine or Promethazine) IV/IM\nCall emergency services if no response to first-line treatment.\nDocument all reactions and interventions.\nEmergency Stop Criteria:\nImmediately stop infusion if:\nPatient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension.\nIV site shows redness, swelling, or extravasation.\nPatient becomes unresponsive or dizzy beyond mild effects.',
+            postCare: 'Flush line with 5–10 mL NS.\nRemove cannula. Observe 15 min. Maintain hydration.\nAdvise avoiding strenuous exercise for 30–60 minutes post-infusion.\nEducate on expected outcomes: improved energy, muscle recovery, and reduced fatigue within 24 hours.'
         }
     },
     'Aqua Hydrate': {
@@ -871,11 +971,13 @@ const allDrips = {
             ingredients: [
                 { name: 'Sodium Chloride Ringer Lactate', dose: '1000 mL', timing: 'main' }
             ],
-            mixing: 'Base Solution: 1000ml Ringer Lactate. Consideration for change in mix will be to follow protocol on add ons and adhering to compatibility chart.',
-            contraindications: 'Acute heart failure or pulmonary oedema. Severe renal impairment (eGFR <30 ml/min). Hypermagnesaemia or hyperkalaemia. Severe dehydration with hyponatraemia (use NS instead). Known hypersensitivity to additives.',
-            precautions: 'Use caution in hypertensive or cardiac patients (due to sodium and fluid load). Do not exceed 100 ml/hr in elderly or low-weight patients. Avoid mixing with calcium-incompatible agents.',
-            safety: 'Emergency Stop Criteria: Hypotension >20% drop from baseline. Chest tightness or dyspnoea. IV site swelling, burning, or discoloration. Rash, itching, or any anaphylactic signs. Stop infusion, maintain airway, initiate emergency protocol.',
-            postCare: 'Remove cannula. Reassess vitals. Advise: Drink plenty of water for the rest of the day. Avoid alcohol or caffeine for 12 hours. Mild flushing or metallic taste may occur temporarily.'
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: 'Ringer’s Lactate - 1000 mL.\nConsideration for change in mix will be to follow protocol on add-ons and adhering to compatibility chart.',
+            contraindications: 'Acute heart failure or pulmonary oedema. Severe renal impairment (eGFR <30 mL/min). Hypermagnesaemia or hyperkalaemia. Severe dehydration with hyponatraemia (use NS instead). Known hypersensitivity to additives.',
+            precautions: 'Use caution in hypertensive or cardiac patients (due to sodium and fluid load).\nDo not exceed 100 mL/hr in elderly or low-weight patients.\nAvoid mixing with calcium-incompatible agents.\nAlways add vitamins after checking expiry and clarity.',
+            situationCaution: 'Post-exercise or hangover clients: Ensure no electrolyte imbalance contraindications.\nDiabetics: Vitamin C may transiently affect glucose readings.\nPregnancy: Only under physician approval.',
+            safety: 'Keep crash cart, oxygen, and AED accessible.\nIn case of reaction:\nStop infusion immediately.\nMaintain IV access with normal saline at slow rate.\nAdminister emergency meds per standing orders (Adrenaline, Antihistamine, Hydrocortisone).\nDocument event and notify supervising physician.\nEmergency Stop Criteria:\nHypotension >20% drop from baseline\nChest tightness or dyspnoea\nIV site swelling, burning, or discoloration\nRash, itching, or any anaphylactic signs\n→ Stop infusion, maintain airway, initiate emergency protocol.',
+            postCare: 'Remove cannula and apply pressure dressing.\nReassess vitals; ensure patient is stable.\nAdvise:\nDrink plenty of water for the rest of the day.\nAvoid alcohol or caffeine for 12 hours.\nMild flushing or metallic taste may occur temporarily.'
         }
     },
     'B12': {
@@ -885,13 +987,15 @@ const allDrips = {
         icon: '🔥',
         protocol: {
             ingredients: [
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Main Drip' }
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'Main Drip' }
             ],
-            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: B12 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/1000 mL bag or 100 mL for add-on.\nAdditive: B12 - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
             contraindications: 'Hypersensitivity to cobalamin or cobalt. Leber’s hereditary optic neuropathy. Polycythemia vera (uncontrolled). Severe hypokalaemia without correction.',
-            precautions: 'Use caution in clients with heart failure or renal impairment (fluid overload risk). Avoid mixing with Vitamin C in the same line (chemical incompatibility). Repeated high-dose infusions may cause acneiform eruptions.',
-            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
-            postCare: 'Flush line with 10 mL NS. Remove cannula. Advise client to maintain hydration and report delayed reactions.'
+            precautions: 'Use caution in clients with heart failure or renal impairment (fluid overload risk).\nAvoid mixing with Vitamin C in the same line (chemical incompatibility).\nRepeated high-dose infusions may cause acneiform eruptions.',
+            situationCaution: 'Pause infusion if client reports dizziness, palpitations, or tingling.\nEnsure doctor review if persistent deficiency symptoms remain after multiple infusions.',
+            safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line with 10 mL Normal Saline.\nRemove cannula aseptically and apply dressing.\nAdvise client to maintain hydration and report delayed reactions.\nRecord completion time, total volume infused, and client response.'
         }
     },
     'Hangover & Jet Lag': {
@@ -902,17 +1006,19 @@ const allDrips = {
         protocol: {
             ingredients: [
                 { name: 'Vitamin B Complex', dose: '2 mL', timing: 'First in the bag' },
-                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'After B Complex' },
-                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'After B12, mix well' },
-                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'After Magnesium' },
-                { name: 'Taurine 50mg/ml', dose: '2 mL (100 mg)', timing: 'Last in Main bag' },
-                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Slow push after main drip Completes' }
+                { name: 'B12 Methylcobalamin 1000 µg/mL (1 mg/mL)', dose: '2 mL', timing: 'After B Complex' },
+                { name: 'Magnesium Sulphate 50% - 0.5g/mL', dose: '2 mL', timing: 'After B12, mix well' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'After Magnesium' },
+                { name: 'Taurine 50mg/mL', dose: '2 mL', timing: 'Last in Main bag before infusion Starts' },
+                { name: 'Glutathione: 200mg/mL', dose: '2 mL', timing: 'Slow push after main drip Completes' }
             ],
-            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Magnesium Sulphate, Ascorbic Acid, Taurine. Mix gently. Glutathione is administered separately as a slow push.',
+            preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
+            mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nVitamin B Complex (2 mL)\nB12 Methylcobalamin (2 mL)\nMagnesium Sulphate (2 mL)\nAscorbic Acid (4 mL)\nTaurine (2 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             contraindications: 'Severe renal impairment. Heart failure or fluid overload. Known hypersensitivity to any components. Pregnancy or lactation without medical approval. G6PD deficiency (due to ascorbic acid and glutathione).',
-            precautions: 'Avoid in uncontrolled hypertension. Use caution in clients with electrolyte imbalance. Always confirm B12 type (methylcobalamin preferred). Ensure glutathione is protected from light prior to use.',
-            safety: 'Stop infusion immediately if: BP <90/60 mmHg or >160/100 mmHg. HR >120 bpm or <50 bpm. Shortness of breath or throat constriction. Signs of allergic reaction (rash, swelling, wheeze). Any new onset confusion or chest pain.',
-            postCare: 'Remove cannula. Advise rest for 10–15 minutes. Encourage avoidance of alcohol and caffeine for 24 hours.'
+            precautions: 'Avoid in uncontrolled hypertension (monitor due to magnesium).\nUse caution in clients with electrolyte imbalance.\nAlways confirm B12 type (methylcobalamin preferred for neurological recovery).\nEnsure glutathione is protected from light prior to use.',
+            situationCaution: 'If client reports chest tightness or headache → slow the drip rate.\nIf vein irritation occurs → dilute further or switch line.\nIf nausea develops → pause infusion briefly and provide deep breathing support.',
+            safety: 'Keep crash cart (oxygen, adrenaline, antihistamines, corticosteroids) and AED nearby.\nIn event of:\nAnaphylaxis: stop infusion immediately, call for medical assistance, administer adrenaline 0.5 mg IM (1:1000).\nVasovagal episode: recline patient, elevate legs, maintain airway, monitor vitals.\nEmergency Stop Criteria:\nBP <90/60 mmHg or >160/100 mmHg\nHR >120 bpm or <50 bpm\nShortness of breath or throat constriction\nSigns of allergic reaction (rash, swelling, wheeze)\nAny new onset confusion or chest pain',
+            postCare: 'Remove cannula and apply gentle pressure with sterile gauze.\nOffer hydration (water or electrolyte drink).\nAdvise rest for 10–15 minutes before standing.\nEncourage avoidance of alcohol and caffeine for 24 hours.'
         }
     }
 };
@@ -1018,10 +1124,10 @@ window.filterDripsList = function(query) {
 window.renderAllDrips = function() {
     let sortableDripNames = Object.keys(allDrips).filter(name => allDrips[name] && allDrips[name].protocol);
 
-    const grid = document.getElementById('all-drips-grid');
-    
     // Default to Alphabetical Sort
     sortableDripNames.sort((a, b) => a.localeCompare(b));
+    
+    const grid = document.getElementById('all-drips-grid');
     
     // Set the main container class for either grid or list view
     if (currentDisplayMode === 'list') {
@@ -1068,7 +1174,30 @@ window.showDripDetails = function(dripName) {
 
   document.getElementById('detail-name').textContent = drip.name;
   
-  // 1. INGREDIENTS TABLE
+  // 1. PRE INFUSION SAFETY CHECK
+  // Clear and update content containers
+  const safetyCheckContentEl = document.getElementById('detail-safety-check-content');
+  const ingredientsTableEl = document.getElementById('detail-ingredients-table');
+  const mixingContentEl = document.getElementById('detail-mixing-content');
+  const contraindicationsContentEl = document.getElementById('detail-contraindications-content');
+  const precautionsContentEl = document.getElementById('detail-precautions-content');
+  const situationCautionContentEl = document.getElementById('detail-situation-caution-content');
+  const emergenciesContentEl = document.getElementById('detail-emergencies-content');
+  const postCareContentEl = document.getElementById('detail-postcare-content');
+  
+  // 1. PRE INFUSION SAFETY CHECK
+  const safetyCheckContent = protocol.preInfusionCheck
+      .split('\n')
+      .filter(line => line.trim() !== '')
+      .map(line => `<li>${line.replace(/^-|_/g, '').trim()}</li>`).join('');
+
+  safetyCheckContentEl.innerHTML = `
+      <ul class="protocol-list" style="list-style: disc inside;">
+          ${safetyCheckContent}
+      </ul>
+  `;
+
+  // 2. INGREDIENTS TABLE
   const ingredientsTable = `
     <table class="protocol-table">
         <thead>
@@ -1085,41 +1214,94 @@ window.showDripDetails = function(dripName) {
         </tbody>
     </table>
   `;
-  document.getElementById('detail-ingredients-table').innerHTML = ingredientsTable;
+  ingredientsTableEl.innerHTML = ingredientsTable;
 
-  // 2. MIXING
-  document.getElementById('detail-mixing').innerHTML = `<p style="margin: 0; line-height: 1.3;">${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
+  // 3. MIXING
+  // Combine Mixing and Preparation Steps logic into one detailed content block
+  let mixingInstructions = `<p style="margin: 0; line-height: 1.3;">${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
+  
+  if (protocol.preparationSteps) {
+      // Assuming Preparation Steps is an array of steps separated by \n or similar in the data.
+      const steps = protocol.preparationSteps.split('\n').filter(s => s.trim().length > 0);
+      if (steps.length > 0) {
+          mixingInstructions += `<h4 style="margin-top: 10px; font-weight: 600; font-size: 0.9em;">Detailed Preparation Steps:</h4>`;
+          mixingInstructions += `<ul class="protocol-list" style="list-style: decimal inside; margin-left: 10px;">`;
+          steps.forEach(step => {
+              mixingInstructions += `<li>${step.trim().replace(/^Prime the IV line with the prepared /i, '').replace(/ solution\.?$/, '').trim()}</li>`;
+          });
+          mixingInstructions += `</ul>`;
+      }
+  }
 
-  // 3. SAFETY & POST-CARE
+  mixingContentEl.innerHTML = mixingInstructions;
+
+  // 4. SAFETY & POST-CARE SECTIONS
   
   // Contraindications (split by . )
-  document.getElementById('detail-contraindications-content').innerHTML = `
-    <ul class="protocol-list">
+  contraindicationsContentEl.innerHTML = `
+    <ul class="protocol-list" style="list-style: disc inside;">
         ${protocol.contraindications.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
     </ul>
   `;
 
   // Precautions (split by . )
-  document.getElementById('detail-precautions-content').innerHTML = `
-    <ul class="protocol-list">
+  precautionsContentEl.innerHTML = `
+    <ul class="protocol-list" style="list-style: disc inside;">
         ${protocol.precautions.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
     </ul>
   `;
 
-  // Emergency Stop (split by . )
-  document.getElementById('detail-emergencies-content').innerHTML = `
-    <p style="margin: 0; line-height: 1.3;"><strong>General Safety Protocol:</strong> Keep crash cart, AED, and emergency meds accessible. Stop infusion immediately for adverse reactions.</p>
+  // Situation Caution (split by \n and then by .)
+  const situationCautionItems = protocol.situationCaution
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0)
+      .flatMap(line => line.split('. '))
+      .map(item => item.trim())
+      .filter(item => item.length > 0)
+      .map(item => item.replace(/\.$/, ''));
+
+  situationCautionContentEl.innerHTML = `
+    <ul class="protocol-list" style="list-style: disc inside;">
+        ${situationCautionItems.map(item => `<li>${item}</li>`).join('')}
+    </ul>
+  `;
+
+  // Emergency Stop (Safety & Emergency Protocol)
+  const fullSafetyText = protocol.safety;
+  let emergencyStopCriteria = [];
+  let generalSafety = '';
+
+  const safetyLines = fullSafetyText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+  
+  let foundCriteria = false;
+  safetyLines.forEach(line => {
+      if (line.toLowerCase().includes('emergency stop criteria')) {
+          foundCriteria = true;
+          return;
+      }
+      if (foundCriteria) {
+          emergencyStopCriteria.push(line);
+      } else {
+          generalSafety += line + ' ';
+      }
+  });
+
+  const safetyItems = emergencyStopCriteria.flatMap(line => line.split('. ')).map(item => item.trim()).filter(item => item.length > 0).map(item => item.replace(/\.$/, ''));
+
+  emergenciesContentEl.innerHTML = `
+    <p style="margin: 0; line-height: 1.3;"><strong>General Safety Protocol:</strong> ${generalSafety.trim()}</p>
     <div class="note-box">
         <strong>EMERGENCY STOP CRITERIA:</strong>
         <ul class="protocol-list" style="list-style: disc inside; margin-left: 0; margin-top: 5px; margin-bottom: 5px;">
-            ${protocol.safety.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
+            ${safetyItems.map(item => `<li>${item}</li>`).join('')}
         </ul>
     </div>
   `;
 
   // Post Infusion Care (split by . )
-  document.getElementById('detail-postcare-content').innerHTML = `
-    <ul class="protocol-list">
+  postCareContentEl.innerHTML = `
+    <ul class="protocol-list" style="list-style: disc inside;">
         ${protocol.postCare.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
     </ul>
   `;
@@ -1128,7 +1310,6 @@ window.showDripDetails = function(dripName) {
   // RENDER ADDONS (Simplified list of available add-ons)
   const addonGrid = document.getElementById('addon-ivs-grid');
   if (addonGrid) { // Safety check
-      // Filter for drips that can be used as an add-on (based on protocol ingredients/timing)
       const commonAddons = ['B12', 'Glutamine', 'Vitamin C', 'ALA Antioxidant', 'Trace Elements'];
 
       let htmlContent = `<p style="font-style: italic; color: #555; text-align: center; margin-bottom: 10px; font-size: 0.9em;">
@@ -1151,32 +1332,39 @@ window.showDripDetails = function(dripName) {
   
   navigateTo('details-view');
  
-  // Default open Contraindications
+  // Default open the first accordion group
   setTimeout(() => {
-    const contraindicationsContent = document.querySelector('#detail-contraindications');
-    const contraindicationsHeader = document.querySelector('#detail-contraindications').previousElementSibling;
+    // Open the first accordion in the first group (Pre Infusion Safety Check)
+    const firstGroupHeader = document.querySelector('#detail-safety-check');
+    const firstHeaderButton = firstGroupHeader ? firstGroupHeader.previousElementSibling : null;
 
-    if (contraindicationsContent && contraindicationsHeader) {
-        contraindicationsContent.classList.add('open');
-        contraindicationsHeader.classList.add('active');
+    if (firstGroupHeader && firstHeaderButton) {
+        firstGroupHeader.classList.add('open');
+        firstHeaderButton.classList.add('active');
     }
   }, 50);
 }
 
 window.closeTooltip = function() { document.getElementById('tooltip-overlay').classList.remove('open'); }
 
+// Updated toggleAccordion logic to handle grouped accordions
 window.toggleAccordion = function(contentId, headerBtn) {
     const content = document.getElementById(contentId);
     if (!content) return;
     const isOpen = content.classList.contains('open');
-    const container = headerBtn.closest('#drip-details-panel, .group-rose');
+    const container = headerBtn.closest('.protocol-group'); // Collapse siblings within the same group
+    
     if (container) {
-        // Only collapse siblings within the same safety group
+        // Find all accordion elements within this group
         const allHeaders = container.querySelectorAll(':scope > .accordion-header');
         const allContents = container.querySelectorAll(':scope > .accordion-content');
+        
+        // Collapse all siblings
         allHeaders.forEach(h => h.classList.remove('active'));
         allContents.forEach(c => c.classList.remove('open'));
     }
+    
+    // Toggle the clicked item
     if (!isOpen) {
         headerBtn.classList.add('active');
         content.classList.add('open');
