@@ -320,22 +320,33 @@
     }
     .protocol-table th { width: 35%; } /* Adjusted width for content */
     
-    /* Protocol Lists: HANGING INDENTATION FIX AND NUMBERING */
+    /* Protocol Lists: CLEAN NUMBERED LIST, NO HANGING INDENTATION */
     .protocol-list {
-        /* Converted from ul to ol in JS rendering, but keeping classes for styling */
+        list-style-type: none; /* Remove default numbering */
         padding: 0;
-        margin-left: 20px; 
-        line-height: 1.4; 
-        margin-top: 5px;
-        margin-bottom: 5px;
-        list-style-position: outside;
+        margin: 5px 0 5px 0;
+        counter-reset: custom-counter; /* Initialize counter */
+        line-height: 1.4;
     }
     .protocol-list li {
         margin-bottom: 2px;
         padding-left: 0; 
-        /* Hangs indentation under the text for wrapping lines */
-        text-indent: -1.5em; 
-        padding-left: 1.5em; 
+        /* Ensure the text itself starts at a consistent margin */
+        text-indent: 0; 
+        padding-left: 0; 
+        position: relative;
+    }
+    /* Add custom numbering */
+    .protocol-list li::before {
+        counter-increment: custom-counter;
+        content: counter(custom-counter) ". ";
+        font-weight: 700;
+        color: #004d26;
+        display: inline-block;
+        /* Custom indentation for the number */
+        width: 1.5em; 
+        margin-left: -1.5em;
+        text-align: right;
     }
 
     .note-box {
@@ -1398,6 +1409,36 @@ window.renderAllDrips = function() {
     }).join('');
 }
 
+// Function to safely extract and clean content for numbered lists
+function getNumberedListHTML(text) {
+    if (!text) return '<ol class="protocol-list"><li>No information provided in the protocol sheet.</li></ol>';
+    
+    // 1. Replace common multi-line/break indicators with a single newline for reliable splitting
+    let cleanedText = text.replace(/(\r\n|\r|\n)/g, '\n').trim();
+    
+    // 2. Further cleanup: Replace common separators used in the source data
+    cleanedText = cleanedText
+        .replace(/(\. )(\n)/g, '. ') // Remove line break after a period (often used for short sentences)
+        .replace(/\n\s*(\*|-|_|→)/g, '\n') // Remove list markers if present at line start
+        .replace(/(\n)\s*(\w)/g, '$1$2'); // Clean up extra leading spaces on new lines
+
+    // 3. Split the text using common sentence/instruction termination patterns.
+    // Use an array of lines, then split again by period followed by space
+    const items = cleanedText.split('\n')
+        .flatMap(line => line.split(/(?<=[.?;])\s+(?=[A-Z0-9])/g)) // Split by period/question mark/semicolon + space, ensuring next char is caps/number
+        .map(item => item.trim())
+        .filter(item => item.length > 0)
+        .map(item => {
+            // Re-apply punctuation at the end if it was removed by trimming
+            if (item.length > 0 && !/[.?;]$/.test(item)) {
+                return item + '.';
+            }
+            return item;
+        });
+
+    return `<ol class="protocol-list">${items.map(item => `<li>${item}</li>`).join('')}</ol>`;
+}
+
 
 // RENDER PROTOCOL DETAILS VIEW
 window.showDripDetails = function(dripName) {
@@ -1420,17 +1461,8 @@ window.showDripDetails = function(dripName) {
   const emergenciesContentEl = document.getElementById('detail-emergencies-content');
   const postCareContentEl = document.getElementById('detail-postcare-content');
   
-  // 1. PRE INFUSION SAFETY CHECK (Numbered List)
-  const safetyCheckContent = protocol.preInfusionCheck
-      .split('\n')
-      .filter(line => line.trim() !== '')
-      .map(line => `<li>${line.replace(/^-|_/g, '').trim()}</li>`).join('');
-
-  safetyCheckContentEl.innerHTML = `
-      <ol class="protocol-list">
-          ${safetyCheckContent}
-      </ol>
-  `;
+  // 1. PRE INFUSION SAFETY CHECK (Using robust parser)
+  safetyCheckContentEl.innerHTML = getNumberedListHTML(protocol.preInfusionCheck);
 
   // 2. INGREDIENTS TABLE
   const ingredientsTable = `
@@ -1452,57 +1484,27 @@ window.showDripDetails = function(dripName) {
   ingredientsTableEl.innerHTML = ingredientsTable;
 
   // 3. MIXING (Numbered List for Preparation Steps)
-  // Combine Mixing and Preparation Steps logic into one detailed content block
   let mixingInstructions = `<p style="margin: 0; line-height: 1.3;"><strong>Mixing Instructions:</strong> ${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
   
   if (protocol.preparationSteps) {
-      // Assuming Preparation Steps is an array of steps separated by \n or similar in the data.
-      const steps = protocol.preparationSteps.split('\n').filter(s => s.trim().length > 0);
-      if (steps.length > 0) {
-          mixingInstructions += `<h4 style="margin-top: 10px; font-weight: 600; font-size: 0.9em;">Detailed Preparation Steps:</h4>`;
-          mixingInstructions += `<ol class="protocol-list" style="list-style-type: decimal; margin-left: 10px;">`;
-          steps.forEach(step => {
-              mixingInstructions += `<li>${step.trim().replace(/^Prime the IV line with the prepared /i, '').replace(/ solution\.?$/, '').trim()}</li>`;
-          });
-          mixingInstructions += `</ol>`;
-      }
+      mixingInstructions += `<h4 style="margin-top: 10px; font-weight: 600; font-size: 0.9em;">Detailed Preparation Steps:</h4>`;
+      mixingInstructions += getNumberedListHTML(protocol.preparationSteps);
   }
 
   mixingContentEl.innerHTML = mixingInstructions;
 
-  // 4. SAFETY & POST-CARE SECTIONS (Numbered Lists)
+  // 4. SAFETY & POST-CARE SECTIONS (Using robust parser)
   
-  // Contraindications (Numbered List)
-  contraindicationsContentEl.innerHTML = `
-    <ol class="protocol-list">
-        ${protocol.contraindications.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ol>
-  `;
+  // Contraindications
+  contraindicationsContentEl.innerHTML = getNumberedListHTML(protocol.contraindications);
 
-  // Precautions (Numbered List)
-  precautionsContentEl.innerHTML = `
-    <ol class="protocol-list">
-        ${protocol.precautions.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ol>
-  `;
+  // Precautions
+  precautionsContentEl.innerHTML = getNumberedListHTML(protocol.precautions);
 
-  // Situation Caution (Numbered List)
-  const situationCautionItems = protocol.situationCaution
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0)
-      .flatMap(line => line.split('. '))
-      .map(item => item.trim())
-      .filter(item => item.length > 0)
-      .map(item => item.replace(/\.$/, ''));
+  // Situation Caution
+  situationCautionContentEl.innerHTML = getNumberedListHTML(protocol.situationCaution);
 
-  situationCautionContentEl.innerHTML = `
-    <ol class="protocol-list">
-        ${situationCautionItems.map(item => `<li>${item}</li>`).join('')}
-    </ol>
-  `;
-
-  // Emergency Stop (Safety & Emergency Protocol - Numbered List)
+  // Emergency Stop (Safety & Emergency Protocol - Separated Content)
   const fullSafetyText = protocol.safety;
   let emergencyStopCriteria = [];
   let generalSafety = '';
@@ -1522,25 +1524,16 @@ window.showDripDetails = function(dripName) {
       }
   });
 
-  const safetyItems = emergencyStopCriteria.flatMap(line => line.split('. ')).map(item => item.trim()).filter(item => item.length > 0).map(item => item.replace(/\.$/, ''));
-
   emergenciesContentEl.innerHTML = `
     <p style="margin: 0; line-height: 1.3;"><strong>General Safety Protocol:</strong> ${generalSafety.trim()}</p>
     <div class="note-box">
         <strong>EMERGENCY STOP CRITERIA:</strong>
-        <ol class="protocol-list">
-            ${safetyItems.map(item => `<li>${item}</li>`).join('')}
-        </ol>
+        ${getNumberedListHTML(emergencyStopCriteria.join('. '))}
     </div>
   `;
 
-  // Post Infusion Care (Numbered List)
-  postCareContentEl.innerHTML = `
-    <ol class="protocol-list">
-        ${protocol.postCare.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ol>
-  `;
-
+  // Post Infusion Care
+  postCareContentEl.innerHTML = getNumberedListHTML(protocol.postCare);
 
   // RENDER ADDONS (Simplified list of available add-ons)
   const addonGrid = document.getElementById('addon-ivs-grid');
