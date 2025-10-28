@@ -5,9 +5,9 @@
 <meta name="theme-colour" content="#006400"/> <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta property="og:title" content="NuVana IV Drip Protocols"/>
-<meta property="og:description" content="IV Drip Protocols for authorized nurses only."/>
+<meta property="og:description" content="IV Drip Protocols for authorised nurses only."/>
 <meta property="og:type" content="website"/>
-<title>NuVana IV Drip Protocols</title>
+<title>NuVana Staff Portal</title>
 <style>
     /* Base */
     html, body {
@@ -58,12 +58,12 @@
         text-align: center;
         cursor: pointer;
         transition: transform .2s ease;
-        border: 2px solid #4b0082;
+        border: 2px solid #004d26; /* Deep Green Border */
     }
     .menu-card:hover { transform: translateY(-3px); }
     .menu-card h3 { 
         margin: 0; 
-        color: #4b0082; 
+        color: #004d26; /* Deep Green Text */
         font-size: 1.5em; 
         font-weight: 700;
     }
@@ -145,7 +145,7 @@
     }
     .list-view .view-protocol-label {
         font-weight: 700;
-        color: #4b0082;
+        color: #004d26; /* Deep Green Text */
         font-size: 0.85em;
         flex-shrink: 0;
     }
@@ -172,24 +172,24 @@
     #drip-search-input {
         width: 100%;
         padding: 10px 15px; /* Reduced padding */
-        border: 2px solid #4b0082;
+        border: 2px solid #004d26; /* Deep Green Border */
         border-radius: 6px;
         font-size: 1em;
         box-sizing: border-box;
     }
-    .search-icon-inside { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4b0082; font-size: 1.2em; }
+    .search-icon-inside { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #004d26; font-size: 1.2em; }
     
     /* List/Grid Toggle Group */
     .toggle-group {
         display: flex;
-        border: 1px solid #4b0082;
+        border: 1px solid #004d26; /* Deep Green Border */
         border-radius: 6px;
         overflow: hidden;
         flex-shrink: 0;
     }
     .toggle-button {
         background: #fff;
-        color: #4b0082;
+        color: #004d26; /* Deep Green Text */
         border: none;
         padding: 8px 12px;
         font-size: 0.9em;
@@ -198,11 +198,11 @@
         transition: all 0.2s;
     }
     .toggle-button.active {
-        background: #4b0082;
+        background: #004d26; /* Deep Green Active */
         color: #fff;
     }
     .toggle-button:hover:not(.active) {
-        background: #E6E6FA;
+        background: #e6f0e6; /* Light Green Hover */
     }
 
     /* Forms View Specific Styles */
@@ -227,8 +227,8 @@
         box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     .forms-link-list a:hover {
-        background: #E6E6FA;
-        color: #4b0082;
+        background: #e6f0e6; /* Light Green Hover */
+        color: #004d26; /* Deep Green Text */
     }
     .forms-link-list a span {
         display: block;
@@ -245,13 +245,13 @@
         font-weight: 700;
         margin-top: 15px; /* Reduced margin */
         margin-bottom: 8px; /* Reduced margin */
-        color: #4b0082;
-        border-bottom: 2px solid #E6E6FA;
+        color: #004d26; /* Deep Green Text */
+        border-bottom: 2px solid #e6f0e6;
         padding-bottom: 4px; /* Reduced padding */
     }
 
     /* Accordions */
-    /* NEW: Groups for timeline organization */
+    /* NEW: Groups for timeline organisation */
     .protocol-group {
         margin-top: 15px;
         margin-bottom: 15px;
@@ -261,7 +261,7 @@
         padding: 0;
     }
     .protocol-group .group-title {
-        background: #4b0082; /* Deep Purple */
+        background: #004d26; /* Deep Green */
         color: #fff;
         padding: 8px 12px;
         font-weight: 700;
@@ -278,11 +278,12 @@
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: none;
       text-align: left;
-      background: #E6E6FA; /* Light Lavender */
+      background: #e6f0e6; /* Light Green */
+      color: #004d26; /* Deep Green for header text */
       font-size: 0.9em; /* Smaller font */
     }
     .accordion-header:last-of-type { border-bottom: none; }
-    .accordion-header.active { background: #d0c0f7; }
+    .accordion-header.active { background: #d0e6d0; } /* Slightly darker green when active */
 
     .accordion-header::after { content: "▼"; font-size: 10px; } /* Smaller arrow */
     .accordion-header.active::after { content: "▲"; }
@@ -295,7 +296,7 @@
       margin: 0; /* Remove margin */
       border: 1px solid transparent;
       text-align: left;
-      background: #F8F8FF; /* Ghost White */
+      background: #F8FDFC; /* Very Light Green/White */
       font-size: 0.85em; /* Smaller content font */
     }
     .accordion-content.open { 
@@ -319,18 +320,24 @@
     }
     .protocol-table th { width: 35%; } /* Adjusted width for content */
     
-    /* Protocol Lists */
+    /* Protocol Lists: HANGING INDENTATION FIX AND NUMBERING */
     .protocol-list {
-        list-style: disc inside; /* Changed to disc for general safety lists */
-        padding-left: 0;
-        margin-left: 10px; /* Reduced margin */
-        line-height: 1.2; /* REDUCED line height */
+        /* Converted from ul to ol in JS rendering, but keeping classes for styling */
+        padding: 0;
+        margin-left: 20px; 
+        line-height: 1.4; 
         margin-top: 5px;
         margin-bottom: 5px;
+        list-style-position: outside;
     }
     .protocol-list li {
-        margin-bottom: 2px; /* Reduced margin */
+        margin-bottom: 2px;
+        padding-left: 0; 
+        /* Hangs indentation under the text for wrapping lines */
+        text-indent: -1.5em; 
+        padding-left: 1.5em; 
     }
+
     .note-box {
         background: #FFF8E1; /* Light Gold */
         border-left: 4px solid #B8860B;
@@ -356,6 +363,51 @@
       text-align: center;
     }
     .copyright { font-size: 0.75em; color: #FFD700; margin-top: 4px; width: 100%; text-align: center; }
+
+    /* Login View Styles */
+    #login-view {
+        max-width: 350px;
+        margin: 80px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        border: 2px solid #004d26; /* Deep Green Border */
+    }
+    #login-view h2 {
+        color: #004d26; /* Deep Green Text */
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+    #login-view input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+    #login-view button {
+        width: 100%;
+        padding: 10px;
+        background: #004d26; /* Deep Green Button */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    #login-view button:hover {
+        background: #006400;
+    }
+    #login-error {
+        color: #d9534f;
+        margin-top: 10px;
+        font-size: 0.9em;
+    }
 </style>
 </head>
 <body>
@@ -372,15 +424,26 @@
     <button class="header-home-button hidden" onclick="navigateTo('main-menu-view', event)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </button>
-    <h1>NuVana IV Drip Protocols</h1>
-    <p>For authorised NuVana nurses only</p>
+    <h1>NuVana Staff Portal</h1>
+    <p>For authorised persons only</p>
   </header>
 </a>
 
 <div class="container">
 
-<!-- 0. MAIN MENU VIEW -->
-<div data-view-id="main-menu-view" id="main-menu-view">
+<!-- 0. LOGIN VIEW -->
+<div data-view-id="login-view" id="login-view">
+    <h2>Authorised Access</h2>
+    <form onsubmit="event.preventDefault(); handleLogin()">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <p id="login-error" class="hidden">Invalid credentials. Try again.</p>
+    </form>
+</div>
+
+<!-- 1. MAIN MENU VIEW -->
+<div class="hidden" data-view-id="main-menu-view" id="main-menu-view">
     <h2 class="main-menu-title" style="margin-bottom: 5px;">Nurse Portal Menu</h2>
     
     <div class="main-menu-grid">
@@ -399,7 +462,7 @@
     </footer>
 </div>
 
-<!-- 1. DRIPS LIST VIEW (Protocol Selector) -->
+<!-- 2. DRIPS LIST VIEW (Protocol Selector) -->
 <div class="hidden" data-view-id="drips-list-view" id="drips-list-view">
     <div class="nav-controls">
         <button class="back-button" onclick="navigateTo('main-menu-view')">← Back to Menu</button>
@@ -430,7 +493,7 @@
     </footer>
 </div>
 
-<!-- 2. FORMS VIEW -->
+<!-- 3. FORMS VIEW -->
 <div class="hidden" data-view-id="forms-view" id="forms-view">
     <div class="nav-controls">
         <button class="back-button" onclick="navigateTo('main-menu-view')">← Back to Menu</button>
@@ -449,7 +512,7 @@
         </a></li>
         <li><a href="#" onclick="alert('Linking to external Consent & Indemnity Form...'); return false;">
             IV & Wellness Consent / Indemnity 
-            <span>(Client authorization and screening)</span>
+            <span>(Client authorisation and screening)</span>
         </a></li>
     </ul>
 
@@ -462,7 +525,7 @@
     </footer>
 </div>
 
-<!-- 3. DRIP DETAILS VIEW (Protocol Display) -->
+<!-- 4. DRIP DETAILS VIEW (Protocol Display) -->
 <div class="hidden" data-view-id="details-view" id="details-view">
     <div class="nav-controls">
         <button class="back-button" onclick="navigateTo('drips-list-view')">← Back to Protocol Search</button>
@@ -470,7 +533,7 @@
 
     <div class="drip-details" id="drip-details-panel">
         <h2 id="detail-name"></h2>
-        <p id="detail-tagline" class="detail-tagline-style" style="color: #8a2be2; font-weight: 600; font-style: normal;">Drip Protocol Guide</p>
+        <p id="detail-tagline" class="detail-tagline-style" style="color: #004d26; font-weight: 600; font-style: normal;">Drip Protocol Guide</p>
         
         <!-- GROUPING 1: PREPARATION -->
         <div class="protocol-group">
@@ -544,7 +607,7 @@ const allDrips = {
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (0.5 mL), B Complex (1 mL), Magnesium Sulphate (0.5 mL), Ascorbic Acid (1.5 mL).\nAdd to the saline bag.\nGlutathione (2 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             preparationSteps: "Prime the IV line with the prepared Jet Fuel solution.\nLabel the bag clearly:\n“Jet Fuel IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
-            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labelling before administration. Always use sterile, preservative-free preparations.',
             situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
             safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Remove cannula and apply pressure dressing.\nRecheck vitals and assess well-being.\nObserve patient for 15 minutes post-infusion before discharge.\nEncourage hydration (250–500 mL water).\nAdvise avoiding alcohol/strenuous exercise for 12 hours.\nRecord completion time, total volume infused, and client response.'
@@ -567,7 +630,7 @@ const allDrips = {
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (1 mL), B Complex (2 mL), Magnesium Sulphate (1 mL), Ascorbic Acid (3 mL).\nAdd to the saline bag.\nGlutathione (4 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             preparationSteps: "Prime the IV line with the prepared Jet Fuel Premium solution.\nLabel the bag clearly:\n“Jet Fuel Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
-            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labelling before administration. Always use sterile, preservative-free preparations.',
             situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
             safety: 'Keep oxygen, AED, and anaphylaxis kit ready.\nIn event of reaction:\nStop infusion immediately.\nMaintain IV access with plain NS.\nMonitor airway, breathing, circulation.\nNotify medical practitioner.\nAdminister emergency medication as per standing orders (e.g., adrenaline, antihistamine, hydrocortisone).\nRecord incident and complete incident report form.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Remove cannula and apply pressure dressing.\nRecheck vitals and assess well-being.\nObserve patient for 15 minutes post-infusion before discharge.\nEncourage hydration (250–500 mL water).\nAdvise avoiding alcohol/strenuous exercise for 12 hours.\nRecord completion time, total volume infused, and client response.'
@@ -750,11 +813,11 @@ const allDrips = {
         icon: '✨✨✨',
         protocol: {
             ingredients: [
-                { name: 'B Complex', dose: '2 mL', timing: 'Main Drip' },
-                { name: 'Biotin (5 mg)', dose: '2 mL', timing: 'Main Drip' },
-                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Main Drip' },
-                { name: 'Alpha-Lipoic Acid 25mg/mL', dose: '2 mL', timing: 'Main Drip after 10 min' },
-                { name: 'NAD+ 125MG/mL', dose: '1 mL', timing: 'Main Drip after 15 min' },
+                { name: 'B Complex', dose: '2 mL', timing: 'Main IV' },
+                { name: 'Biotin (5 mg)', dose: '2 mL', timing: 'Main IV' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '4 mL', timing: 'Main IV' },
+                { name: 'Alpha-Lipoic Acid 25mg/mL', dose: '2 mL', timing: 'Main IV after 10 min' },
+                { name: 'NAD+ 125MG/mL', dose: '1 mL', timing: 'Main IV after 15 min' },
                 { name: 'Glutathione: 200mg/mL', dose: '4 mL', timing: 'Slow push after main drip completion' }
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
@@ -781,7 +844,7 @@ const allDrips = {
             preparationSteps: "Prime the IV line with the prepared Biotin solution.\nLabel the bag clearly:\n“Biotin IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to Biotin. Severe renal impairment (relative contraindication for large-volume fluids). Concurrent use of biotin-interfering lab tests (can affect thyroid and troponin assays — advise patient to avoid blood tests for at least 72 hours post-infusion).',
             precautions: 'Use caution in pregnant or breastfeeding patients (generally considered safe but confirm medical approval).\nMonitor diabetic patients closely as biotin can influence glucose metabolism.\nAvoid mixing with other agents unless compatibility confirmed.\nAlways use within 24 hours of mixing if refrigerated and within 8 hours if kept at room temperature.',
-            situationCaution: 'Rapid infusion may cause mild nausea, warmth, or flushing.\nInfiltration or extravasation can cause localized irritation.\nAvoid in patients with known vitamin hypersensitivity syndromes.',
+            situationCaution: 'Rapid infusion may cause mild nausea, warmth, or flushing.\nInfiltration or extravasation can cause localised irritation.\nAvoid in patients with known vitamin hypersensitivity syndromes.',
             safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nStop infusion immediately if any of the following occur:\nChest tightness, shortness of breath, or throat swelling.\nFacial swelling and rash.\nSevere dizziness or syncope.\nHypotension (drop > 20 mmHg SBP).\nNew rash, urticaria, or itching.\nPersistent burning or pain at IV site.\nSigns of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
             postCare: 'Flush line. Observe 10-15 min. Record batch numbers, volume, and client tolerance. Advise reporting persistent lightheadedness or fatigue.'
         }
@@ -963,7 +1026,7 @@ const allDrips = {
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nVitamin B Complex - 2 mL\nB12 - 2 mL\nAscorbic Acid - 4 mL\nBiotin - 2 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
             preparationSteps: "Prime the IV line with the prepared Menopause Relief solution.\nLabel the bag clearly:\n“Menopause Relief IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Hypersensitivity to any ingredients. Severe renal or hepatic impairment. Uncontrolled hypertension. Heart block or bradycardia (due to magnesium). Pregnancy or breastfeeding. G6PD deficiency (caution with high-dose vitamin C).',
-            precautions: 'Avoid concurrent IV calcium or phosphate solutions.\nMagnesium may potentiate sedation if patient on CNS depressants.\nVitamin B complex may cause temporary urine discoloration (yellow/orange).\nAlways use fresh mixed solution – discard unused portion after session.',
+            precautions: 'Avoid concurrent IV calcium or phosphate solutions.\nMagnesium may potentiate sedation if patient on CNS depressants.\nVitamin B complex may cause temporary urine discolouration (yellow/orange).\nAlways use fresh mixed solution – discard unused portion after session.',
             situationCaution: 'If patient reports severe hot flashes or dizziness, pause infusion and reassess.\nAvoid glutathione push if patient reports chest tightness or breathing discomfort.\nDo not exceed 1 g magnesium unless prescribed and monitored by a doctor.',
             safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nIf severe allergic reaction: Adrenaline 0.5 mg IM, call emergency medical assistance.\nDocument and file incident report.\nEmergency Stop Criteria:\nImmediately stop infusion if:\nPatient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension.\nIV site shows redness, swelling, or extravasation.\nBP drop >20 mmHg systolic\nPatient becomes unresponsive or dizzy beyond mild effects.',
             postCare: 'Flush line with 10 mL saline.\nRemove cannula and apply pressure dressing.\nRecheck vitals and document tolerance.\nAdvise patient to avoid alcohol or intense exercise for 12 hours.'
@@ -985,7 +1048,7 @@ const allDrips = {
             precautions: 'Use caution in clients with electrolyte imbalances or hypotension.\nStart infusion slowly and titrate rate only after tolerance confirmed.\nAvoid concurrent use of hepatotoxic medications without medical review.\nEnsure proper post-infusion hydration to support hepatic metabolism.',
             situationCaution: 'Clients on weight loss medication or thyroid therapy — verify compatibility.\nAvoid combining with high-dose niacin or other lipotropic formulations in same session.\nFor clients with history of vasovagal episodes, keep reclined and monitor BP closely.',
             safety: 'Keep crash cart and AED accessible.\nIf an adverse reaction occurs:\nStop infusion immediately.\nMaintain airway, assess vitals.\nAdminister oxygen if SpO₂ <94%.\nPrepare emergency meds (adrenaline 1:1000, hydrocortisone, or antihistamine as per standing order).\nDocument and file incident report.\nEmergency Stop Criteria:\nSudden onset of chest tightness, flushing, or palpitations.\nDrop in BP >20 mmHg or HR change >30 bpm from baseline.\nRespiratory distress or audible wheezing.\nLocal swelling, burning, or infiltration at IV site.\nAny sign of anaphylaxis — stop immediately and initiate emergency protocol.',
-            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Maintain hydration.\nAdvise consumption of balanced meal.\nRecord infusion as per program (typically weekly or biweekly).'
+            postCare: 'Flush line with 5–10 mL saline.\nRemove cannula and apply pressure dressing.\nObserve for 15 min. Maintain hydration.\nAdvise consumption of balanced meal.\nRecord infusion as per programme (typically weekly or biweekly).'
         }
     },
     'Weight Loss Premium': {
@@ -1124,7 +1187,7 @@ const allDrips = {
             contraindications: 'Acute heart failure or pulmonary oedema. Severe renal impairment (eGFR <30 mL/min). Hypermagnesaemia or hyperkalaemia. Severe dehydration with hyponatraemia (use NS instead). Known hypersensitivity to additives.',
             precautions: 'Use caution in hypertensive or cardiac patients (due to sodium and fluid load).\nDo not exceed 100 mL/hr in elderly or low-weight patients.\nAvoid mixing with calcium-incompatible agents.\nAlways add vitamins after checking expiry and clarity.',
             situationCaution: 'Post-exercise or hangover clients: Ensure no electrolyte imbalance contraindications.\nDiabetics: Vitamin C may transiently affect glucose readings.\nPregnancy: Only under physician approval.',
-            safety: 'Keep crash cart, oxygen, and AED accessible.\nIn case of reaction:\nStop infusion immediately.\nMaintain IV access with normal saline at slow rate.\nAdminister emergency meds per standing orders (Adrenaline, Antihistamine, Hydrocortisone).\nDocument event and notify supervising physician.\nEmergency Stop Criteria:\nHypotension >20% drop from baseline\nChest tightness or dyspnoea\nIV site swelling, burning, or discoloration\nRash, itching, or any anaphylactic signs\n→ Stop infusion, maintain airway, initiate emergency protocol.',
+            safety: 'Keep crash cart, oxygen, and AED accessible.\nIn case of reaction:\nStop infusion immediately.\nMaintain IV access with normal saline at slow rate.\nAdminister emergency meds per standing orders (Adrenaline, Antihistamine, Hydrocortisone).\nDocument event and notify supervising physician.\nEmergency Stop Criteria:\nHypotension >20% drop from baseline\nChest tightness or dyspnoea\nIV site swelling, burning, or discolouration\nRash, itching, or any anaphylactic signs\n→ Stop infusion, maintain airway, initiate emergency protocol.',
             postCare: 'Remove cannula and apply pressure dressing.\nReassess vitals; ensure patient is stable.\nAdvise:\nDrink plenty of water for the rest of the day.\nAvoid alcohol or caffeine for 12 hours.\nMild flushing or metallic taste may occur temporarily.'
         }
     },
@@ -1190,9 +1253,27 @@ const therapeuticCategories = [
 
 // --- NAVIGATION & VIEW LOGIC ---
 
-let currentView = 'main-menu-view'; // Default to main menu
+let currentView = 'login-view'; // Start at login view
 let currentDisplayMode = 'grid'; // 'grid' or 'list'
 let viewHistory = [];
+
+// Login Credentials
+const VALID_USERNAME = 'NuVan@';
+const VALID_PASSWORD = 'NuVana25@@';
+
+window.handleLogin = function() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorEl = document.getElementById('login-error');
+
+    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        errorEl.classList.add('hidden');
+        navigateTo('main-menu-view');
+    } else {
+        errorEl.textContent = 'Invalid credentials. Please check your username and password.';
+        errorEl.classList.remove('hidden');
+    }
+}
 
 window.navigateTo = function(viewId, event) {
   if (event) { event.stopPropagation(); event.preventDefault(); }
@@ -1204,7 +1285,7 @@ window.navigateTo = function(viewId, event) {
   if (nextEl) nextEl.classList.remove('hidden');
   
   if (viewId === 'drips-list-view' || viewId === 'forms-view') {
-      if (currentView !== 'main-menu-view') {
+      if (currentView !== 'main-menu-view' && currentView !== 'login-view') {
           viewHistory.push(currentView);
       }
       // Special case: When navigating to list view, ensure it renders
@@ -1225,7 +1306,7 @@ window.navigateTo = function(viewId, event) {
 window.updateHomeButtonVisibility = function(viewId) {
     const homeBtn = document.querySelector('.header-home-button');
     if (!homeBtn) return;
-    if (viewId === 'main-menu-view') {
+    if (viewId === 'main-menu-view' || viewId === 'login-view') {
         homeBtn.classList.add('hidden');
     } else {
         homeBtn.classList.remove('hidden');
@@ -1339,16 +1420,16 @@ window.showDripDetails = function(dripName) {
   const emergenciesContentEl = document.getElementById('detail-emergencies-content');
   const postCareContentEl = document.getElementById('detail-postcare-content');
   
-  // 1. PRE INFUSION SAFETY CHECK
+  // 1. PRE INFUSION SAFETY CHECK (Numbered List)
   const safetyCheckContent = protocol.preInfusionCheck
       .split('\n')
       .filter(line => line.trim() !== '')
       .map(line => `<li>${line.replace(/^-|_/g, '').trim()}</li>`).join('');
 
   safetyCheckContentEl.innerHTML = `
-      <ul class="protocol-list" style="list-style: disc inside;">
+      <ol class="protocol-list">
           ${safetyCheckContent}
-      </ul>
+      </ol>
   `;
 
   // 2. INGREDIENTS TABLE
@@ -1370,7 +1451,7 @@ window.showDripDetails = function(dripName) {
   `;
   ingredientsTableEl.innerHTML = ingredientsTable;
 
-  // 3. MIXING
+  // 3. MIXING (Numbered List for Preparation Steps)
   // Combine Mixing and Preparation Steps logic into one detailed content block
   let mixingInstructions = `<p style="margin: 0; line-height: 1.3;"><strong>Mixing Instructions:</strong> ${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
   
@@ -1379,33 +1460,33 @@ window.showDripDetails = function(dripName) {
       const steps = protocol.preparationSteps.split('\n').filter(s => s.trim().length > 0);
       if (steps.length > 0) {
           mixingInstructions += `<h4 style="margin-top: 10px; font-weight: 600; font-size: 0.9em;">Detailed Preparation Steps:</h4>`;
-          mixingInstructions += `<ul class="protocol-list" style="list-style: decimal inside; margin-left: 10px;">`;
+          mixingInstructions += `<ol class="protocol-list" style="list-style-type: decimal; margin-left: 10px;">`;
           steps.forEach(step => {
               mixingInstructions += `<li>${step.trim().replace(/^Prime the IV line with the prepared /i, '').replace(/ solution\.?$/, '').trim()}</li>`;
           });
-          mixingInstructions += `</ul>`;
+          mixingInstructions += `</ol>`;
       }
   }
 
   mixingContentEl.innerHTML = mixingInstructions;
 
-  // 4. SAFETY & POST-CARE SECTIONS
+  // 4. SAFETY & POST-CARE SECTIONS (Numbered Lists)
   
-  // Contraindications (split by . )
+  // Contraindications (Numbered List)
   contraindicationsContentEl.innerHTML = `
-    <ul class="protocol-list" style="list-style: disc inside;">
+    <ol class="protocol-list">
         ${protocol.contraindications.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ul>
+    </ol>
   `;
 
-  // Precautions (split by . )
+  // Precautions (Numbered List)
   precautionsContentEl.innerHTML = `
-    <ul class="protocol-list" style="list-style: disc inside;">
+    <ol class="protocol-list">
         ${protocol.precautions.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ul>
+    </ol>
   `;
 
-  // Situation Caution (split by \n and then by .)
+  // Situation Caution (Numbered List)
   const situationCautionItems = protocol.situationCaution
       .split('\n')
       .map(line => line.trim())
@@ -1416,12 +1497,12 @@ window.showDripDetails = function(dripName) {
       .map(item => item.replace(/\.$/, ''));
 
   situationCautionContentEl.innerHTML = `
-    <ul class="protocol-list" style="list-style: disc inside;">
+    <ol class="protocol-list">
         ${situationCautionItems.map(item => `<li>${item}</li>`).join('')}
-    </ul>
+    </ol>
   `;
 
-  // Emergency Stop (Safety & Emergency Protocol)
+  // Emergency Stop (Safety & Emergency Protocol - Numbered List)
   const fullSafetyText = protocol.safety;
   let emergencyStopCriteria = [];
   let generalSafety = '';
@@ -1447,17 +1528,17 @@ window.showDripDetails = function(dripName) {
     <p style="margin: 0; line-height: 1.3;"><strong>General Safety Protocol:</strong> ${generalSafety.trim()}</p>
     <div class="note-box">
         <strong>EMERGENCY STOP CRITERIA:</strong>
-        <ul class="protocol-list" style="list-style: disc inside; margin-left: 0; margin-top: 5px; margin-bottom: 5px;">
+        <ol class="protocol-list">
             ${safetyItems.map(item => `<li>${item}</li>`).join('')}
-        </ul>
+        </ol>
     </div>
   `;
 
-  // Post Infusion Care (split by . )
+  // Post Infusion Care (Numbered List)
   postCareContentEl.innerHTML = `
-    <ul class="protocol-list" style="list-style: disc inside;">
+    <ol class="protocol-list">
         ${protocol.postCare.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
-    </ul>
+    </ol>
   `;
 
 
@@ -1474,7 +1555,7 @@ window.showDripDetails = function(dripName) {
           htmlContent += `
             <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-size: 0.85em;">
                 ${commonAddons.map(name => `
-                    <li style="background: #E6E6FA; padding: 5px 10px; border-radius: 14px; border: 1px solid #4b0082;">
+                    <li style="background: #e6f0e6; padding: 5px 10px; border-radius: 14px; border: 1px solid #004d26; color: #004d26;">
                         ${name}
                     </li>
                 `).join('')}
@@ -1543,9 +1624,8 @@ const fuse = new Fuse(fuseDataset, {
 
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Initial render is the main menu view
-    renderAllDrips(); 
-    document.getElementById('main-menu-view').classList.remove('hidden');
+    // Initial render is the login view
+    document.getElementById('login-view').classList.remove('hidden');
     updateHomeButtonVisibility(currentView);
 });
 </script>
