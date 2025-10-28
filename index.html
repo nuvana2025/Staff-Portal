@@ -43,6 +43,36 @@
     /* Layout */
     .container { max-width: 960px; margin: 20px auto; padding: 0 20px; }
     
+    /* --- Main Menu Grid --- */
+    .main-menu-grid { 
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .menu-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        padding: 25px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform .2s ease;
+        border: 2px solid #4b0082;
+    }
+    .menu-card:hover { transform: translateY(-3px); }
+    .menu-card h3 { 
+        margin: 0; 
+        color: #4b0082; 
+        font-size: 1.5em; 
+        font-weight: 700;
+    }
+    .menu-card p {
+        margin-top: 5px;
+        font-size: 0.9em;
+        color: #555;
+    }
+    
     /* --- Grid View Styles (Compact) --- */
     .grid { 
         display: grid; 
@@ -66,7 +96,7 @@
     .card:active { transform: scale(.98); }
     .card .icon { font-size: 1.8em; margin-bottom: 6px; } /* Smaller icon */
     .drip-name { font: 700 1em/1.2 system-ui; margin: 4px 0 6px; } /* Smaller font */
-    .tile-divider { width: 30px; height: 2px; background: #4b0082; margin: 4px auto 8px; border-radius: 2px; }
+    .tile-divider { display: none; }
     .drip-number { font-size: 0.8em; font-weight: 400; color: #777; display: block; margin-bottom: 2px; }
     
     /* --- List View Styles (Compact) --- */
@@ -173,6 +203,39 @@
     }
     .toggle-button:hover:not(.active) {
         background: #E6E6FA;
+    }
+
+    /* Forms View Specific Styles */
+    .forms-link-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .forms-link-list a {
+        display: block;
+        background: #F8F8FF;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 15px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+        transition: background 0.2s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .forms-link-list a:hover {
+        background: #E6E6FA;
+        color: #4b0082;
+    }
+    .forms-link-list a span {
+        display: block;
+        font-size: 0.8em;
+        color: #777;
+        font-weight: 400;
+        margin-top: 2px;
     }
 
 
@@ -304,9 +367,9 @@
 </div>
 </div>
 
-<a href="#" class="header-link" onclick="event.preventDefault(); navigateTo('drips-list-view');">
+<a href="#" class="header-link" onclick="event.preventDefault(); navigateTo('main-menu-view');">
   <header>
-    <button class="header-home-button hidden" onclick="navigateTo('drips-list-view', event)">
+    <button class="header-home-button hidden" onclick="navigateTo('main-menu-view', event)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </button>
     <h1>NuVana IV Drip Protocols</h1>
@@ -316,15 +379,39 @@
 
 <div class="container">
 
+<!-- 0. MAIN MENU VIEW -->
+<div data-view-id="main-menu-view" id="main-menu-view">
+    <h2 class="main-menu-title" style="margin-bottom: 5px;">Nurse Portal Menu</h2>
+    
+    <div class="main-menu-grid">
+        <div class="menu-card" onclick="navigateTo('drips-list-view')">
+            <h3>📝 Protocols</h3>
+            <p>Access all IV Drip Preparation, Mixing, and Safety Guides.</p>
+        </div>
+        <div class="menu-card" onclick="navigateTo('forms-view')">
+            <h3>🔗 Forms & Checklists</h3>
+            <p>Direct links to key clinical documentation forms (external).</p>
+        </div>
+    </div>
+    
+    <footer class="nv-footer-v2">
+        <p class="copyright">NuVana Wellness - All rights reserved. Protocol Version 1.1</p>
+    </footer>
+</div>
+
 <!-- 1. DRIPS LIST VIEW (Protocol Selector) -->
-<div data-view-id="drips-list-view" id="drips-list-view">
+<div class="hidden" data-view-id="drips-list-view" id="drips-list-view">
+    <div class="nav-controls">
+        <button class="back-button" onclick="navigateTo('main-menu-view')">← Back to Menu</button>
+    </div>
+
     <div id="search-view-container">
         <h2 class="main-menu-title" style="margin-bottom: 5px;">Protocol Search</h2>
         
         <div class="search-row">
             <div class="search-input-container">
                 <!-- UPDATED PLACEHOLDER TEXT -->
-                <input type="text" id="drip-search-input" placeholder="Search by Drip Name..." oninput="filterDripsList(this.value)">
+                <input type="text" id="drip-search-input" placeholder="Search by Drip Name or Ingredient" oninput="filterDripsList(this.value)">
                 <span class="search-icon-inside">🔍</span>
             </div>
             
@@ -343,7 +430,39 @@
     </footer>
 </div>
 
-<!-- 2. DRIP DETAILS VIEW (Protocol Display) -->
+<!-- 2. FORMS VIEW -->
+<div class="hidden" data-view-id="forms-view" id="forms-view">
+    <div class="nav-controls">
+        <button class="back-button" onclick="navigateTo('main-menu-view')">← Back to Menu</button>
+    </div>
+
+    <h2 class="main-menu-title" style="margin-bottom: 20px;">Clinical Forms & Documentation</h2>
+
+    <ul class="forms-link-list">
+        <li><a href="#" onclick="alert('Linking to external Vital Checks Form...'); return false;">
+            Vital Checks Form 
+            <span>(Pre/Post-Infusion Vitals, BP, SpO₂, etc.)</span>
+        </a></li>
+        <li><a href="#" onclick="alert('Linking to external Incident Report Form...'); return false;">
+            Incident Report Form 
+            <span>(Adverse Reactions, Extravasation, near misses)</span>
+        </a></li>
+        <li><a href="#" onclick="alert('Linking to external Consent & Indemnity Form...'); return false;">
+            IV & Wellness Consent / Indemnity 
+            <span>(Client authorization and screening)</span>
+        </a></li>
+    </ul>
+
+    <p class="note-box" style="margin-top: 30px;">
+        **Note:** These links typically open external digital forms (e.g., Google Forms, secure EMR links). Please ensure these URLs are updated when available.
+    </p>
+
+    <footer class="nv-footer-v2">
+        <p class="copyright">NuVana Wellness - All rights reserved. Protocol Version 1.1</p>
+    </footer>
+</div>
+
+<!-- 3. DRIP DETAILS VIEW (Protocol Display) -->
 <div class="hidden" data-view-id="details-view" id="details-view">
     <div class="nav-controls">
         <button class="back-button" onclick="navigateTo('drips-list-view')">← Back to Protocol Search</button>
@@ -405,7 +524,7 @@
 <button id="dynamic-back-btn" class="scroll-nav-btn" onclick="navigateTo('drips-list-view')">←</button>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6/dist/fuse.min.js"></script>
 <script>
-// --- CORE DRIP PROTOCOL DATA (MANUALLY INTEGRATED FROM SPREADSHEETS) ---
+// --- CORE DRIP PROTOCOL DATA (AUDITED AND INTEGRATED) ---
 
 const allDrips = {
     'Jet Fuel': {
@@ -423,6 +542,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (0.5 mL), B Complex (1 mL), Magnesium Sulphate (0.5 mL), Ascorbic Acid (1.5 mL).\nAdd to the saline bag.\nGlutathione (2 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Jet Fuel solution.\nLabel the bag clearly:\n“Jet Fuel IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
             precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
             situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
@@ -445,6 +565,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up each ingredient in the following order:\nB12 (1 mL), B Complex (2 mL), Magnesium Sulphate (1 mL), Ascorbic Acid (3 mL).\nAdd to the saline bag.\nGlutathione (4 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Jet Fuel Premium solution.\nLabel the bag clearly:\n“Jet Fuel Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
             precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling before administration. Always use sterile, preservative-free preparations.',
             situationCaution: 'Proceed with reduced rate or medical clearance in cases of:\nLow baseline BP (<100/60 mmHg).\nRecent illness or fasting >12 hours.\nFirst-time IV clients (start at 75 mL/hr maximum for 200 mL bag).\nHistory of fainting with venipuncture or magnesium intolerance.',
@@ -465,6 +586,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nLabel the NS bag with patient name, additives, date, and initials.\nClean additive port with 70% alcohol swab.\nAdd in sequence:\nVitamin B₁₂ (1 mL)\nVitamin B Complex (1 mL)\nMagnesium Sulphate (0.5 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Recharge solution.\nLabel the bag clearly:\n“Recharge IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to B-vitamins or magnesium. Severe renal impairment (risk of magnesium accumulation). Heart block or myasthenia gravis. Hypotension or shock states. Acute hepatic failure (relative).',
             precautions: 'Use caution in patients on digitalis, calcium-channel blockers, or CNS depressants. Adjust magnesium dose in renal insufficiency. Do not exceed prescribed additive limits. Avoid mixing with incompatible solutions (dextrose or phosphates) unless verified.',
             situationCaution: 'Elderly or low-body-mass clients – consider slower rate (extend infusion by 15–30 min).\nPatients with baseline low BP – monitor closely; magnesium may lower BP further.\nClients new to IV therapy – start at minimum rate for first 10 min.',
@@ -485,6 +607,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nDraw each additive using aseptic technique with a new sterile syringe and needle per vial.\nAdd in sequence:\nVitamin B₁₂ (2 mL)\nVitamin B Complex (2 mL)\nMagnesium Sulphate (1 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Recharge Premium solution.\nLabel the bag clearly:\n“Recharge Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any component. Severe renal insufficiency or failure. Hypotension (SBP <90 mmHg). Heart block or bradyarrhythmia (caution with magnesium). Myasthenia gravis. Acute dehydration or electrolyte imbalance.',
             precautions: 'Administer magnesium slowly to prevent vasodilation or hypotension. Avoid concurrent calcium or muscle relaxant infusions. Use caution in clients on antihypertensives or CNS depressants. Adjust rate for elderly clients or those with low body mass.',
             situationCaution: 'Mild flushing and warmth are common and not typically harmful.\nIf dizziness or nausea occurs — pause infusion, provide fluids orally, and reassess vitals.\nResume only once client is stable.',
@@ -510,6 +633,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nB Complex (2 mL)\nB12 Methylcobalamin (2 mL)\nAscorbic Acid (2 mL)\nL-Arginine (2 mL)\nL-Carnitine (2 mL)\nTaurine (2 mL)\nMagnesium Sulphate (2 mL) (Add slowly and swirl bag to mix)\nZinc Sulphate (2 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Libido solution.\nLabel the bag clearly:\n“Libido IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal or hepatic impairment. Hypotension or cardiovascular instability. Pregnancy (unless doctor approved). Known hypersensitivity to any ingredient. Uncontrolled diabetes (vitamin C can affect glucose readings).',
             precautions: 'Avoid rapid administration (risk of hypotension or flushing). Use with caution in patients on nitrates, antihypertensives, or PDE5 inhibitors (Arginine interaction). Ensure adequate hydration before infusion.',
             situationCaution: 'Clients with erectile dysfunction medications (e.g., Viagra) should avoid same-day use.\nMagnesium and Arginine can enhance vasodilation, which may lower BP.\nZinc and Carnitine may cause mild nausea on empty stomach — ensure pre-infusion snack.',
@@ -528,6 +652,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag or 100 mL for add-on.\nAdditive: Glutamine - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Glutamine solution.\nLabel the bag clearly:\n“Glutamine IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe hepatic or renal dysfunction. Metabolic disorders affecting nitrogen balance. Known hypersensitivity to Glutamine. Acute acidosis or uremia.',
             precautions: 'Use cautiously in patients with liver cirrhosis, renal impairment, or sepsis. Avoid co-administration with incompatible amino acid or vitamin solutions without pharmacist verification. Ensure freshly mixed solution is used — do not store for later use.',
             situationCaution: 'Do not use if the solution appears cloudy, discoloured, or has particulates.\nAvoid using in dehydrated or hypotensive patients without prior rehydration.\nMonitor diabetic patients for mild glucose fluctuations.',
@@ -548,6 +673,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nAdd slowly and swirl bag to mix; magnesium is slightly irritant to veins.\nAdd Taurine - 4 mL\nAdd Ascorbic Acid 500mg/mL - 4 mL last to avoid degradation.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Anxiety Relief solution.\nLabel the bag clearly:\n“Anxiety Relief IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal impairment. Uncontrolled hypotension or bradycardia. Heart block (2nd or 3rd degree). G6PD deficiency (due to ascorbic acid). Known magnesium or sulphate hypersensitivity. Decompensated cardiac failure.',
             precautions: 'Magnesium may cause transient hypotension or warmth. Ascorbic acid can increase oxalate load—caution in renal stones. Taurine supports neurotransmitter balance but may potentiate sedative effects of CNS depressants. Avoid administering:\nConcurrently with IV calcium (risk of precipitation).\nTo dehydrated or fasting patients without pre-hydration.\nPost heavy exercise or alcohol intake (may potentiate hypotension).',
             situationCaution: 'Avoid administering:\nConcurrently with IV calcium (risk of precipitation).\nTo dehydrated or fasting patients without pre-hydration.\nPost heavy exercise or alcohol intake (may potentiate hypotension).',
@@ -569,6 +695,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd Myers Cocktail - 3 mL\nThen add Magnesium Sulphate 50% (0.5 g/mL) – 2 mL.\nAdd slowly and swirl bag to mix; magnesium is slightly irritant to veins.\nAdd Taurine - 4 mL\nAdd Ascorbic Acid 500mg/mL - 2 mL last.\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Anxiety Relief Premium solution.\nLabel the bag clearly:\n“Anxiety Relief Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal impairment or failure. Uncontrolled hypertension. Heart block or severe cardiac disease. Current infection or fever. Hypocalcaemia or hypermagnesemia. Pregnancy or lactation without doctor’s approval. Known hypersensitivity to any component.',
             precautions: 'Administer under medical supervision only. Avoid rapid infusion due to magnesium content. For anxious or first-time clients, use slower initial rate and dim lighting. Ensure patient comfort — reclined seating, calm environment, optional aromatherapy. Use extra caution in clients on:\nCalcium-channel blockers\nAntidepressants or benzodiazepines\nThyroid or blood pressure medication',
             situationCaution: 'Use extra caution in clients on:\nCalcium-channel blockers\nAntidepressants or benzodiazepines\nThyroid or blood pressure medication\nIf patient reports light-headedness or chest warmth, pause and reassess vitals before continuing.',
@@ -588,6 +715,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Ascorbic Acid 500 mg/mL – 5 mL (2,500 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nGlutathione (5 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag several times. Do not introduce air.",
+            preparationSteps: "Prime the IV line with the prepared Radiance solution.\nLabel the bag clearly:\n“Radiance IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to Vitamin C or Glutathione. Renal impairment (risk of oxalate nephropathy). Uncontrolled asthma. Pregnancy or lactation (unless prescribed).',
             precautions: 'Confirm no allergy to ascorbic acid or glutathione. Use caution in renal impairment, G6PD deficiency, or pregnancy (doctor approval required). Avoid rapid infusion to prevent vein irritation. Protect from light during preparation and infusion. Ensure adequate hydration pre- and post-infusion. Monitor 10–15 minutes post-infusion for delayed reactions.',
             situationCaution: 'G6PD deficiency (risk with high-dose Vitamin C).\nOngoing chemotherapy or recent radiotherapy (consult doctor).\nSevere dehydration or electrolyte imbalance.',
@@ -602,11 +730,12 @@ const allDrips = {
         icon: '✨✨',
         protocol: {
             ingredients: [
-                { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'Main Drip' },
+                { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'Main IV' },
                 { name: 'Glutathione: 200mg/mL', dose: '12 mL', timing: 'After main drip completion' }
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Ascorbic Acid 500 mg/mL – 10 mL (5,000 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nGlutathione (12 mL) is to be prepared separately for a slow push after the main bag is completed.\nMix gently by inverting the bag several times. Do not introduce air.",
+            preparationSteps: "Prime the IV line with the prepared Radiance Plus solution.\nLabel the bag clearly:\n“Radiance Plus IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known allergy to Ascorbic Acid or Glutathione. G6PD deficiency. Uncontrolled hypertension or heart failure (for 1000 mL infusions). Renal insufficiency or dialysis patients. Pregnancy or lactation (without doctor’s approval). Active infection, fever, or dehydration.',
             precautions: 'Avoid in patients taking chemotherapy (unless physician-approved).\nUse caution in asthmatic patients (Ascorbic Acid may trigger bronchospasm).\nStore vials in cool, dark environment; protect Glutathione from light.\nAlways perform sensitivity test if uncertain of prior exposure.',
             situationCaution: 'Rapid infusion can cause hypotension or vein irritation.\nMixing Glutathione with Ascorbic Acid in same bag may degrade both compounds — always administer separately.\nOxidation risk: Prepare immediately before use; discard if discoloured.',
@@ -630,6 +759,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "In a sterile environment:\nDraw up the following components using aseptic technique:\nMain Drip (Radiance Base) – 200 mL or 1000 mL 0.9 % NaCl\nAdd:\nAscorbic Acid + B-Complex + Biotin -Infuse with these first three additives (Ascorbic Acid, B-Complex, Biotin) to allow a slower absorption of NAD+.\nAlpha-Lipoic Acid 25mg/mL - 2 mL\nNAD+ 125mg/mL - 1 mL\nMix gently by inverting the bag 3-4 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Radiance Premium solution.\nLabel the bag clearly:\n“Radiance Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Pregnancy or breastfeeding (unless cleared by physician). Severe renal or hepatic impairment. Uncontrolled hypertension. G6PD deficiency (Vitamin C caution). Hypersensitivity to any component. Recent chemotherapy or radiation therapy. Active infection or fever.',
             precautions: 'Use caution in patients with electrolyte imbalance, low blood pressure, or dehydration. For NAD+, start infusion slowly to minimize chest tightness or nausea. Avoid direct sunlight post-infusion if skin sensitivity occurs.',
             situationCaution: 'Rapid infusion can cause:\nHeat or burning along vein\nPalpitations or chest tightness\nNausea or anxiety\nAlways pause or slow the infusion instead of discontinuing unless severe symptoms persist.',
@@ -648,6 +778,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/1000 mL bag or 100 mL bag for add-on.\nAdditive: Biotin 30mg/mL - 2 mL (Total 60mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Biotin solution.\nLabel the bag clearly:\n“Biotin IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to Biotin. Severe renal impairment (relative contraindication for large-volume fluids). Concurrent use of biotin-interfering lab tests (can affect thyroid and troponin assays — advise patient to avoid blood tests for at least 72 hours post-infusion).',
             precautions: 'Use caution in pregnant or breastfeeding patients (generally considered safe but confirm medical approval).\nMonitor diabetic patients closely as biotin can influence glucose metabolism.\nAvoid mixing with other agents unless compatibility confirmed.\nAlways use within 24 hours of mixing if refrigerated and within 8 hours if kept at room temperature.',
             situationCaution: 'Rapid infusion may cause mild nausea, warmth, or flushing.\nInfiltration or extravasation can cause localized irritation.\nAvoid in patients with known vitamin hypersensitivity syndromes.',
@@ -665,7 +796,8 @@ const allDrips = {
                 { name: 'Ascorbic Acid 500mg/mL', dose: '2 mL', timing: 'Main Drip' }
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
-            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 2 mL (total 1000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 2 mL (total 1000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: Nurse must use discretion/protocol, as C and G should typically be spaced/pushed separately due to chemical incompatibility).\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Vitamin C solution.\nLabel the bag clearly:\n“Vitamin C IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure (relative, especially with 1,000 mL option). Hypersensitivity to components.',
             precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
             situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
@@ -688,6 +820,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% - 1 mL\nVitamin B Complex - 2 mL\nB12 Methylcobalamin - 2 mL\nAscorbic Acid - 4 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Anti Inflammatory & Auto Immune solution.\nLabel the bag clearly:\n“Anti Inflammatory & Auto Immune IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal impairment (eGFR <60). Known hypersensitivity to any component. Active oxalate kidney stones. G6PD deficiency (risk of haemolysis with high-dose vitamin C). Uncontrolled hypertension or heart failure (use 1000 mL bag with caution).',
             precautions: 'Caution in pregnancy and breastfeeding (doctor’s approval required).\nMonitor magnesium dose in patients on calcium channel blockers.\nAvoid rapid vitamin C infusion in glucose-6-phosphate dehydrogenase (G6PD) deficiency.',
             situationCaution: 'Post-surgical patients (confirm with surgeon).\nConcurrent immunosuppressant therapy.\nActive infection or fever (defer until stable).\nIf vein irritation or patient discomfort occurs.',
@@ -709,6 +842,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% - 2 mL\nAscorbic Acid / Vitamin C - 10 mL - wait 2-3 minutes before adding ALA\nAlpha Lipoic Acid - 4 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Anti Inflammatory Premium solution.\nLabel the bag clearly:\n“Anti Inflammatory Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any ingredient. Severe renal or hepatic impairment. G6PD deficiency (high-dose Vitamin C risk). Hypotension or cardiac arrhythmias. Pregnancy or breastfeeding (doctor clearance required).',
             precautions: 'Avoid concurrent antioxidant oral dosing 24 hours pre/post infusion (to prevent overload).\nUse caution in diabetic clients (Vitamin C may interfere with glucose monitoring).\nAvoid rapid infusion to prevent magnesium-related hypotension.\nDo not co-infuse ALA with metals or chelating agents.',
             situationCaution: 'If client reports chest tightness, burning at site, or severe headache → pause infusion immediately.\nIf BP drops >20mmHg from baseline → reduce rate or stop temporarily.\nIf ALA causes nausea, slow infusion rate by 50%.',
@@ -726,7 +860,8 @@ const allDrips = {
                 { name: 'Ascorbic Acid 500mg/mL', dose: '5 mL', timing: 'Main Drip' }
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
-            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL.\nAdditive: Ascorbic Acid 500mg/mL - 5 mL (total 2500 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag / 1000 mL.\nAdditive: Ascorbic Acid 500mg/mL - 5 mL (total 2500 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: Nurse must use discretion/protocol, as C and G should typically be spaced/pushed separately due to chemical incompatibility).\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Immune Booster solution.\nLabel the bag clearly:\n“Immune Booster IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure (relative, especially with 1,000 mL option). Hypersensitivity to components.',
             precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
             situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
@@ -744,7 +879,8 @@ const allDrips = {
                 { name: 'Ascorbic Acid 500mg/mL', dose: '10 mL', timing: 'Main Drip' }
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
-            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 10 mL (total 5000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: This is an Additive from the spreadsheet, but typically C and G should be spaced/pushed separately due to chemical incompatibility. Nurse must use discretion/protocol).\nInvert gently several times to mix; do not shake.",
+            mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag.\nAdditive: Ascorbic Acid 500mg/mL - 10 mL (total 5000 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag (Note: Nurse must use discretion/protocol, as C and G should typically be spaced/pushed separately due to chemical incompatibility).\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Immune Booster Premium solution.\nLabel the bag clearly:\n“Immune Booster Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Pregnancy or breastfeeding – unless doctor-approved. Active infection or fever > 38°C. Allergy to Vitamin C formulation components.',
             precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates.\nAvoid mixing with other drugs in the same line; vitamin C is acidic.\nRecheck compatibility if co-administering any electrolytes/vitamins.\nUse caution in clients with unstable blood pressure, heart disease, or electrolyte imbalance.\nMonitor diabetic clients for post-infusion glucose fluctuations.\nAvoid rapid infusion (>500 mL/hr) to prevent osmotic vein irritation.',
             situationCaution: 'Recent GI upset or dehydration: assess need for 1,000 mL bag vs. smaller volume with oral rehydration after.\nHigh anxiety needle-phobic patients: allow extra time, consider slower start (e.g., 300 mL/hr for first 5–10 min).\nIf client reports burning or vein pain, slow rate and dilute further if necessary.\nIf mild nausea occurs, recline client and offer deep breathing and sips of water.\nIf infiltration suspected, stop infusion immediately and apply warm compress.',
@@ -763,6 +899,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL Bag or 100 mL for add-on.\nAdditive: Trace Elements - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared Trace Elements solution.\nLabel the bag clearly:\n“Trace Elements IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to trace metal components. Severe renal or hepatic dysfunction. Wilson’s disease (copper accumulation disorder). Hemochromatosis (iron overload). Ongoing chelation therapy.',
             precautions: 'Use only as per doctor’s standing orders. Do not exceed recommended frequency (commonly 1 infusion per 2–4 weeks unless clinically indicated).\nCaution in clients with low serum electrolytes — may require bloodwork before repeat infusions.\nAvoid mixing with other IV additives unless compatibility confirmed.',
             situationCaution: 'Metallic taste or mild warmth is common — slow infusion rate if uncomfortable.\nIf vein irritation occurs, dilute further (e.g., 2 mL Trace Elements in 250 mL NaCl).',
@@ -781,6 +918,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution: 200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline). **1000 mL saline should be administered for first time clients.**\nAdditives (in order of mixing):\nNAD+ 125mg/mL - 4 mL\nMix gently by inverting the bag 3-4 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Anti Ageing solution.\nLabel the bag clearly:\n“Anti Ageing IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Pregnancy or breastfeeding (unless specifically cleared by physician). Severe hypotension or hypertension. Cardiac arrhythmias or heart failure. Liver or renal impairment. Active malignancy (use clinical discretion). Allergy to NAD⁺ components.',
             precautions: 'First-time NAD⁺ users: always begin with slower infusion rate and 250–300 mg test dose.\nAvoid combining with alcohol or stimulants before/after infusion.\nEnsure adequate electrolyte and fluid intake pre- and post-infusion.',
             situationCaution: 'Rapid infusion can cause:\nHeat or burning along vein\nPalpitations or chest tightness\nNausea or anxiety\nAlways pause or slow the infusion instead of discontinuing unless severe symptoms persist.',
@@ -799,6 +937,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag /1000 mL.\nAdditive: Alpha Lipoic Acid 25mg/mL - 3 mL (Total 75mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared ALA Antioxidant solution.\nLabel the bag clearly:\n“ALA Antioxidant IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known allergy to Alpha Lipoic Acid. Severe liver or kidney disease. Thiamine deficiency (must be corrected first). Pregnancy or breastfeeding. Uncontrolled diabetes or hypoglycaemia.',
             precautions: 'Use with caution in diabetics — may lower blood sugar.\nAvoid co-administration with metal-containing infusions (e.g., iron, magnesium, copper).\nUse light protection (ALA degrades with light exposure).',
             situationCaution: 'First-time patients: start at half dose (1.5 mL = 37.5 mg ALA) to assess tolerance.\nNeuropathy or diabetic patients: monitor for numbness/tingling post-infusion.\nConcurrent high-antioxidant drips: ensure at least 1-hour spacing between ALA and other chelators.',
@@ -822,6 +961,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nVitamin B Complex - 2 mL\nB12 - 2 mL\nAscorbic Acid - 4 mL\nBiotin - 2 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Menopause Relief solution.\nLabel the bag clearly:\n“Menopause Relief IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Hypersensitivity to any ingredients. Severe renal or hepatic impairment. Uncontrolled hypertension. Heart block or bradycardia (due to magnesium). Pregnancy or breastfeeding. G6PD deficiency (caution with high-dose vitamin C).',
             precautions: 'Avoid concurrent IV calcium or phosphate solutions.\nMagnesium may potentiate sedation if patient on CNS depressants.\nVitamin B complex may cause temporary urine discoloration (yellow/orange).\nAlways use fresh mixed solution – discard unused portion after session.',
             situationCaution: 'If patient reports severe hot flashes or dizziness, pause infusion and reassess.\nAvoid glutathione push if patient reports chest tightness or breathing discomfort.\nDo not exceed 1 g magnesium unless prescribed and monitored by a doctor.',
@@ -840,6 +980,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd MIC - 4 mL\nMix gently by inverting the bag slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Weight Loss solution.\nLabel the bag clearly:\n“Weight Loss IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe liver or kidney disease. Pregnancy or breastfeeding (unless medically cleared). Active infection or fever. Known hypersensitivity to any MIC component. Uncontrolled hypertension or cardiac arrhythmia.',
             precautions: 'Use caution in clients with electrolyte imbalances or hypotension.\nStart infusion slowly and titrate rate only after tolerance confirmed.\nAvoid concurrent use of hepatotoxic medications without medical review.\nEnsure proper post-infusion hydration to support hepatic metabolism.',
             situationCaution: 'Clients on weight loss medication or thyroid therapy — verify compatibility.\nAvoid combining with high-dose niacin or other lipotropic formulations in same session.\nFor clients with history of vasovagal episodes, keep reclined and monitor BP closely.',
@@ -859,6 +1000,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nAdd MIC - 4 mL\nThen add GAC - 6 mL\nFinal flush.\nMix gently by inverting the bag slowly (do not shake).\nThis sequencing ensures:\nSmooth vasodilation and muscle endurance.\nOptimal fat metabolism support.",
+            preparationSteps: "Prime the IV line with the prepared Weight Loss Premium solution.\nLabel the bag clearly:\n“Weight Loss Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to amino acids or cobalamin derivatives. Pregnancy or breastfeeding unless cleared by doctor. Renal or hepatic impairment. Uncontrolled hypertension or cardiovascular instability. Hyperthyroidism. Epilepsy or seizure history.',
             precautions: 'Use caution in patients on thyroid meds, anti-diabetics, or blood thinners.\nAvoid concurrent high-caffeine intake pre- or post-infusion.\nAvoid if patient has received another amino acid infusion within 48 hours.',
             situationCaution: 'If patient complains of palpitations, heat, or nausea, slow the drip immediately.\nFor mild discomfort: pause 2–5 minutes, reassess vitals, resume slower.\nIf infiltration suspected: stop infusion, remove catheter, apply cold compress.',
@@ -877,6 +1019,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Hang or place the saline bag upright (200 mL or 1000 mL NaCl 0.9%).\nDisinfect the injection port with 70% isopropyl alcohol and allow to dry completely.\nUsing new sterile syringes and needles for each vial:\nDraw up Glutathione: 200mg/mL - 4 mL (800 mg total).\nAdd directly into: 0.9% Sodium Chloride bag (200 mL or 1000 mL).\nMix gently by inverting the bag several times. Do not introduce air into the bag.",
+            preparationSteps: "Prime the IV line with the prepared Fertility solution.\nLabel the bag clearly:\n“Fertility IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Pregnancy or breastfeeding (unless prescribed by fertility specialist). G6PD deficiency. Active cancer. Severe renal or hepatic dysfunction. Hypersensitivity to any component.',
             precautions: 'Use sterile technique at all times.\nMonitor renal patients closely (avoid fluid overload).\nAvoid concurrent antioxidant megadosing orally on same day.',
             situationCaution: 'Avoid concurrent antioxidant megadosing (e.g., oral NAC, high-dose Vitamin C) on same day unless directed by physician.\nNot recommended within 48 hours of egg retrieval or embryo transfer (may alter oxidative balance).',
@@ -895,6 +1038,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL bag.\nAdditive: Glutathione 200 mg/mL – 2 mL (total 400 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 2 mL Glutathione into the IV bag.\nInvert gently several times to mix; do not shake.\nLabel bag clearly: “Detox IV – Glutathione 400 mg / 200 mL NS”, date, time, initials.",
+            preparationSteps: "Prime the IV line with the prepared Detox solution.\nLabel the bag clearly:\n“Detox IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Absolute:\nGlutathione hypersensitivity\nG6PD deficiency\nSevere asthma\nUncontrolled hypertension\nRelative:\nPregnancy or breastfeeding (consult doctor)\nRenal or hepatic impairment\nActive infection or fever\nDehydration or electrolyte imbalance',
             precautions: 'Do not combine in same bag with high-dose Vitamin C (>10 g).\nAvoid mixing other injectables unless authorised by supervising doctor.\nStore Glutathione vials protected from light, use immediately after opening.\nUse large vein access to prevent irritation.\nDispose of sharps safely after use.',
             situationCaution: 'First-time client: Begin with 200 mL bag, observe tolerance.\nReported fatigue or low BP: Pre-hydrate with 250 mL saline before infusion.\nConcurrent liver medication: Confirm with prescribing doctor to prevent hepatic load.\nMultiple antioxidant therapies: Space 48 hours apart for optimal metabolism.',
@@ -913,6 +1057,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/ 1000 mL.\nAdditive: Glutathione 200 mg/mL – 4 mL (total 800 mg).\nUsing aseptic technique:\nSwab injection port with alcohol.\nAdd 4 mL Glutathione into the IV bag.\nInvert gently several times to mix; do not shake.\nLabel bag clearly: “Detox IV – Glutathione 800 mg / 200 mL NS or 1000 mL NS”, date, time, initials.",
+            preparationSteps: "Prime the IV line with the prepared Detox Premium solution.\nLabel the bag clearly:\n“Detox Premium IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Known hypersensitivity to any ingredient. Active cancer or ongoing chemotherapy. G6PD deficiency. Severe renal or hepatic dysfunction. Pregnancy or breastfeeding.',
             precautions: 'Avoid rapid glutathione administration (risk of hypotension).\nUse caution in patients with asthma or multiple allergies.\nConfirm no concurrent IV iron or oxidant therapies.',
             situationCaution: 'If patient reports metallic taste, dizziness, or chest tightness, slow infusion and reassess.\nIf IV site pain or redness develops, stop and re-site the cannula.',
@@ -934,6 +1079,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Use aseptic technique in a clean area.\nDraw up each additive individually using sterile syringes and needles.\nAdd the following to the saline bag in order:\nVitamin B Complex – 2 mL\nVitamin B12 – 2 mL\nMagnesium Sulphate – 2 mL\nGlutathione – add last (if pushed at the end)\nGently invert the bag 3–5 times (do not shake).\nLabel the bag clearly: “Sports Restore IV”, date, time, initials.",
+            preparationSteps: "Prime the IV line with the prepared Sports Restore solution.\nLabel the bag clearly:\n“Sports Restore IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal impairment (eGFR < 30 mL/min). Known hypersensitivity to any ingredients. Uncontrolled hypertension or heart failure. Pregnancy (unless cleared by supervising doctor). Acute infection or sepsis.',
             precautions: 'Use caution in patients with:\nMild renal dysfunction.\nElectrolyte imbalance.\nG6PD deficiency (when glutathione is used).\nAlways verify with supervising doctor before use in chronic illness.\nAvoid concurrent oral magnesium or potassium supplements pre-infusion.\nDelay infusion if patient has had alcohol or caffeine within 2 hours.\nRefrain from administering after intense heat exposure or sauna use.',
             situationCaution: 'Avoid concurrent oral magnesium or potassium supplements pre-infusion.\nDelay infusion if patient has had alcohol or caffeine within 2 hours.\nRefrain from administering after intense heat exposure or sauna use.',
@@ -955,6 +1101,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nMagnesium Sulphate 50% (0.5 g/mL) – 1 mL (0.5 g)\nAscorbic Acid 500mg/mL - 4 mL\nG.A.C (Glutamine, Arginine, Carnitine) - 4 mL\nB12 Methylcobalamin - 2 mL\nMix gently by inverting the bag 3-5 times slowly (do not shake). Magnesium must be added slowly and mixed well.",
+            preparationSteps: "Prime the IV line with the prepared Sports Edge solution.\nLabel the bag clearly:\n“Sports Edge IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Renal failure or severe kidney impairment. Uncontrolled hypertension. Known hypersensitivity to any component. Hypermagnesemia. Hemochromatosis (avoid repeated high-dose vitamin C). Active infection or fever. Pregnancy (unless prescribed by a doctor).',
             precautions: 'Adjust infusion rate for elderly or low BMI patients.\nMonitor patients on cardiac medications or diuretics.\nUse caution in G6PD deficiency (vitamin C sensitivity).\nAlways use freshly mixed solution—do not store overnight.',
             situationCaution: 'Muscle cramps or hypotension: slow infusion, elevate legs, hydrate orally.\nTingling or flushing: reassure; normal with magnesium or vitamin C.\nChest discomfort or lightheadedness: pause infusion, check vitals, escalate if persistent.',
@@ -973,6 +1120,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: 'Ringer’s Lactate - 1000 mL.\nConsideration for change in mix will be to follow protocol on add-ons and adhering to compatibility chart.',
+            preparationSteps: "Prime the IV line with the prepared Aqua Hydrate solution.\nLabel the bag clearly:\n“Aqua Hydrate IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Acute heart failure or pulmonary oedema. Severe renal impairment (eGFR <30 mL/min). Hypermagnesaemia or hyperkalaemia. Severe dehydration with hyponatraemia (use NS instead). Known hypersensitivity to additives.',
             precautions: 'Use caution in hypertensive or cardiac patients (due to sodium and fluid load).\nDo not exceed 100 mL/hr in elderly or low-weight patients.\nAvoid mixing with calcium-incompatible agents.\nAlways add vitamins after checking expiry and clarity.',
             situationCaution: 'Post-exercise or hangover clients: Ensure no electrolyte imbalance contraindications.\nDiabetics: Vitamin C may transiently affect glucose readings.\nPregnancy: Only under physician approval.',
@@ -991,6 +1139,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base solution: 0.9% Normal Saline – 200 mL bag/1000 mL bag or 100 mL for add-on.\nAdditive: B12 - 2 mL.\nUsing aseptic technique:\nSwab injection port with alcohol.\nInvert gently several times to mix; do not shake.",
+            preparationSteps: "Prime the IV line with the prepared B12 solution.\nLabel the bag clearly:\n“B12 IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Hypersensitivity to cobalamin or cobalt. Leber’s hereditary optic neuropathy. Polycythemia vera (uncontrolled). Severe hypokalaemia without correction.',
             precautions: 'Use caution in clients with heart failure or renal impairment (fluid overload risk).\nAvoid mixing with Vitamin C in the same line (chemical incompatibility).\nRepeated high-dose infusions may cause acneiform eruptions.',
             situationCaution: 'Pause infusion if client reports dizziness, palpitations, or tingling.\nEnsure doctor review if persistent deficiency symptoms remain after multiple infusions.',
@@ -1014,6 +1163,7 @@ const allDrips = {
             ],
             preInfusionCheck: "Verify doctor’s standing order and ensure client consent form is signed and have completed medical screening (allergies, medications, renal/hepatic function, cardiovascular history, pregnancy, breastfeeding).\nConfirm no allergies to IV Drip Contents including Saline.\nConfirm adequate hydration and no signs of infection. Encourage oral hydration pre-infusion.\nReview contraindications (see below).\nCheck vital signs (BP, HR, SpO₂, temperature).\nConfirm patent IV access.\nInspect all vials for integrity, clarity, and expiry date.\nConfirm equipment sterilisation, expiry dates, and crash kit availability (including AED).\nPerform a venipuncture check for infiltration risk.\nPrepare aseptic field for mixing.",
             mixing: "Base Solution Options:\n200 mL or 1000 mL 0.9% Sodium Chloride (Normal Saline)\nAdditives (in order of mixing):\nVitamin B Complex (2 mL)\nB12 Methylcobalamin (2 mL)\nMagnesium Sulphate (2 mL)\nAscorbic Acid (4 mL)\nTaurine (2 mL)\nMix gently by inverting the bag 3-5 times slowly (do not shake).",
+            preparationSteps: "Prime the IV line with the prepared Hangover & Jet Lag solution.\nLabel the bag clearly:\n“Hangover & Jet Lag IV”, include date/time and initials.\nAttach standard IV giving set with drip regulator.\nFlush line with 5–10 mL saline before connecting to the drip.\nHang bag on IV pole and connect infusion set with roller clamp and drip chamber.\nPrime line to remove all air bubbles.\nUse 0.22 µm in-line filter if indicated by product manufacturer.",
             contraindications: 'Severe renal impairment. Heart failure or fluid overload. Known hypersensitivity to any components. Pregnancy or lactation without medical approval. G6PD deficiency (due to ascorbic acid and glutathione).',
             precautions: 'Avoid in uncontrolled hypertension (monitor due to magnesium).\nUse caution in clients with electrolyte imbalance.\nAlways confirm B12 type (methylcobalamin preferred for neurological recovery).\nEnsure glutathione is protected from light prior to use.',
             situationCaution: 'If client reports chest tightness or headache → slow the drip rate.\nIf vein irritation occurs → dilute further or switch line.\nIf nausea develops → pause infusion briefly and provide deep breathing support.',
@@ -1040,7 +1190,7 @@ const therapeuticCategories = [
 
 // --- NAVIGATION & VIEW LOGIC ---
 
-let currentView = 'drips-list-view';
+let currentView = 'main-menu-view'; // Default to main menu
 let currentDisplayMode = 'grid'; // 'grid' or 'list'
 let viewHistory = [];
 
@@ -1053,13 +1203,18 @@ window.navigateTo = function(viewId, event) {
   if (currentEl) currentEl.classList.add('hidden');
   if (nextEl) nextEl.classList.remove('hidden');
   
-  if (viewId === 'details-view' && currentView === 'drips-list-view') {
+  if (viewId === 'drips-list-view' || viewId === 'forms-view') {
+      if (currentView !== 'main-menu-view') {
+          viewHistory.push(currentView);
+      }
+      // Special case: When navigating to list view, ensure it renders
+      if (viewId === 'drips-list-view') {
+          renderAllDrips();
+      }
+  } else if (viewId === 'details-view' && currentView === 'drips-list-view') {
       viewHistory.push(currentView);
-  } else if (viewId === 'drips-list-view') {
+  } else if (viewId === 'main-menu-view') {
       viewHistory = [];
-      // Ensure the search bar is clear when returning to the list view
-      document.getElementById('drip-search-input').value = '';
-      filterDripsList('');
   }
   
   currentView = viewId;
@@ -1070,10 +1225,10 @@ window.navigateTo = function(viewId, event) {
 window.updateHomeButtonVisibility = function(viewId) {
     const homeBtn = document.querySelector('.header-home-button');
     if (!homeBtn) return;
-    if (viewId === 'details-view') {
-        homeBtn.classList.remove('hidden');
-    } else {
+    if (viewId === 'main-menu-view') {
         homeBtn.classList.add('hidden');
+    } else {
+        homeBtn.classList.remove('hidden');
     }
 }
 
@@ -1174,7 +1329,6 @@ window.showDripDetails = function(dripName) {
 
   document.getElementById('detail-name').textContent = drip.name;
   
-  // 1. PRE INFUSION SAFETY CHECK
   // Clear and update content containers
   const safetyCheckContentEl = document.getElementById('detail-safety-check-content');
   const ingredientsTableEl = document.getElementById('detail-ingredients-table');
@@ -1218,7 +1372,7 @@ window.showDripDetails = function(dripName) {
 
   // 3. MIXING
   // Combine Mixing and Preparation Steps logic into one detailed content block
-  let mixingInstructions = `<p style="margin: 0; line-height: 1.3;">${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
+  let mixingInstructions = `<p style="margin: 0; line-height: 1.3;"><strong>Mixing Instructions:</strong> ${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
   
   if (protocol.preparationSteps) {
       // Assuming Preparation Steps is an array of steps separated by \n or similar in the data.
@@ -1389,9 +1543,9 @@ const fuse = new Fuse(fuseDataset, {
 
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Initial render is alphabetical in grid view
+    // Initial render is the main menu view
     renderAllDrips(); 
-    document.getElementById('drips-list-view').classList.remove('hidden');
+    document.getElementById('main-menu-view').classList.remove('hidden');
     updateHomeButtonVisibility(currentView);
 });
 </script>
