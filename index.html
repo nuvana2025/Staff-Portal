@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en-ZA"> <head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="theme-colour" content="#006400"/> <meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta property="og:title" content="NuVana IV Drip Protocols"/>
+<meta property="og:description" content="IV Drip Protocols for authorized nurses only."/>
+<meta property="og:type" content="website"/>
+<title>NuVana IV Drip Protocols</title>
+<style>
+    /* Base */
+    html, body {
+      -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent;
+      margin: 0; padding: 0; overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #FDFCFA; color: #333;
+    }
+    /* Header (Deep Black) */
+    .header-link { display: block; text-decoration: none; color: inherit; }
+    header {
+      position: relative;
+      background: #000000; /* Deep Black */
+      color: #FFD700;
+      text-align: center;
+      padding: 10px 60px 10px 60px;
+      border-radius: 16px;
+      max-width: 850px;
+      margin: 20px auto;
+      cursor: pointer;
+    }
+    header h1 {
+      margin: 0 0 6px; font: 700 1.8em/1.2 Lora, serif;
+      background: linear-gradient(180deg, #FFFFFF 15%, #FFD700 55%, #B8860B 85%, #A87900 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    header p {
+      margin: 6px 0 0; font-style: italic; color: #fff; font-size: 0.9em;
+    }
+    /* Layout */
+    .container { max-width: 960px; margin: 20px auto; padding: 0 20px; }
+    
+    /* --- Grid View Styles (Compact) --- */
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Reduced min width */
+        gap: 15px; /* Reduced gap */
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px; /* Reduced rounding */
+      box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 2px 4px rgba(0,0,0,.08); /* Lighter shadow */
+      padding: 20px; /* Reduced padding */
+      text-align: center;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      -webkit-user-select: none;
+      user-select: none;
+      position: relative;
+      display: block; /* Ensure grid card displays correctly */
+    }
+    .card:hover { transform: scale(1.02); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+    .card:active { transform: scale(.98); }
+    .card .icon { font-size: 1.8em; margin-bottom: 6px; } /* Smaller icon */
+    .drip-name { font: 700 1em/1.2 system-ui; margin: 4px 0 6px; } /* Smaller font */
+    .tile-divider { width: 30px; height: 2px; background: #4b0082; margin: 4px auto 8px; border-radius: 2px; }
+    .drip-number { font-size: 0.8em; font-weight: 400; color: #777; display: block; margin-bottom: 2px; }
+    
+    /* --- List View Styles (Compact) --- */
+    .list-view {
+        display: flex;
+        flex-direction: column;
+        gap: 2px; /* Very small gap */
+        padding: 0;
+    }
+    .list-view .card {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 12px; /* Reduced padding further */
+        text-align: left;
+        box-shadow: 0 1px 3px rgba(0,0,0,.05);
+        transition: background 0.1s;
+    }
+    .list-view .card:hover {
+        background: #F4F4FF; /* Very light hover */
+        transform: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+    .list-view .icon, .list-view .tile-divider { display: none; }
+    .list-view .drip-info-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-grow: 1;
+    }
+    .list-view .drip-name { 
+        margin: 0; 
+        font-size: 0.95em; 
+        font-weight: 600;
+        flex-grow: 1;
+    }
+    .list-view .drip-tagline { 
+        margin: 0; 
+        font-size: 0.8em; /* Very small font */
+        color: #555 !important;
+        text-align: right;
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding-right: 15px;
+    }
+    .list-view .view-protocol-label {
+        font-weight: 700;
+        color: #4b0082;
+        font-size: 0.85em;
+        flex-shrink: 0;
+    }
+
+
+    /* View helpers */
+    .hidden { display: none !important; }
+    h2 { margin: 10px 0 14px; }
+
+    /* Search Bar Specific Styles */
+    #search-view-container { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 15px; 
+        margin-bottom: 15px; /* Reduced margin */
+    }
+    .search-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+    .search-input-container { position: relative; display: flex; flex-grow: 1; }
+    #drip-search-input {
+        width: 100%;
+        padding: 10px 15px; /* Reduced padding */
+        border: 2px solid #4b0082;
+        border-radius: 6px;
+        font-size: 1em;
+        box-sizing: border-box;
+    }
+    .search-icon-inside { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4b0082; font-size: 1.2em; }
+    
+    /* List/Grid Toggle Group */
+    .toggle-group {
+        display: flex;
+        border: 1px solid #4b0082;
+        border-radius: 6px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+    .toggle-button {
+        background: #fff;
+        color: #4b0082;
+        border: none;
+        padding: 8px 12px;
+        font-size: 0.9em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .toggle-button.active {
+        background: #4b0082;
+        color: #fff;
+    }
+    .toggle-button:hover:not(.active) {
+        background: #E6E6FA;
+    }
+
+
+    /* Protocol Details Styling */
+    .protocol-section-title {
+        font-size: 1.1em; /* Reduced size */
+        font-weight: 700;
+        margin-top: 15px; /* Reduced margin */
+        margin-bottom: 8px; /* Reduced margin */
+        color: #4b0082;
+        border-bottom: 2px solid #E6E6FA;
+        padding-bottom: 4px; /* Reduced padding */
+    }
+
+    /* Accordions */
+    .accordion-header {
+      color: #333; padding: 10px; /* Reduced padding */
+      border: none; border-radius: 6px;
+      cursor: pointer; margin: 4px 0; /* Reduced margin */
+      width: 100%; font-weight: 700;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+      text-align: left;
+      background: #E6E6FA; /* Light Lavender */
+      font-size: 0.9em; /* Smaller font */
+    }
+    .accordion-header::after { content: "▼"; font-size: 10px; } /* Smaller arrow */
+    .accordion-header.active::after { content: "▲"; }
+    .accordion-content {
+      max-height: 0; overflow: hidden;
+      transition: max-height .28s ease, padding .28s ease;
+      -webkit-transition: max-height .28s ease, padding .28s ease;
+      padding: 0 10px; /* Reduced padding */
+      border-radius: 6px;
+      margin-bottom: 4px; /* Reduced margin */
+      border: 1px solid transparent;
+      text-align: left;
+      background: #F8F8FF; /* Ghost White */
+      font-size: 0.85em; /* Smaller content font */
+    }
+    .accordion-content.open { max-height: 2000px; padding: 10px; } /* Reduced padding */
+    
+    /* Protocol Tables */
+    .protocol-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px; /* Reduced margin */
+        font-size: 0.85em; /* Smaller table font */
+    }
+    .protocol-table th, .protocol-table td {
+        border: 1px solid #ddd;
+        padding: 4px 8px; /* Reduced table padding */
+        text-align: left;
+        line-height: 1.3; /* Reduced line height */
+    }
+    .protocol-table th { width: 35%; } /* Adjusted width for content */
+    
+    /* Protocol Lists */
+    .protocol-list {
+        list-style: decimal inside;
+        padding-left: 0;
+        margin-left: 10px; /* Reduced margin */
+        line-height: 1.3; /* Reduced line height */
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .protocol-list li {
+        margin-bottom: 3px; /* Reduced margin */
+    }
+    .note-box {
+        background: #FFF8E1; /* Light Gold */
+        border-left: 4px solid #B8860B;
+        padding: 8px 12px; /* Reduced padding */
+        margin-top: 10px; /* Reduced margin */
+        border-radius: 4px;
+        font-size: 0.8em; /* Smaller font */
+        line-height: 1.3;
+    }
+    
+    /* Footer (Deep Black) */
+    .nv-footer-v2 { 
+      color: #FFD700 !important; 
+      font-style: italic !important; 
+      margin-top: 15px; /* Reduced margin */
+      padding: 8px 10px; /* Reduced padding */
+      font-size: 0.85em; /* Reduced font size */
+      border-top: 1px solid #ddd; 
+      background: #000000; /* Deep Black */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .copyright { font-size: 0.75em; color: #FFD700; margin-top: 4px; width: 100%; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="nv-tooltip-overlay" id="tooltip-overlay" onclick="closeTooltip()">
+<div class="nv-tooltip-card" onclick="event.stopPropagation()">
+<span class="nv-tooltip-close" onclick="closeTooltip()">×</span>
+<div id="tooltip-content"></div>
+</div>
+</div>
+
+<a href="#" class="header-link" onclick="event.preventDefault(); navigateTo('drips-list-view');">
+  <header>
+    <button class="header-home-button hidden" onclick="navigateTo('drips-list-view', event)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </button>
+    <h1>NuVana IV Drip Protocols</h1>
+    <p>For authorised NuVana nurses only</p>
+  </header>
+</a>
+
+<div class="container">
+
+<!-- 1. DRIPS LIST VIEW (Protocol Selector) -->
+<div data-view-id="drips-list-view" id="drips-list-view">
+    <div id="search-view-container">
+        <h2 class="main-menu-title" style="margin-bottom: 5px;">Protocol Search</h2>
+        
+        <div class="search-row">
+            <div class="search-input-container">
+                <!-- UPDATED PLACEHOLDER TEXT -->
+                <input type="text" id="drip-search-input" placeholder="Search by Drip Name..." oninput="filterDripsList(this.value)">
+                <span class="search-icon-inside">🔍</span>
+            </div>
+            
+            <!-- NEW LIST/GRID TOGGLE GROUP -->
+            <div class="toggle-group">
+                <button id="grid-toggle-btn" class="toggle-button active" onclick="toggleView('grid')">Grid</button>
+                <button id="list-toggle-btn" class="toggle-button" onclick="toggleView('list')">List</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid" id="all-drips-grid"></div>
+
+    <footer class="nv-footer-v2">
+        <p class="copyright">NuVana Wellness - All rights reserved. Protocol Version 1.1</p>
+    </footer>
+</div>
+
+<!-- 2. DRIP DETAILS VIEW (Protocol Display) -->
+<div class="hidden" data-view-id="details-view" id="details-view">
+    <div class="nav-controls">
+        <button class="back-button" onclick="navigateTo('drips-list-view')">← Back to Protocol Search</button>
+    </div>
+
+    <div class="drip-details" id="drip-details-panel">
+        <h2 id="detail-name"></h2>
+        <p id="detail-tagline" class="detail-tagline-style" style="color: #8a2be2; font-weight: 600; font-style: normal;">Drip Protocol Guide</p>
+        
+        <div class="protocol-section-title">Ingredients & Doses</div>
+        <div id="detail-ingredients-table"></div>
+
+        <div class="protocol-section-title">Preparation & Mixing</div>
+        <div id="detail-mixing"></div>
+
+        <div class="protocol-section-title">Safety & Post-Care</div>
+        <div class="group-rose">
+            <button class="accordion-header" onclick="toggleAccordion('detail-contraindications', this)">Contraindications</button>
+            <div class="accordion-content" id="detail-contraindications"><div id="detail-contraindications-content"></div></div>
+            
+            <button class="accordion-header" onclick="toggleAccordion('detail-precautions', this)">Precautions</button>
+            <div class="accordion-content" id="detail-precautions"><div id="detail-precautions-content"></div></div>
+
+            <button class="accordion-header" onclick="toggleAccordion('detail-emergencies', this)">Emergency Stop & Safety</button>
+            <div class="accordion-content" id="detail-emergencies"><div id="detail-emergencies-content"></div></div>
+
+            <button class="accordion-header" onclick="toggleAccordion('detail-postcare', this)">Post Infusion Care</button>
+            <div class="accordion-content" id="detail-postcare"><div id="detail-postcare-content"></div></div>
+        </div>
+        
+        <div class="protocol-section-title">Common Add-On Components</div>
+        <div id="addon-ivs-grid"></div>
+    </div>
+    <footer class="nv-footer-v2">
+        <p class="copyright">NuVana Wellness - All rights reserved. Protocol Version 1.1</p>
+    </footer>
+</div>
+
+</div>
+<button id="back-to-top-btn" class="scroll-nav-btn" onclick="scrollToTop()">↑</button>
+<button id="dynamic-back-btn" class="scroll-nav-btn" onclick="navigateTo('drips-list-view')">←</button>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6/dist/fuse.min.js"></script>
+<script>
+// --- CORE DRIP PROTOCOL DATA (MANUALLY INTEGRATED FROM SPREADSHEETS) ---
+
+const allDrips = {
+    'Jet Fuel': {
+        name: 'Jet Fuel',
+        category: 'Energy & Focus',
+        base: 'Saline',
+        icon: '⚡',
+        protocol: {
+            ingredients: [
+                { name: 'B12 Methylcobalamin', dose: '0.5 mL (500 µg/mL)', timing: 'Main IV' },
+                { name: 'B Complex', dose: '1 mL', timing: 'Main IV' },
+                { name: 'Magnesium Sulphate 50%', dose: '0.5 mL (0.25 g/mL)', timing: 'Main IV - mid phase' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '1.5 mL (750 mg)', timing: 'Main IV - early mid phase' },
+                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Slow push after main drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling. Always use sterile, preservative-free preparations.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/strenuous exercise for 12 hours. Record completion time, total volume infused, and client response.'
+        }
+    },
+    'Jet Fuel Premium': {
+        name: 'Jet Fuel Premium',
+        category: 'Energy & Focus',
+        base: 'Saline',
+        icon: '⚡⚡⚡',
+        protocol: {
+            ingredients: [
+                { name: 'B12 Methylcobalamin', dose: '1 mL (1000 µg/mL)', timing: 'Main IV' },
+                { name: 'B Complex', dose: '2 mL', timing: 'Main IV' },
+                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Main IV - mid phase' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '3 mL (1500 mg)', timing: 'Main IV - early mid phase' },
+                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Slow push after main drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Known hypersensitivity to any component. Severe renal or hepatic impairment. G6PD deficiency (risk with high-dose Vitamin C). Hypotension or heart failure (caution due to magnesium). Active infection or unstable vitals.',
+            precautions: 'Use caution with clients on diuretics, anticoagulants, or cardiac medications. Avoid direct sunlight on Vitamin C/Glutathione. Verify correct labeling. Always use sterile, preservative-free preparations.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/strenuous exercise for 12 hours. Record completion time, total volume infused, and client response.'
+        }
+    },
+    'Recharge': {
+        name: 'Recharge',
+        category: 'Energy & Focus',
+        base: 'Saline',
+        icon: '🔋',
+        protocol: {
+            ingredients: [
+                { name: 'B12 Methylcobalamin', dose: '1 mL (1000 µg/mL)', timing: 'Add after B Complex' },
+                { name: 'Vitamin B Complex', dose: '1 mL', timing: 'Add before infusion Starts' },
+                { name: 'Magnesium Sulphate 50%', dose: '0.5 mL (0.25 g/mL)', timing: 'Last before connecting line' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate. Mix gently by inverting.',
+            contraindications: 'Known hypersensitivity to B-vitamins or magnesium. Severe renal impairment (risk of magnesium accumulation). Heart block or myasthenia gravis. Hypotension or shock states. Acute hepatic failure (relative).',
+            precautions: 'Use caution in patients on digitalis, calcium-channel blockers, or CNS depressants. Adjust magnesium dose in renal insufficiency. Do not exceed prescribed additive limits.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/stimulants for 24h. Record completion time, total volume infused, and client response.'
+        }
+    },
+    'Recharge Premium': {
+        name: 'Recharge Premium',
+        category: 'Energy & Focus',
+        base: 'Saline',
+        icon: '🔋🔋🔋',
+        protocol: {
+            ingredients: [
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Add after B Complex' },
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Add before infusion Starts' },
+                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Last before connecting line' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B12, B Complex, Magnesium Sulphate. Mix gently by inverting.',
+            contraindications: 'Known hypersensitivity to any component. Severe renal insufficiency or failure. Hypotension (SBP <90 mmHg). Heart block or bradyarrhythmia (caution with magnesium). Myasthenia gravis. Acute dehydration or electrolyte imbalance.',
+            precautions: 'Administer magnesium slowly to prevent vasodilation or hypotension. Avoid concurrent calcium or muscle relaxant infusions. Use caution in clients on antihypertensives or CNS depressants.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/stimulants for 24h. Record completion time, total volume infused, and client response.'
+        }
+    },
+    'Libido': {
+        name: 'Libido',
+        category: 'Hormonal & Sexual Wellness',
+        base: 'Saline',
+        icon: '💋',
+        protocol: {
+            ingredients: [
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Mix-in at start' },
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Mix-in at start' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Add after vitamins' },
+                { name: 'L-Arginine 100mg/ml', dose: '2 mL (200 mg)', timing: 'Add after 15 min of start' },
+                { name: 'L-Carnitine 100mg/ml', dose: '2 mL (200 mg)', timing: 'Add concurrently with L-Arginine' },
+                { name: 'Taurine 50mg/ml', dose: '2 mL (100 mg)', timing: 'Add at 20 min mark' },
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add at 30 min mark — infuse slowly' },
+                { name: 'Zinc Sulphate 10mg/ml', dose: '2 mL (20 mg)', timing: 'Add last' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Ascorbic Acid, L-Arginine, L-Carnitine, Taurine, Magnesium Sulphate, Zinc Sulphate. Mix gently by inverting. Note specific timing for Arginine and Carnitine.',
+            contraindications: 'Severe renal or hepatic impairment. Hypotension or cardiovascular instability. Pregnancy (unless doctor approved). Known hypersensitivity to any ingredient. Uncontrolled diabetes (Vitamin C caution).',
+            precautions: 'Avoid rapid administration (risk of hypotension or flushing). Use with caution in patients on nitrates, antihypertensives, or PDE5 inhibitors (Arginine interaction). Ensure adequate hydration before infusion.',
+            safety: 'Stop immediately if: BP <90/60 mmHg or HR >120 bpm. Sudden dizziness, shortness of breath, or chest tightness. Rash, swelling, or anaphylactic symptoms. Severe vein irritation or pain at infusion site.',
+            postCare: 'Flush line with 5–10ml NS. Observe for 15 min. Encourage hydration. Advise avoiding alcohol or high-caffeine for 12 hours post-infusion.'
+        }
+    },
+    'Glutamine': {
+        name: 'Glutamine',
+        category: 'Recovery & Immune Support',
+        base: 'Saline',
+        icon: '🏋️',
+        protocol: {
+            ingredients: [
+                { name: 'Glutamine 30mg/ml', dose: '2 mL (60 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutamine 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Severe hepatic or renal dysfunction. Metabolic disorders affecting nitrogen balance. Known hypersensitivity to Glutamine. Acute acidosis or uremia.',
+            precautions: 'Use cautiously in patients with liver cirrhosis, renal impairment, or sepsis. Avoid co-administration with incompatible solutions. Ensure freshly mixed solution is used.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site. Signs of magnesium toxicity (flushing, bradycardia, depressed reflexes).',
+            postCare: 'Flush line. Observe 10-15 min. Advise eating a balanced meal within 1–2 hours. Avoid strenuous activity for 1 hour post-infusion.'
+        }
+    },
+    'Anxiety Relief': {
+        name: 'Anxiety Relief',
+        category: 'Mental Wellness & Stress',
+        base: 'Saline',
+        icon: '😌',
+        protocol: {
+            ingredients: [
+                { name: 'Taurine 50mg/ml', dose: '4 mL (200 mg)', timing: 'Main Drip' },
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Main Drip' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Main drip (Slow release)' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Taurine, Ascorbic Acid. Mix gently by inverting.',
+            contraindications: 'Severe renal impairment. Uncontrolled hypotension or bradycardia. Heart block (2nd or 3rd degree). G6PD deficiency (due to ascorbic acid). Known magnesium or sulphate hypersensitivity. Decompensated cardiac failure.',
+            precautions: 'Magnesium may cause transient hypotension or warmth. Ascorbic acid can increase oxalate load—caution in renal stones. Taurine may potentiate sedative effects of CNS depressants.',
+            safety: 'Stop infusion immediately if: Patient experiences anaphylysis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. BP < 90/60 mmHg or HR >120 bpm.',
+            postCare: 'Flush line with 10ml saline. Recheck vitals. Advise patient to stay hydrated and avoid alcohol/stimulants for 24h.'
+        }
+    },
+    'Anxiety Relief Premium': {
+        name: 'Anxiety Relief Premium',
+        category: 'Mental Wellness & Stress',
+        base: 'Saline',
+        icon: '😌😌',
+        protocol: {
+            ingredients: [
+                { name: 'Myers Cocktail', dose: '3 mL', timing: 'Add first' },
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add in second and infuse slowly' },
+                { name: 'Taurine 50mg/ml', dose: '4 mL (200 mg)', timing: 'Midway add Taurine' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Add last' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Myers Cocktail, Magnesium Sulphate (add slowly and swirl), Taurine, Ascorbic Acid. Mix gently by inverting.',
+            contraindications: 'Severe renal impairment or failure. Uncontrolled hypertension. Heart block or severe cardiac disease. Current infection or fever. Hypocalcaemia or hypermagnesemia. Pregnancy or lactation without doctor’s approval. Known hypersensitivity to any component.',
+            precautions: 'Administer under medical supervision only. Avoid rapid infusion due to magnesium content. Use slower initial rate for anxious/first-time clients.',
+            safety: 'Immediately stop the infusion and alert the doctor if: BP drops >20 mmHg from baseline. SpO₂ < 92%. Chest pain, severe flushing, or difficulty breathing. New rash or hives appear. Patient reports feeling faint, unwell, or short of breath.',
+            postCare: 'Remove cannula, apply pressure. Observe client for 10–20 minutes. Document any immediate changes (e.g., calmer mood, energy).'
+        }
+    },
+    'Radiance': {
+        name: 'Radiance',
+        category: 'Skin & Beauty',
+        base: 'Saline',
+        icon: '✨',
+        protocol: {
+            ingredients: [
+                { name: 'Ascorbic Acid 500mg/ml', dose: '5 mL (2500 mg)', timing: 'Main IV' },
+                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'After main drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Ascorbic Acid 5 mL. Mix gently by inverting. Glutathione 5 mL is administered separately as a slow push after the main bag is complete.',
+            contraindications: 'Known hypersensitivity to Vitamin C or Glutathione. Renal impairment (risk of oxalate nephropathy). Uncontrolled asthma. Pregnancy or lactation (unless prescribed).',
+            precautions: 'Confirm no allergy to ascorbic acid or glutathione. Use caution in renal impairment, G6PD deficiency, or pregnancy (doctor approval required). Avoid rapid infusion to prevent vein irritation. Protect from light during preparation and infusion.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe patient for 15 min. Maintain hydration (250 ml water minimum). Record vitals, infusion time, and any reactions.'
+        }
+    },
+    'Radiance Plus': {
+        name: 'Radiance Plus',
+        category: 'Skin & Beauty',
+        base: 'Saline',
+        icon: '✨✨',
+        protocol: {
+            ingredients: [
+                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'Main Drip' },
+                { name: 'Glutathione 200mg/ml', dose: '12 mL (2400 mg)', timing: 'After main drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Ascorbic Acid 10 mL. Mix gently by inverting. Glutathione 12 mL is administered separately as a slow push after the main bag is complete.',
+            contraindications: 'Known allergy to Ascorbic Acid or Glutathione. G6PD deficiency. Uncontrolled hypertension or heart failure (for 1000 ml infusions). Renal insufficiency or dialysis patients. Pregnancy or lactation (without doctor’s approval).',
+            precautions: 'Avoid in patients taking chemotherapy (unless physician-approved). Use caution in asthmatic patients (Ascorbic Acid may trigger bronchospasm). Store vials in cool, dark environment; protect Glutathione from light. Always perform sensitivity test if uncertain of prior exposure.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush IV line with NS. Remove cannula. Observe 10–15 min post-infusion. Record total volume infused, vitals, and client response.'
+        }
+    },
+    'Radiance Premium': {
+        name: 'Radiance Premium',
+        category: 'Skin & Beauty',
+        base: 'Saline',
+        icon: '✨✨✨',
+        protocol: {
+            ingredients: [
+                { name: 'B-Complex', dose: '2 mL', timing: 'Main Drip' },
+                { name: 'Biotin (5 mg)', dose: '2 mL (10 mg)', timing: 'Main Drip' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Main Drip' },
+                { name: 'Alpha-Lipoic Acid 25mg/ml', dose: '2 mL (50 mg)', timing: 'Main Drip after 10 min' },
+                { name: 'NAD + 125MG/ML', dose: '1 mL (125 mg)', timing: 'Main Drip after 15 min' },
+                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Slow push after main drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B-Complex, Biotin, Ascorbic Acid, ALA, NAD+. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Pregnancy or breastfeeding (unless cleared by physician). Severe renal or hepatic impairment. Uncontrolled hypertension. G6PD deficiency (Vitamin C caution). Hypersensitivity to any component. Recent chemotherapy or radiation therapy.',
+            precautions: 'Use caution in patients with electrolyte imbalance, low blood pressure, or dehydration. For NAD+, start infusion slowly to minimize chest tightness or nausea. Avoid direct sunlight post-infusion if skin sensitivity occurs.',
+            safety: 'Emergency Stop Criteria: Anaphylaxis symptoms (rash, wheezing, swelling, hypotension). Chest pain or severe shortness of breath. Fainting or unresponsiveness. Severe vein inflammation or extravasation.',
+            postCare: 'Flush line. Observe 15 min. Increase water intake for 24 hours. Avoid alcohol and caffeine immediately post-infusion. Expect mild fatigue or warmth for 1–2 hours. Record total volume, batch numbers, and duration in treatment log.'
+        }
+    },
+    'Biotin': {
+        name: 'Biotin',
+        category: 'Skin & Beauty',
+        base: 'Saline',
+        icon: '🧴✨',
+        protocol: {
+            ingredients: [
+                { name: 'Biotin 5mg/ml', dose: '2 mL (10 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Biotin 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Known hypersensitivity to Biotin. Severe renal impairment (relative contraindication). Concurrent use of biotin-interfering lab tests (advise patient to avoid blood tests for at least 72 hours post-infusion).',
+            precautions: 'Use caution in pregnant or breastfeeding patients (generally considered safe but confirm medical approval). Monitor diabetic patients closely. Avoid mixing with other agents unless compatibility confirmed.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush line. Observe 10-15 min. Record batch numbers, volume, and client tolerance. Advise reporting persistent lightheadedness or fatigue.'
+        }
+    },
+    'Vitamin C': {
+        name: 'Vitamin C',
+        category: 'Immune Support',
+        base: 'Saline',
+        icon: '🍊',
+        protocol: {
+            ingredients: [
+                { name: 'Ascorbic Acid 500mg/ml', dose: '2 mL (1000 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 2 mL. Mix gently by inverting.',
+            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure. Hypersensitivity to components.',
+            precautions: 'Elderly/cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; Vitamin C is acidic. Use caution in clients with unstable BP/heart disease.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
+        }
+    },
+    'Anti Inflammatory & Auto Immune': {
+        name: 'Anti Inflammatory & Auto Immune',
+        category: 'Immune & Anti-Inflammatory',
+        base: 'Saline',
+        icon: '🧘',
+        protocol: {
+            ingredients: [
+                { name: 'Magesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'Add first' },
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Mixed into Main Drip' },
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Mixed into Main Drip' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Mixed into main drip' },
+                { name: 'Glutathione 200mg/ml', dose: '3 mL (600 mg)', timing: 'Immediately after separately as slow push' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Vitamin B Complex, B12, Ascorbic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Severe renal impairment (eGFR <60). Known hypersensitivity to any component. Active oxalate kidney stones. G6PD deficiency (risk of haemolysis). Uncontrolled hypertension or heart failure.',
+            precautions: 'Caution in pregnancy and breastfeeding (doctor’s approval required). Monitor magnesium dose in patients on calcium channel blockers. Avoid rapid Vitamin C infusion in G6PD deficiency.',
+            safety: 'BP drop >20 mmHg from baseline. Oxygen saturation <94%. Chest pain, tightness, or difficulty breathing. Rash, hives, or swelling of face/throat. Patient discomfort or dizziness. Stop infusion, maintain IV access, initiate emergency protocol.',
+            postCare: 'Flush IV line with 10 mL normal saline. Observe patient for 10–15 minutes. Encourage hydration. Educate on possible mild fatigue or increased urination.'
+        }
+    },
+    'Anti Inflammatory Premium': {
+        name: 'Anti Inflammatory Premium',
+        category: 'Immune & Anti-Inflammatory',
+        base: 'Saline',
+        icon: '🧘🧘',
+        protocol: {
+            ingredients: [
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add first' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'After Magnesium, wait 2-3 min before adding ALA' },
+                { name: 'Alpha Lipoic Acid 25MG/ML', dose: '4 mL (100 mg)', timing: 'Add last after Ascorbic Acid' },
+                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'Immediately after separately as slow push' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Ascorbic Acid (wait 2-3 min), Alpha Lipoic Acid. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Known hypersensitivity to any ingredient. Severe renal or hepatic impairment. G6PD deficiency (high-dose Vitamin C risk). Hypotension or cardiac arrhythmias. Pregnancy or breastfeeding (doctor clearance required).',
+            precautions: 'Avoid concurrent antioxidant oral dosing 24h pre/post infusion. Use caution in diabetic clients. Avoid rapid infusion to prevent magnesium-related hypotension. Do not co-infuse ALA with metals or chelating agents.',
+            safety: 'Emergency Stop Criteria: Drop in systolic BP >30 mmHg. Chest pain or shortness of breath. Anaphylaxis (rash, airway swelling). Loss of consciousness. Infusion site extravasation.',
+            postCare: 'Flush line. Observe 15 min. Maintain hydration. Advise client to avoid alcohol and caffeine for 12 hours post-infusion. Encourage antioxidant-rich meal within 2 hours.'
+        }
+    },
+    'Immune Booster': {
+        name: 'Immune Booster',
+        category: 'Immune Support',
+        base: 'Saline',
+        icon: '🛡️',
+        protocol: {
+            ingredients: [
+                { name: 'Ascorbic Acid 500mg/ml', dose: '5 mL (2500 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 5 mL. Mix gently by inverting. Discard if discoloured.',
+            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Uncontrolled heart failure. Hypersensitivity to components.',
+            precautions: 'Elderly/cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; Vitamin C is acidic. Use caution in clients with unstable BP/heart disease.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
+        }
+    },
+    'Immune Booster Premium': {
+        name: 'Immune Booster Premium',
+        category: 'Immune Support',
+        base: 'Saline',
+        icon: '🛡️🛡️',
+        protocol: {
+            ingredients: [
+                { name: 'Ascorbic Acid 500mg/ml', dose: '10 mL (5000 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Ascorbic Acid 10 mL. Mix gently by inverting. Discard if discoloured.',
+            contraindications: 'G6PD deficiency. Renal stones, oxalate nephropathy history. Hemochromatosis or iron overload disorders. Pregnancy or breastfeeding – unless doctor-approved. Active infection or fever > 38°C. Allergy to Vitamin C formulation components.',
+            precautions: 'Elderly, low body weight, or cardiac/renal patients: prefer 200 mL bag and slower rates. Avoid mixing with other drugs in the same line; vitamin C is acidic. Monitor diabetic clients for post-infusion glucose fluctuations. Avoid rapid infusion (>500 ml/hr).',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise avoiding alcohol/caffeine/strenuous exercise for 12 hours.'
+        }
+    },
+    'Trace Elements': {
+        name: 'Trace Elements',
+        category: 'Essential Nutrients & Detox',
+        base: 'Saline',
+        icon: '🌿',
+        protocol: {
+            ingredients: [
+                { name: 'Trace Elements (Zinc, Selenium, etc.)', dose: '2 mL', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Trace Elements 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Known hypersensitivity to trace metal components. Severe renal or hepatic dysfunction. Wilson’s disease (copper accumulation disorder). Hemochromatosis (iron overload). Ongoing chelation therapy.',
+            precautions: 'Use only as per doctor’s standing orders. Do not exceed recommended frequency (commonly 1 infusion per 2–4 weeks). Caution in clients with low serum electrolytes. Avoid mixing with other IV additives unless compatibility confirmed.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush line. Observe 10-15 min. Maintain hydration. Advise avoiding alcohol or strenuous exercise for 12 hours.'
+        }
+    },
+    'Anti Ageing': {
+        name: 'Anti Ageing',
+        category: 'Longevity & Cell Health',
+        base: 'Saline',
+        icon: '⏳',
+        protocol: {
+            ingredients: [
+                { name: 'NAD+ 125mg/ml', dose: '4 mL (500 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: NAD+ 4 mL. Mix gently by inverting the bag 3-4 times slowly (do not shake). **1000ml saline should be administered for first time clients.**',
+            contraindications: 'Pregnancy or breastfeeding (unless specifically cleared by physician). Severe hypotension or hypertension. Cardiac arrhythmias or heart failure. Liver or renal impairment. Active malignancy (use clinical discretion). Allergy to NAD⁺ components.',
+            precautions: 'First-time NAD⁺ users: always begin with slower infusion rate and 250–300 mg test dose. Avoid combining with alcohol or stimulants before/after infusion. Ensure adequate electrolyte and fluid intake pre- and post-infusion.',
+            safety: 'Emergency Stop Criteria: Sudden drop in BP > 20 mmHg systolic. Chest pain, severe dyspnoea, or syncope. Urticaria, throat swelling, or anaphylaxis signs. Persistent nausea, vomiting, or severe cramping despite pause.',
+            postCare: 'Flush line. Observe patient for 15 minutes. Provide post-care sheet on possible transient side effects: fatigue, mild nausea, headache (usually self-limiting).'
+        }
+    },
+    'ALA Antioxidant': {
+        name: 'ALA Antioxidant',
+        category: 'Immune & Anti-Inflammatory',
+        base: 'Saline',
+        icon: '🌟',
+        protocol: {
+            ingredients: [
+                { name: 'Alpha Lipoic Acid 25mg/ml', dose: '3 mL (75 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Alpha Lipoic Acid 3 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Known allergy to Alpha Lipoic Acid. Severe liver or kidney disease. Thiamine deficiency (must be corrected first). Pregnancy or breastfeeding. Uncontrolled diabetes or hypoglycaemia.',
+            precautions: 'Use with caution in diabetics — may lower blood sugar. Avoid co-administration with metal-containing infusions (e.g., iron, magnesium, copper). Use light protection (ALA degrades with light exposure).',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush line. Observe 10-15 min. Advise avoiding alcohol or intense exercise (enhances oxidative stress). Drink 500–1000 mL water over the next few hours. Rest if feeling lightheaded.'
+        }
+    },
+    'Menopause Relief': {
+        name: 'Menopause Relief',
+        category: 'Hormonal & Sexual Wellness',
+        base: 'Saline',
+        icon: '🌡️',
+        protocol: {
+            ingredients: [
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Add First' },
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Add after Magnesium Settles' },
+                { name: 'B12', dose: '2 mL', timing: 'Immediately after B Complex' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'Mid way through infusion' },
+                { name: 'Biotin (5 mg)', dose: '2 mL (10 mg)', timing: 'Add mid way post Vitamin C / Ascorbic Acid' },
+                { name: 'Glutathione 200mg/ml', dose: '5 mL (1000 mg)', timing: 'Administer last as a slow push' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, B Complex, B12, Ascorbic Acid, Biotin. Mix gently by inverting. Glutathione is administered separately as a slow push.',
+            contraindications: 'Hypersensitivity to any ingredients. Severe renal or hepatic impairment. Uncontrolled hypertension. Heart block or bradycardia (due to magnesium). Pregnancy or breastfeeding. G6PD deficiency (caution with high-dose vitamin C).',
+            precautions: 'Avoid concurrent IV calcium or phosphate solutions. Magnesium may potentiate sedation if patient on CNS depressants. Vitamin B complex may cause temporary urine discoloration (yellow/orange). Always use fresh mixed solution.',
+            safety: 'Immediately stop infusion if: Patient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. BP drop >20 mmHg systolic. Patient becomes unresponsive or dizzy beyond mild effects.',
+            postCare: 'Flush line. Observe 15 min. Record final infusion time, vitals, and tolerance. Advise patient to avoid alcohol or intense exercise for 12 hours.'
+        }
+    },
+    'Weight Loss': {
+        name: 'Weight Loss',
+        category: 'Weight & Metabolism',
+        base: 'Saline',
+        icon: '🔥',
+        protocol: {
+            ingredients: [
+                { name: 'MIC (Methionine 25mg, 0.3g Methlcobalamine; 50mg Inositol, 50mg Choline)', dose: '4 mL', timing: 'Main Drip' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: MIC 4 mL. Mix gently by inverting the bag slowly (do not shake).',
+            contraindications: 'Severe liver or kidney disease. Pregnancy or breastfeeding (unless medically cleared). Active infection or fever. Known hypersensitivity to any MIC component. Uncontrolled hypertension or cardiac arrhythmia.',
+            precautions: 'Use caution in clients with electrolyte imbalances or hypotension. Start infusion slowly and titrate rate only after tolerance confirmed. Avoid concurrent use of hepatotoxic medications.',
+            safety: 'Emergency Stop Criteria: Sudden onset of chest tightness, flushing, or palpitations. Drop in BP >20 mmHg or HR change >30 bpm from baseline. Respiratory distress or audible wheezing. Local swelling, burning, or infiltration at IV site.',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise consumption of balanced meal. Record infusion as per program (typically weekly or biweekly).'
+        }
+    },
+    'Weight Loss Premium': {
+        name: 'Weight Loss Premium',
+        category: 'Weight & Metabolism',
+        base: 'Saline',
+        icon: '🔥🔥',
+        protocol: {
+            ingredients: [
+                { name: 'MIC (Methionine 25mg, 0.3g Methlcobalamine; 50mg Inositol, 50mg Choline)', dose: '4 mL', timing: 'Add first' },
+                { name: 'G.A.C. ( Glutamine 25mg/ml; Arginine 100mg/ml; Carnitine 200mg/ml)', dose: '6 mL', timing: 'Add next post blending MIC GRADUALLY' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): MIC 4 mL, GAC 6 mL (gradually). Final flush. Mix gently by inverting the bag slowly (do not shake).',
+            contraindications: 'Known hypersensitivity to amino acids or cobalamin derivatives. Pregnancy or breastfeeding unless cleared by doctor. Renal or hepatic impairment. Uncontrolled hypertension or cardiovascular instability. Hyperthyroidism. Epilepsy or seizure history.',
+            precautions: 'Use caution in patients on thyroid meds, anti-diabetics, or blood thinners. Avoid concurrent high-caffeine intake pre- or post-infusion. Avoid if patient has received another amino acid infusion within 48 hours.',
+            safety: 'Emergency Stop Criteria: Chest pain or shortness of breath occurs. BP drops >20 mmHg from baseline. Facial swelling or rash appears. IV site swelling or burning sensation develops.',
+            postCare: 'Observe for 15 min. Maintain hydration. Advise rest for 10–15 minutes before standing. Document full details in patient chart.'
+        }
+    },
+    'Fertility': {
+        name: 'Fertility',
+        category: 'Hormonal & Sexual Wellness',
+        base: 'Saline',
+        icon: '👶',
+        protocol: {
+            ingredients: [
+                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additive: Glutathione 4 mL. Mix gently by inverting the bag several times. Inject slowly into the saline bag’s additive port.',
+            contraindications: 'Pregnancy or breastfeeding (unless prescribed by fertility specialist). G6PD deficiency. Active cancer. Severe renal or hepatic dysfunction. Hypersensitivity to any component.',
+            precautions: 'Use sterile technique at all times. Monitor renal patients closely (avoid fluid overload). Avoid concurrent antioxidant megadosing orally on same day.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush line. Observe 15 min. Advise rest and balanced meal after infusion. Recommend series of 4–6 weekly infusions for optimal fertility support.'
+        }
+    },
+    'Detox': {
+        name: 'Detox',
+        category: 'Essential Nutrients & Detox',
+        base: 'Saline',
+        icon: '🧹',
+        protocol: {
+            ingredients: [
+                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutathione 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Glutathione hypersensitivity. G6PD deficiency. Severe asthma. Uncontrolled hypertension. Pregnancy or breastfeeding (consult doctor). Renal or hepatic impairment.',
+            precautions: 'Do not combine in same bag with high-dose Vitamin C (>10 g). Avoid mixing other injectables unless authorised. Store Glutathione vials protected from light, use immediately after opening.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe for 15 min. Flush line. Advise hydration and light meal. Report any persistent fatigue/dizziness.'
+        }
+    },
+    'Detox Premium': {
+        name: 'Detox Premium',
+        category: 'Essential Nutrients & Detox',
+        base: 'Saline',
+        icon: '🧹🧹',
+        protocol: {
+            ingredients: [
+                { name: 'Glutathione 200mg/ml', dose: '4 mL (800 mg)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: Glutathione 4 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Known hypersensitivity to any ingredient. Active cancer or ongoing chemotherapy. G6PD deficiency. Severe renal or hepatic dysfunction. Pregnancy or breastfeeding.',
+            precautions: 'Avoid rapid glutathione administration (risk of hypotension). Use caution in patients with asthma or multiple allergies. Confirm no concurrent IV iron or oxidant therapies.',
+            safety: 'Stop infusion immediately if any of the following occur: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Observe for 15 min. Flush line. Advise hydration and light meal. Provide post-care note: skin clarity, mild odor in urine, or light fatigue may occur as detox pathways activate.'
+        }
+    },
+    'Sport Restore': {
+        name: 'Sport Restore',
+        category: 'Performance & Recovery',
+        base: 'Saline',
+        icon: '🏅',
+        protocol: {
+            ingredients: [
+                { name: 'Vitamin B12, Cobalmin 25mg/ml', dose: '2 mL (50 mg)', timing: 'Main Drip' },
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'Main Drip' },
+                { name: 'Magesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'Mid Point of Main Drip' },
+                { name: 'Glutathione 200mg/ml', dose: '3 mL (600 mg)', timing: 'After Main Drip completion' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Magnesium Sulphate. Mix gently by inverting. Glutathione is administered separately after main drip completion.',
+            contraindications: 'Severe renal impairment (eGFR < 30 ml/min). Known hypersensitivity to any ingredients. Uncontrolled hypertension or heart failure. Pregnancy (unless cleared by doctor). Active infection or sepsis.',
+            precautions: 'Use caution in patients with: Mild renal dysfunction. Electrolyte imbalance. G6PD deficiency (when glutathione is used). Always verify with supervising doctor before use in chronic illness.',
+            safety: 'Any sign of anaphylaxis, syncope, hypotension, chest discomfort, or acute respiratory distress. Stop infusion, maintain IV access with NS KVO, initiate emergency protocol.',
+            postCare: 'Flush line with 5–10 ml NS. Remove cannula. Reassess vitals. Encourage oral hydration. Advise avoid strenuous activity for 1 hour post-infusion.'
+        }
+    },
+    'Sports Edge': {
+        name: 'Sports Edge',
+        category: 'Performance & Recovery',
+        base: 'Saline',
+        icon: '🏅🏅',
+        protocol: {
+            ingredients: [
+                { name: 'Magnesium Sulphate 50%', dose: '1 mL (0.5 g/mL)', timing: 'First Additive' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'After Magnesium' },
+                { name: 'G.A.C (Glutamine, Arginine, Carnitine )', dose: '4 mL', timing: 'After Ascorbic Acid' },
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Last Additive' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): Magnesium Sulphate, Ascorbic Acid, G.A.C, B12. Mix gently by inverting. Magnesium must be added slowly and mixed well.',
+            contraindications: 'Renal failure or severe kidney impairment. Uncontrolled hypertension. Known hypersensitivity to any component. Hypermagnesemia. Hemochromatosis (avoid repeated high-dose vitamin C). Active infection or fever.',
+            precautions: 'Adjust infusion rate for elderly or low BMI patients. Monitor patients on cardiac medications or diuretics. Use caution in G6PD deficiency (vitamin C sensitivity). Always use freshly mixed solution.',
+            safety: 'Stop infusion immediately if: Patient experiences anaphylaxis, chest pain, shortness of breath, or severe hypotension. IV site shows redness, swelling, or extravasation. Patient becomes unresponsive or dizzy beyond mild effects.',
+            postCare: 'Flush line. Observe 15 min. Maintain hydration. Advise avoiding strenuous exercise for 30–60 minutes post-infusion. Educate on expected outcomes.'
+        }
+    },
+    'Aqua Hydrate': {
+        name: 'Aqua Hydrate',
+        category: 'Hydration & Electrolytes',
+        base: 'Ringer Lactate',
+        icon: '💦',
+        protocol: {
+            ingredients: [
+                { name: 'Sodium Chloride Ringer Lactate', dose: '1000 mL', timing: 'main' }
+            ],
+            mixing: 'Base Solution: 1000ml Ringer Lactate. Consideration for change in mix will be to follow protocol on add ons and adhering to compatibility chart.',
+            contraindications: 'Acute heart failure or pulmonary oedema. Severe renal impairment (eGFR <30 ml/min). Hypermagnesaemia or hyperkalaemia. Severe dehydration with hyponatraemia (use NS instead). Known hypersensitivity to additives.',
+            precautions: 'Use caution in hypertensive or cardiac patients (due to sodium and fluid load). Do not exceed 100 ml/hr in elderly or low-weight patients. Avoid mixing with calcium-incompatible agents.',
+            safety: 'Emergency Stop Criteria: Hypotension >20% drop from baseline. Chest tightness or dyspnoea. IV site swelling, burning, or discoloration. Rash, itching, or any anaphylactic signs. Stop infusion, maintain airway, initiate emergency protocol.',
+            postCare: 'Remove cannula. Reassess vitals. Advise: Drink plenty of water for the rest of the day. Avoid alcohol or caffeine for 12 hours. Mild flushing or metallic taste may occur temporarily.'
+        }
+    },
+    'B12': {
+        name: 'B12',
+        category: 'Essential Nutrients & Detox',
+        base: 'Saline',
+        icon: '🔥',
+        protocol: {
+            ingredients: [
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'Main Drip' }
+            ],
+            mixing: 'Base solution: 200 ml or 1000 ml 0.9% Normal Saline. Additive: B12 2 mL. Swab injection port, invert gently to mix; do not shake.',
+            contraindications: 'Hypersensitivity to cobalamin or cobalt. Leber’s hereditary optic neuropathy. Polycythemia vera (uncontrolled). Severe hypokalaemia without correction.',
+            precautions: 'Use caution in clients with heart failure or renal impairment (fluid overload risk). Avoid mixing with Vitamin C in the same line (chemical incompatibility). Repeated high-dose infusions may cause acneiform eruptions.',
+            safety: 'Stop infusion immediately if: Chest tightness, shortness of breath, or throat swelling. Severe dizziness or syncope. Hypotension (drop > 20 mmHg SBP). New rash, urticaria, or itching. Persistent burning or pain at IV site.',
+            postCare: 'Flush line with 10 mL NS. Remove cannula. Advise client to maintain hydration and report delayed reactions.'
+        }
+    },
+    'Hangover & Jet Lag': {
+        name: 'Hangover & Jet Lag',
+        category: 'Hydration & Electrolytes',
+        base: 'Saline',
+        icon: '💧',
+        protocol: {
+            ingredients: [
+                { name: 'Vitamin B Complex', dose: '2 mL', timing: 'First in the bag' },
+                { name: 'B12 Methylcobalamin', dose: '2 mL (2000 µg/mL)', timing: 'After B Complex' },
+                { name: 'Magnesium Sulphate 50%', dose: '2 mL (1 g/mL)', timing: 'After B12, mix well' },
+                { name: 'Ascorbic Acid 500mg/ml', dose: '4 mL (2000 mg)', timing: 'After Magnesium' },
+                { name: 'Taurine 50mg/ml', dose: '2 mL (100 mg)', timing: 'Last in Main bag' },
+                { name: 'Glutathione 200mg/ml', dose: '2 mL (400 mg)', timing: 'Slow push after main drip Completes' }
+            ],
+            mixing: 'Base Solution: 200 ml or 1000 ml 0.9% Sodium Chloride (Normal Saline). Additives (in order): B Complex, B12, Magnesium Sulphate, Ascorbic Acid, Taurine. Mix gently. Glutathione is administered separately as a slow push.',
+            contraindications: 'Severe renal impairment. Heart failure or fluid overload. Known hypersensitivity to any components. Pregnancy or lactation without medical approval. G6PD deficiency (due to ascorbic acid and glutathione).',
+            precautions: 'Avoid in uncontrolled hypertension. Use caution in clients with electrolyte imbalance. Always confirm B12 type (methylcobalamin preferred). Ensure glutathione is protected from light prior to use.',
+            safety: 'Stop infusion immediately if: BP <90/60 mmHg or >160/100 mmHg. HR >120 bpm or <50 bpm. Shortness of breath or throat constriction. Signs of allergic reaction (rash, swelling, wheeze). Any new onset confusion or chest pain.',
+            postCare: 'Remove cannula. Advise rest for 10–15 minutes. Encourage avoidance of alcohol and caffeine for 24 hours.'
+        }
+    }
+};
+
+// --- CATEGORY MAPPING ---
+const therapeuticCategories = [
+    { name: 'Energy & Focus', drips: ['Jet Fuel', 'Jet Fuel Premium', 'Recharge', 'Recharge Premium'] },
+    { name: 'Skin & Beauty', drips: ['Radiance', 'Radiance Plus', 'Radiance Premium', 'Biotin'] },
+    { name: 'Immune Support', drips: ['Vitamin C', 'Immune Booster', 'Immune Booster Premium'] },
+    { name: 'Immune & Anti-Inflammatory', drips: ['Anti Inflammatory & Auto Immune', 'Anti Inflammatory Premium', 'ALA Antioxidant'] },
+    { name: 'Mental Wellness & Stress', drips: ['Anxiety Relief', 'Anxiety Relief Premium'] },
+    { name: 'Performance & Recovery', drips: ['Sport Restore', 'Sports Edge', 'Glutamine'] },
+    { name: 'Essential Nutrients & Detox', drips: ['Trace Elements', 'Detox', 'Detox Premium', 'B12'] },
+    { name: 'Hormonal & Sexual Wellness', drips: ['Libido', 'Menopause Relief', 'Fertility'] },
+    { name: 'Weight & Metabolism', drips: ['Weight Loss', 'Weight Loss Premium'] },
+    { name: 'Longevity & Cell Health', drips: ['Anti Ageing'] },
+    { name: 'Hydration & Electrolytes', drips: ['Aqua Hydrate', 'Hangover & Jet Lag'] }
+];
+
+// --- NAVIGATION & VIEW LOGIC ---
+
+let currentView = 'drips-list-view';
+let currentDisplayMode = 'grid'; // 'grid' or 'list'
+let viewHistory = [];
+
+window.navigateTo = function(viewId, event) {
+  if (event) { event.stopPropagation(); event.preventDefault(); }
+  
+  const currentEl = document.getElementById(currentView);
+  const nextEl = document.getElementById(viewId);
+  
+  if (currentEl) currentEl.classList.add('hidden');
+  if (nextEl) nextEl.classList.remove('hidden');
+  
+  if (viewId === 'details-view' && currentView === 'drips-list-view') {
+      viewHistory.push(currentView);
+  } else if (viewId === 'drips-list-view') {
+      viewHistory = [];
+      // Ensure the search bar is clear when returning to the list view
+      document.getElementById('drip-search-input').value = '';
+      filterDripsList('');
+  }
+  
+  currentView = viewId;
+  updateHomeButtonVisibility(currentView);
+  window.scrollTo(0, 0);
+}
+
+window.updateHomeButtonVisibility = function(viewId) {
+    const homeBtn = document.querySelector('.header-home-button');
+    if (!homeBtn) return;
+    if (viewId === 'details-view') {
+        homeBtn.classList.remove('hidden');
+    } else {
+        homeBtn.classList.add('hidden');
+    }
+}
+
+// **--- DRIP LIST & SEARCH LOGIC (Simplified) ---**
+
+window.toggleView = function(mode) {
+    currentDisplayMode = mode;
+    
+    const gridEl = document.getElementById('all-drips-grid');
+    const gridBtn = document.getElementById('grid-toggle-btn');
+    const listBtn = document.getElementById('list-toggle-btn');
+    
+    if (currentDisplayMode === 'list') {
+        gridEl.classList.remove('grid');
+        gridEl.classList.add('list-view');
+        listBtn.classList.add('active');
+        gridBtn.classList.remove('active');
+    } else {
+        gridEl.classList.remove('list-view');
+        gridEl.classList.add('grid');
+        gridBtn.classList.add('active');
+        listBtn.classList.remove('active');
+    }
+    // Re-render to ensure all cards pick up new styles correctly
+    renderAllDrips();
+    // Re-apply search filter
+    filterDripsList(document.getElementById('drip-search-input').value);
+}
+
+window.filterDripsList = function(query) {
+    const fuseResults = fuse.search(query).map(r => r.item.name);
+    const allCards = document.querySelectorAll('#all-drips-grid .card');
+
+    allCards.forEach(card => {
+        const dripName = card.dataset.dripName;
+        // Search must match Drip Name or searchable protocol content
+        const isSearchMatch = query.trim() === '' || fuseResults.includes(dripName);
+
+        if (isSearchMatch) {
+            // Apply correct display style based on current view mode
+            card.style.display = currentDisplayMode === 'grid' ? 'block' : 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+window.renderAllDrips = function() {
+    let sortableDripNames = Object.keys(allDrips).filter(name => allDrips[name] && allDrips[name].protocol);
+
+    const grid = document.getElementById('all-drips-grid');
+    
+    // Default to Alphabetical Sort
+    sortableDripNames.sort((a, b) => a.localeCompare(b));
+    
+    // Set the main container class for either grid or list view
+    if (currentDisplayMode === 'list') {
+        grid.classList.remove('grid');
+        grid.classList.add('list-view');
+    } else {
+        grid.classList.remove('list-view');
+        grid.classList.add('grid');
+    }
+    
+    let counter = 1;
+
+    grid.innerHTML = sortableDripNames.map(dripName => {
+        const drip = allDrips[dripName];
+        if (!drip) return '';
+        
+        // Determine the display group (Base Solution or Category for easy viewing)
+        const displayGroup = drip.base === 'Saline' ? '0.9% NaCl' : (drip.base === 'Ringer Lactate' ? 'Ringer Lactate' : drip.category);
+        
+        const dripNumber = counter++;
+        
+        return `<div class="card" data-drip-name="${dripName}" onclick="showDripDetails('${dripName.replace(/'/g, "\\'")}')">
+                  <div class="icon">${drip.icon || '💊'}</div>
+                  <div class="drip-info-group">
+                    <span class="drip-number">${dripNumber}.</span>
+                    <div class="drip-name">${drip.name}</div>
+                    <p class="drip-tagline">${displayGroup}</p>
+                  </div>
+                  <div class="tile-divider"></div>
+                  <p class="view-protocol-label">View Protocol</p>
+                </div>`;
+    }).join('');
+}
+
+
+// RENDER PROTOCOL DETAILS VIEW
+window.showDripDetails = function(dripName) {
+  const drip = allDrips[dripName];
+  if (!drip || !drip.protocol) {
+      alert('Error: Protocol data missing for ' + dripName);
+      return;
+  }
+  const protocol = drip.protocol;
+
+  document.getElementById('detail-name').textContent = drip.name;
+  
+  // 1. INGREDIENTS TABLE
+  const ingredientsTable = `
+    <table class="protocol-table">
+        <thead>
+            <tr><th>Ingredient</th><th>Dose/Volume</th><th>Timing/Method</th></tr>
+        </thead>
+        <tbody>
+            ${protocol.ingredients.map(ing => `
+                <tr>
+                    <td><strong>${ing.name}</strong></td>
+                    <td>${ing.dose}</td>
+                    <td>${ing.timing}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+  `;
+  document.getElementById('detail-ingredients-table').innerHTML = ingredientsTable;
+
+  // 2. MIXING
+  document.getElementById('detail-mixing').innerHTML = `<p style="margin: 0; line-height: 1.3;">${protocol.mixing.replace(/\n/g, '<br>')}</p>`;
+
+  // 3. SAFETY & POST-CARE
+  
+  // Contraindications (split by . )
+  document.getElementById('detail-contraindications-content').innerHTML = `
+    <ul class="protocol-list">
+        ${protocol.contraindications.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
+    </ul>
+  `;
+
+  // Precautions (split by . )
+  document.getElementById('detail-precautions-content').innerHTML = `
+    <ul class="protocol-list">
+        ${protocol.precautions.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
+    </ul>
+  `;
+
+  // Emergency Stop (split by . )
+  document.getElementById('detail-emergencies-content').innerHTML = `
+    <p style="margin: 0; line-height: 1.3;"><strong>General Safety Protocol:</strong> Keep crash cart, AED, and emergency meds accessible. Stop infusion immediately for adverse reactions.</p>
+    <div class="note-box">
+        <strong>EMERGENCY STOP CRITERIA:</strong>
+        <ul class="protocol-list" style="list-style: disc inside; margin-left: 0; margin-top: 5px; margin-bottom: 5px;">
+            ${protocol.safety.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
+        </ul>
+    </div>
+  `;
+
+  // Post Infusion Care (split by . )
+  document.getElementById('detail-postcare-content').innerHTML = `
+    <ul class="protocol-list">
+        ${protocol.postCare.split('. ').map(item => item.trim() ? `<li>${item.trim().replace(/\.$/, '')}</li>` : '').join('')}
+    </ul>
+  `;
+
+
+  // RENDER ADDONS (Simplified list of available add-ons)
+  const addonGrid = document.getElementById('addon-ivs-grid');
+  if (addonGrid) { // Safety check
+      // Filter for drips that can be used as an add-on (based on protocol ingredients/timing)
+      const commonAddons = ['B12', 'Glutamine', 'Vitamin C', 'ALA Antioxidant', 'Trace Elements'];
+
+      let htmlContent = `<p style="font-style: italic; color: #555; text-align: center; margin-bottom: 10px; font-size: 0.9em;">
+        Common stand-alone additives/injections that can be administered along with main drip protocols:
+      </p>`;
+      
+      if (commonAddons.length > 0) {
+          htmlContent += `
+            <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-size: 0.85em;">
+                ${commonAddons.map(name => `
+                    <li style="background: #E6E6FA; padding: 5px 10px; border-radius: 14px; border: 1px solid #4b0082;">
+                        ${name}
+                    </li>
+                `).join('')}
+            </ul>
+          `;
+      }
+      addonGrid.innerHTML = htmlContent;
+  }
+  
+  navigateTo('details-view');
+ 
+  // Default open Contraindications
+  setTimeout(() => {
+    const contraindicationsContent = document.querySelector('#detail-contraindications');
+    const contraindicationsHeader = document.querySelector('#detail-contraindications').previousElementSibling;
+
+    if (contraindicationsContent && contraindicationsHeader) {
+        contraindicationsContent.classList.add('open');
+        contraindicationsHeader.classList.add('active');
+    }
+  }, 50);
+}
+
+window.closeTooltip = function() { document.getElementById('tooltip-overlay').classList.remove('open'); }
+
+window.toggleAccordion = function(contentId, headerBtn) {
+    const content = document.getElementById(contentId);
+    if (!content) return;
+    const isOpen = content.classList.contains('open');
+    const container = headerBtn.closest('#drip-details-panel, .group-rose');
+    if (container) {
+        // Only collapse siblings within the same safety group
+        const allHeaders = container.querySelectorAll(':scope > .accordion-header');
+        const allContents = container.querySelectorAll(':scope > .accordion-content');
+        allHeaders.forEach(h => h.classList.remove('active'));
+        allContents.forEach(c => c.classList.remove('open'));
+    }
+    if (!isOpen) {
+        headerBtn.classList.add('active');
+        content.classList.add('open');
+    }
+}
+
+
+// --- Fuse.js Setup ---
+const fuseDataset = Object.keys(allDrips).map(name => {
+    const drip = allDrips[name];
+    const protocolText = Object.values(drip.protocol || {}).join(' '); // Search all protocol fields
+    return {
+        name: drip.name,
+        searchableText: `${drip.name} ${drip.category} ${drip.base} ${protocolText}` 
+    };
+});
+const fuse = new Fuse(fuseDataset, {
+    keys: ['name', 'searchableText'],
+    threshold: 0.3
+});
+
+
+// --- Initial Setup ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial render is alphabetical in grid view
+    renderAllDrips(); 
+    document.getElementById('drips-list-view').classList.remove('hidden');
+    updateHomeButtonVisibility(currentView);
+});
+</script>
+</body>
+</html>
